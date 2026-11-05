@@ -1133,7 +1133,119 @@ details.howto>p{padding:10px 12px}
 .shlink .svin{font-size:14px;color:var(--muted)}
 .shqr{display:grid;place-items:center;min-height:200px;background:#fff;border-radius:6px;padding:8px}.shqr img{width:min(220px,100%);height:auto;image-rendering:pixelated}
 .shtips{grid-column:1/-1}.shtips ol{margin:0;padding-left:20px;display:grid;gap:6px;font-size:14px}
-.btn.imp.noai{display:none}
+
+/* ===== round 16: cleaner layout ===== */
+/* overflow safety */
+.view,.info,.info section,.ogrid2,.osec{min-width:0}
+.info{grid-template-columns:minmax(0,1fr)}
+.formula{overflow-wrap:anywhere;white-space:normal}
+.view p,.view li{overflow-wrap:break-word}
+/* data sources live on How it works only */
+body:not([data-tab="info"]) #foot{display:none}
+/* desktop: use the width */
+@media (min-width:1000px){.app{max-width:1500px}}
+/* ratings toolbar */
+.atop{padding:8px 10px;border:0;margin-bottom:8px;gap:8px}
+.atop #opttoggle{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:800}
+.atop #opttoggle[aria-pressed="true"]{background:transparent;color:var(--accent)}
+.atools{margin:0 0 12px;align-items:center;gap:6px}
+.atools .seg{margin-left:auto}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;border-right:1px solid var(--line);background:transparent;color:var(--muted);font:inherit;font-size:13px;font-weight:750;padding:0 12px;min-height:36px;cursor:pointer;white-space:nowrap}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+details.moremenu{position:relative}
+details.moremenu>summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+details.moremenu>summary::-webkit-details-marker{display:none}
+details.moremenu>summary::after{content:"▾";font-size:11px}
+.mmenu{position:absolute;z-index:40;top:calc(100% + 4px);left:0;min-width:190px;background:var(--surface);border:1px solid var(--line);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:6px;display:grid;gap:4px}
+.mmenu .btn{width:100%;justify-content:flex-start;text-align:left}
+.cbtog{display:none}
+/* simple view: cap breaker chips only where breakers are placed */
+body[data-rv="simple"] #view-attrs .arow:not(.hascb) .cbl{display:none}
+/* key and how this works in one fold */
+details.howto{max-width:none}
+details.howto>.legend{padding:10px 12px 0;margin:0}
+/* group headers calmer */
+#view-attrs .grp{margin-top:6px}
+/* smart suggestions v2 */
+.opt2{border:1px solid var(--line);border-radius:var(--r);background:var(--surface2);padding:14px;margin-bottom:16px}
+.opth2{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:flex-end;justify-content:space-between;margin-bottom:12px}
+.opth2 .sec{margin:0}.opth2 .note{margin:2px 0 0}
+.ogrid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:12px;align-items:start}
+.osec{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column}
+.osec>header{display:flex;align-items:center;gap:8px;padding:12px 14px 2px}
+.osec h3{margin:0;font-size:16px;font-weight:850;text-transform:none;letter-spacing:0}
+.ocount{font-size:12px;font-weight:800;background:var(--surface2);border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--muted)}
+.olead{margin:0;padding:0 14px 10px;font-size:13px;color:var(--muted)}
+.owhy{all:unset;cursor:pointer;color:var(--accent);font-weight:700;margin-left:2px}
+.omore{margin:-4px 14px 10px;font-size:13px;padding:8px 10px;background:var(--surface2);border-radius:6px}
+.olist{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.orow2{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 10px;align-items:center;padding:10px 14px 10px 17px;border-bottom:1px solid var(--line);position:relative}
+.orow2::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:4px;border-radius:0 3px 3px 0;background:var(--gc)}
+.orh{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;min-width:0}
+.oname{font-weight:800;color:var(--gc);font-size:15px}
+.ochg{font-size:14px;font-variant-numeric:tabular-nums}.ochg b{font-size:15px}
+.osv,.ocost,.ocb{font-size:12px;font-weight:800;border-radius:4px;padding:2px 7px;white-space:nowrap}
+.osv{background:var(--good-soft);color:var(--good)}
+.ocost{background:var(--surface2);color:var(--muted)}
+.ocb{background:var(--accent-soft);color:var(--accent)}
+.oincs{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}
+.olink{flex-basis:100%;font-size:12px;color:var(--muted)}
+.orow2>.btn{align-self:start}
+.btn.sm{padding:5px 12px;font-size:13px;min-height:34px}
+.orb{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.olab{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.olab.dim{text-transform:none;letter-spacing:0;font-weight:600}
+.bxs{display:flex;flex-wrap:wrap;gap:4px}
+.bx{display:inline-flex;align-items:center;gap:5px;padding:2px 8px 2px 3px;border:1px solid var(--line);border-radius:999px;background:var(--surface2);font-size:12px;line-height:1.2;cursor:default;max-width:100%}
+.bx svg{width:18px;height:18px;flex:none}
+.bx .bxn{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bx em{font-style:normal;font-weight:800;white-space:nowrap;font-size:11px}
+.bx em.tr1{color:var(--bronze)}.bx em.tr2{color:var(--silver)}.bx em.tr3{color:var(--gold)}.bx em.tr4{color:var(--hof)}
+.bx.up{border-color:color-mix(in srgb,var(--good) 55%,var(--line));background:var(--good-soft)}
+.bx.dn{border-color:color-mix(in srgb,var(--bad) 55%,var(--line));background:var(--bad-soft)}
+.bxmore{font-size:12px;color:var(--muted);align-self:center;font-weight:700}
+.oshow{all:unset;cursor:pointer;display:block;text-align:center;padding:10px;font-size:13px;font-weight:800;color:var(--accent);border-bottom:1px solid var(--line)}
+.oshow:hover{background:var(--surface2)}
+.oempty{margin:0;padding:12px 14px;font-size:13px;color:var(--muted);border-top:1px solid var(--line)}
+.ofoot{padding:10px 14px}
+/* phones and tablets */
+@media (max-width:999px){
+  /* the player card only on Build; the bottom bar keeps overall in view elsewhere */
+  body:not([data-sec="build"]) .side{display:none}
+  body:not([data-sec="build"]) .mbar{transform:none}
+  .side .card .bname{font-size:22px}
+  /* tokens: one slim row, tap to expand */
+  body:not(.tokopen) .tokstrip{grid-template-columns:auto repeat(6,minmax(0,1fr))}
+  body:not(.tokopen) .tokstrip .tsl{grid-column:auto;flex-direction:column;justify-content:center;border-right:1px solid var(--line);border-bottom:0;padding:6px 10px;font-size:10px}
+  body:not(.tokopen) .tokstrip .tsl b{font-size:16px}
+  body:not(.tokopen) .tsg{padding:8px 2px 6px;border-top:0!important;border-right:1px solid var(--line);grid-template-columns:1fr;text-align:center;justify-items:center}
+  body:not(.tokopen) .tsg:last-child{border-right:0}
+  body:not(.tokopen) .tsg span{display:none}
+  body:not(.tokopen) .tsg::after{content:attr(data-ab);font-size:9.5px;font-weight:800;letter-spacing:.04em;color:var(--gc);order:-1}
+  body:not(.tokopen) .tsg b{font-size:16px}
+  body:not(.tokopen) .tsg b small{display:none}
+  body:not(.tokopen) .tsg>small{display:none}
+  .tokstrip .tsl{cursor:pointer;position:relative}
+  .tokstrip .tsl::after{content:"▾";position:absolute;right:4px;bottom:3px;font-size:9px;color:var(--muted)}
+  body.tokopen .tokstrip .tsl::after{content:"▴";right:12px;bottom:auto}
+  /* tidy toolbar */
+  .atools{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .atools .seg{grid-column:1/-1;margin:0;display:grid;grid-template-columns:repeat(3,1fr)}
+  .atools .btn,.atools details.moremenu>summary{width:100%;justify-content:center;box-sizing:border-box}
+  .atools .btn.imp{grid-column:1/-1;order:-1}
+  .atop{flex-wrap:nowrap}
+  .atop .cbhave .label{font-size:12px}
+  /* suggestions */
+  .opt2{padding:10px;margin-left:-4px;margin-right:-4px}
+  .orow2{padding:10px 10px 10px 14px}
+}
+@media (max-width:999px){.side .phys-line{display:none}}
+@media (min-width:1360px){
+  body[data-rv="full"] #view-attrs:not([hidden]),body[data-rv="simple"] #view-attrs:not([hidden]){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:32px;align-items:start}
+  #view-attrs>*:not(.grp){grid-column:1/-1}
+}
+@media (max-width:999px){.bxtop{flex-wrap:wrap}.bxtop .btn.imp{width:100%;justify-content:center;margin-right:0}}
 
 </style>
 
@@ -1500,7 +1612,7 @@ BADGES.forEach(b=>b.req.forEach((list,ti)=>(list||[]).forEach(q=>{if(q[1]<=99)TI
 TAKEOVERS.forEach(t=>t.reqs.forEach(r=>TICKS[r[0]].push({v:r[1],t:0,lab:t.n+" takeover"})));
 function buildAttrs(){
   let h='<div class="legend"><span><i style="background:var(--accent)"></i>Your rating</span><span><i style="background:var(--good)"></i>Cap breaker boost</span><span><i style="background:var(--hatch)"></i>Above your cap</span><span><i style="background:var(--bronze)"></i><i style="background:var(--silver)"></i><i style="background:var(--gold)"></i><i style="background:var(--hof)"></i>Badge thresholds</span></div>';
-  h='<div class="atop">'+cbHaveBox('cbhave')+'<button class="btn" type="button" id="opttoggle" aria-pressed="'+OPT.open+'">'+(OPT.open?'Hide suggestions':'Smart suggestions')+'</button></div><div class="atools"><button class="btn" id="fillBtn" type="button" title="Fill to 99 the smart way: cheapest real unlocks first, then what matters most for your position">Smart fill to 99</button><button class="btn" id="resetBtn" type="button">Reset to 25</button><button class="btn" id="calBtn" type="button" aria-pressed="'+ui.calib+'" title="Type in-game caps if 2K changes them">'+(ui.calib?"Done editing caps":"Edit caps")+'</button>'+impBtnHTML("build")+'<label class="tog cmptog"><input type="checkbox" id="cmpTog"'+(ui.compact?" checked":"")+'> One-screen view</label></div><div id="optbox"></div>'+h;
+  h='<div class="atop">'+cbHaveBox('cbhave')+'<button class="btn" type="button" id="opttoggle" aria-pressed="'+OPT.open+'">'+(OPT.open?'Hide suggestions':'Smart suggestions')+'</button></div><div class="atools"><button class="btn" id="fillBtn" type="button" title="Fill to 99 the smart way: cheapest real unlocks first, then what matters most for your position">Smart fill to 99</button>'+impBtnHTML("build")+'<details class="moremenu"><summary class="btn">More</summary><div class="mmenu"><button class="btn" id="resetBtn" type="button">Reset to 25</button><button class="btn" id="calBtn" type="button" aria-pressed="'+ui.calib+'" title="Type in-game caps if 2K changes them">'+(ui.calib?"Done editing caps":"Edit caps")+'</button></div></details>'+rvHTML()+'</div><div id="optbox"></div>'+h;
   h+='<p class="note" style="margin-top:0">Raising some attributes lifts linked ones automatically, the same way the 2K27 builder does (for example Ball Handle pulls up Speed With Ball). Type a rating straight into the box and press Enter or Tab, or use the slider. The small number under each rating is what the next point costs in overall.</p>';
   GROUPS.forEach(g=>{
     h+='<section class="grp" style="--gc:var(--c-'+g[0]+')"><div class="grph"><h3>'+g[1]+'</h3><span id="gavg-'+g[0]+'"></span></div>';
@@ -1981,7 +2093,7 @@ function renderTokStrip(){const el=$("#tokstrip");if(!el)return;const tb=tokenBu
   const V=vals(),us={};GROUPS.forEach(g=>us[g[0]]=0);BADGES.forEach(b=>{const t=badgeTier(b,V);if(Math.min(S.eq[b.id]||0,Math.max(0,t))>0)us[b.c]++});
   let spillT=0,spillS=0;GROUPS.forEach(g=>{spillT+=Math.max(0,u[g[0]]-tb[g[0]]);spillS+=Math.max(0,us[g[0]]-SL[g[0]])});const bt=bonusTok(),bs=bonusSlots();
   el.innerHTML='<div class="tsl">Badge tokens <b>'+(known?tot:"?")+'</b>'+(bt||bs?'<small>+'+bt+' bonus tokens · +'+bs+' bonus slots</small>':'')+'</div>'+GROUPS.map(g=>{const k=g[0],over=known&&(u[k]>tb[k]||us[k]>SL[k])&&(spillT>bt||spillS>bs);
-    return'<button type="button" class="tsg'+(over?" over":"")+'" data-tab="badges" style="--gc:var(--c-'+k+')" aria-label="'+g[1]+': '+u[k]+' of '+tb[k]+' tokens used, '+us[k]+' of '+SL[k]+' slots. Open badges"><span>'+g[1]+'</span><b>'+(known?tb[k]:"?")+'<small> tokens</small></b><small>'+(u[k]||us[k]?u[k]+' used · '+us[k]+'/'+SL[k]+' slots':SL[k]+' slot'+(SL[k]===1?"":"s"))+'</small></button>'}).join("")+(S.h>=82||ui.tokEdit?'<div class="tsfull">'+tokOvHTML()+'</div>':'')}
+    return'<button type="button" class="tsg'+(over?" over":"")+'" data-ab="'+k+'" data-tab="badges" style="--gc:var(--c-'+k+')" aria-label="'+g[1]+': '+u[k]+' of '+tb[k]+' tokens used, '+us[k]+' of '+SL[k]+' slots. Open badges"><span>'+g[1]+'</span><b>'+(known?tb[k]:"?")+'<small> tokens</small></b><small>'+(u[k]||us[k]?u[k]+' used · '+us[k]+'/'+SL[k]+' slots':SL[k]+' slot'+(SL[k]===1?"":"s"))+'</small></button>'}).join("")+(S.h>=82||ui.tokEdit?'<div class="tsfull">'+tokOvHTML()+'</div>':'')}
 const GT={pos:"any",hmin:69,hmax:88,fill:"balanced",tg:{FIN:0,SHT:0,PLY:0,DEF:0,REB:0,PHY:0},plan:{},req:false,ph:0,open:{}};
 let GT_MAX=null,GT_MAXK="",GT_B=null,GT_BK="",GT_SORT={};
 function gtFilterKey(){return GT.pos+"|"+GT.hmin+"|"+GT.hmax}
@@ -2493,9 +2605,66 @@ function renderInfo(){const h0=S.h,w=DATA.w[h0],arch=winArch(S.v,h0),wa=w[arch],
   h+='<section><h2 class="sec">Where the numbers come from</h2><ul class="infol"><li><b>Overall, linked attributes, badge requirements, badge prices, token earnings, takeovers and animations:</b> the 2K27 builder engine data from 2K\'s NBA 2K HQ app (tuning of August 22, 2026), published as nba2k27-builder-dataset, checked against all 40 official Signature Blueprints.</li><li><b>Attribute caps:</b> measured for all 18,935 legal bodies by NBA2KLab (October 22, 2026), with gaps filled from court-lab; the two agree on 99.7% of shared bodies.</li><li><b>Cap breaker sizes and the slot split:</b> rules read from the Locker Codes builder and checked against the measured data above.</li><li><b>Badge test results:</b> NBA2KLab\'s published tests. <b>Synergy and rewards:</b> 2K\'s builder and synergy pages plus NBA2KLab\'s reward lists.</li></ul><p>2K can retune things server-side. If the game ever shows a different cap, use Edit caps on the Ratings tab.</p></section>';
   $("#view-info").innerHTML=h+'</div>'}
 
+/* ---------------- ON-DEVICE SCREENSHOT READING (open link, no Claude) ---------------- */
+const OCR_V="5.1.1";
+function ocrLoad(){return window.Tesseract?Promise.resolve():new Promise((res,rej)=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/tesseract.js@"+OCR_V+"/dist/tesseract.min.js";s.onload=res;s.onerror=()=>rej({code:"load"});document.head.appendChild(s)})}
+/* scale up, grayscale, flip light-on-dark so text is dark on light */
+async function ocrPrep(file){const url=URL.createObjectURL(file);const img=await new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>rej({code:"image"});i.src=url});
+  const sc=Math.min(3,Math.max(1,2000/img.naturalWidth)),W=Math.round(img.naturalWidth*sc),H=Math.round(img.naturalHeight*sc);
+  const cv=document.createElement("canvas");cv.width=W;cv.height=H;const c=cv.getContext("2d");c.drawImage(img,0,0,W,H);URL.revokeObjectURL(url);
+  const d=c.getImageData(0,0,W,H),p=d.data;let sum=0;for(let i=0;i<p.length;i+=4){const y=0.299*p[i]+0.587*p[i+1]+0.114*p[i+2];p[i]=y;sum+=y}
+  const inv=sum/(p.length/4)<128;for(let i=0;i<p.length;i+=4){let y=p[i];if(inv)y=255-y;y=y<150?Math.max(0,y-60):Math.min(255,y+40);p[i]=p[i+1]=p[i+2]=y}
+  c.putImageData(d,0,0);return cv}
+async function ocrRead(files,onp){await ocrLoad();
+  const w=await Tesseract.createWorker("eng",1,{workerPath:"https://cdn.jsdelivr.net/npm/tesseract.js@"+OCR_V+"/dist/worker.min.js",corePath:"https://cdn.jsdelivr.net/npm/tesseract.js-core@"+OCR_V,langPath:"https://cdn.jsdelivr.net/npm/@tesseract.js-data/eng@1.0.0/4.0.0_best_int",
+    logger:m=>{if(onp&&m&&typeof m.progress==="number")onp(m.status,m.progress)}});
+  try{await w.setParameters({preserve_interword_spaces:"1"});const out=[];for(let i=0;i<files.length;i++){if(onp)onp("Reading screenshot "+(i+1)+" of "+files.length,0);const cv=await ocrPrep(files[i]);const r=await w.recognize(cv);out.push(r.data.text||"")}return out.join("\n")}
+  finally{try{await w.terminate()}catch(e){}}}
+/* fuzzy helpers */
+function ocrLetters(s){return String(s).toUpperCase().replace(/[^A-Z]/g,"")}
+function lev(a,b){const m=a.length,n=b.length;if(!m)return n;if(!n)return m;let prev=Array.from({length:n+1},(_,j)=>j);for(let i=1;i<=m;i++){const cur=[i];for(let j=1;j<=n;j++)cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));prev=cur}return prev[n]}
+/* where does `name` occur in `line` (letters only)? returns char index in the raw line just after the match, or -1 */
+function ocrFind(line,name,exact){const r=ocrSpan(line,name,exact);return r?r[1]:-1}
+function ocrSpan(line,name,exact){const L=ocrLetters(name);if(L.length<3)return null;const raw=String(line).toUpperCase(),map=[];let lt="";
+  for(let i=0;i<raw.length;i++)if(/[A-Z]/.test(raw[i])){map.push(i);lt+=raw[i]}
+  let at=lt.indexOf(L);if(at<0){if(exact)return null;const tol=L.length>=12?2:L.length>=7?1:0;if(!tol)return null;let best=99;
+    for(let s=0;s+L.length-1<=lt.length;s++)for(const dl of [-1,0,1]){const seg=lt.substr(s,L.length+dl);if(seg.length<L.length-1)continue;const d=lev(seg,L);if(d<=tol&&d<best){best=d;at=s}}if(at<0)return null}
+  return [map[at],map[Math.min(map.length-1,at+L.length-1)]+1]}
+const OCR_ALIAS={three:["THREE POINT SHOT","3PT SHOT","3 POINT SHOT","THREE-POINT"],mid:["MID-RANGE SHOT","MID RANGE SHOT","MIDRANGE"],close:["CLOSE SHOT"],ft:["FREE THROW"],layup:["DRIVING LAYUP","LAYUP"],ddunk:["DRIVING DUNK"],sdunk:["STANDING DUNK"],post:["POST CONTROL"],
+  pass:["PASS ACCURACY"],handle:["BALL HANDLE"],swb:["SPEED WITH BALL"],idef:["INTERIOR DEFENSE"],pdef:["PERIMETER DEFENSE"],steal:["STEAL"],block:["BLOCK"],oreb:["OFFENSIVE REBOUND"],dreb:["DEFENSIVE REBOUND"],speed:["SPEED"],agility:["AGILITY"],strength:["STRENGTH"],vert:["VERTICAL"]};
+function ocrParse(text){const lines=String(text).split(/\n+/).map(s=>s.replace(/[|]/g," ").trim()).filter(Boolean),r={ratings:{},capBreakers:{},badges:[],notes:""};
+  const fixNum=s=>s.replace(/[0-9OoIlS]{2,3}/g,t=>/\d/.test(t)?t.replace(/[Oo]/g,"0").replace(/[Il]/g,"1").replace(/S/g,"5"):t);
+  /* attributes: longest names first, each line can feed one attribute per name match */
+  const names=[];ATTRS.forEach(a=>{const al=(OCR_ALIAS[a.k]||[]).concat([a.n]);al.forEach(n=>names.push([a.k,n]))});names.sort((x,y)=>ocrLetters(y[1]).length-ocrLetters(x[1]).length);
+  const used=lines.map(()=>[]);
+  for(const exact of [true,false])for(const [k,n] of names){if(r.ratings[AN[k]]!=null)continue;
+    for(let li=0;li<lines.length;li++){const ln=lines[li];const sp=ocrSpan(ln,n,exact);if(!sp)continue;const st=sp[0],end=sp[1];if(used[li].some(u=>end>u[0]&&st<u[1]))continue;
+      /* "Speed" must not be the start of "Speed With Ball"; "Block"/"Steal" must stand alone */
+      const after=ocrLetters(ln.slice(end,end+8));if(k==="speed"&&/^WITH/.test(after))continue;
+      let tail=fixNum(ln.slice(end)),m=tail.match(/\b(\d{2})\b(?:\D{0,4}\+\s?(\d{1,2}))?/);
+      if(!m&&li+1<lines.length){tail=fixNum(lines[li+1]);m=/^[^A-Za-z]*\b(\d{2})\b/.test(tail)?tail.match(/\b(\d{2})\b(?:\D{0,4}\+\s?(\d{1,2}))?/):null}
+      if(m&&+m[1]>=25&&+m[1]<=99){r.ratings[AN[k]]=+m[1];used[li].push([st,end]);break}}}
+  const all=fixNum(lines.join("\n")),up=all.toUpperCase();
+  const pm=up.match(/\b(POINT GUARD|SHOOTING GUARD|SMALL FORWARD|POWER FORWARD|CENTER)\b/);if(pm)r.position={"POINT GUARD":"PG","SHOOTING GUARD":"SG","SMALL FORWARD":"SF","POWER FORWARD":"PF","CENTER":"C"}[pm[1]];
+  else{const p2=up.match(/(?:^|\s|·|\|)(PG|SG|SF|PF)(?=\s|$|·|\|)/);if(p2)r.position=p2[1]}
+  const hts=[...all.matchAll(/([4-8])\s*['’`]\s*(\d{1,2})\s*["”]?/g)].map(m=>({i:m.index,v:m[1]+"'"+m[2]+'"'}));
+  const wsAt=up.search(/WING\s?SPAN/),htAt=up.search(/HEIGHT/);
+  if(hts.length){if(wsAt>=0){const near=hts.slice().sort((a,b)=>Math.abs(a.i-wsAt)-Math.abs(b.i-wsAt))[0];r.wingspan=near.v;const rest=hts.filter(h=>h!==near);if(rest.length)r.height=(htAt>=0?rest.sort((a,b)=>Math.abs(a.i-htAt)-Math.abs(b.i-htAt))[0]:rest[0]).v}else r.height=hts[0].v}
+  const wm=up.match(/\b(1\d\d|2\d\d|3[0-2]\d)\s*(?:LBS?|POUNDS)\b/);if(wm)r.weight=+wm[1];
+  /* badges: name on a line, tier word on the same line or the next */
+  const TW=/HALL\s*OF\s*FAME|\bHOF\b|LEGEND|GOLD|SILVER|BRONZE/;
+  const TWg=/HALL\s*OF\s*FAME|\bHOF\b|LEGEND|GOLD|SILVER|BRONZE/g,TN={HOF:"Hall of Fame",HALLOFFAME:"Hall of Fame",LEGEND:"Legend",GOLD:"Gold",SILVER:"Silver",BRONZE:"Bronze"};
+  const bused=lines.map(()=>[]);
+  for(const exact of [true,false])BADGES.slice().sort((a,b)=>b.n.length-a.n.length).forEach(b=>{if(r.badges.some(x=>x.name===b.n))return;for(let li=0;li<lines.length;li++){const sp=ocrSpan(lines[li],b.n,exact);if(!sp)continue;if(bused[li].some(u=>sp[1]>u[0]&&sp[0]<u[1]))continue;bused[li].push(sp);
+    const U=lines[li].toUpperCase();let tier=null;const after=U.slice(sp[1],sp[1]+16).match(TW);if(after)tier=after[0];
+    else if(lines[li+1]){const c=(sp[0]+sp[1])/2;let bd=1e9;for(const m of lines[li+1].toUpperCase().matchAll(TWg)){const d=Math.abs(m.index+m[0].length/2-c);if(d<bd){bd=d;tier=m[0]}}if(bd>30)tier=null}
+    r.badges.push({name:b.n,tier:tier?TN[tier.replace(/\s/g,"")]||"Hall of Fame":"auto"});break}});
+  const nr=Object.keys(r.ratings).length;r.notes="Read on your device: "+nr+" rating"+(nr===1?"":"s")+(r.badges.length?", "+r.badges.length+" badge"+(r.badges.length>1?"s":""):"")+". Check the numbers before applying.";
+  return r}
+window.__OCR={read:(f,p)=>ocrRead(f,p),parse:t=>ocrParse(t)};
 /* ---------------- IMPORT FROM SCREENSHOT (read by Claude through the page's sample capability) ---------------- */
 let SAMPLE=null;(async()=>{try{if(window.claude&&claude.use){SAMPLE=await claude.use("sample");if(SAMPLE){const lim=await SAMPLE.limits().catch(()=>null);if(!lim||!lim.images)SAMPLE=null}}}catch(e){SAMPLE=null}if(document.querySelectorAll)document.querySelectorAll("[data-impbtn]").forEach(b=>b.classList.toggle("noai",!SAMPLE))})();
-function impBtnHTML(where){return'<button type="button" class="btn imp'+(SAMPLE?"":" noai")+'" data-impbtn="'+where+'" title="Upload screenshots of your in-game build and the app fills it in">'+'<svg class="ico sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 8"/></svg> Import from screenshot</button>'}
+function impBtnHTML(where){return'<button type="button" class="btn imp" data-impbtn="'+where+'" title="Upload screenshots of your in-game build and the app fills it in">'+'<svg class="ico sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 8"/></svg> Import from screenshot</button>'}
 const IMP={files:null,res:null,where:"build",busy:false,ctl:null};
 function impPrompt(where){return [
  "You are reading screenshots from NBA 2K27's MyPLAYER builder or MyPLAYER screens"+(where==="badges"?" (most likely the Badges Upgrade / badge loadout screen)":" (attribute screens, the body screen, or the badge screen)")+".",
@@ -2507,16 +2676,16 @@ function impPrompt(where){return [
  "Badge names must be exactly one of: "+BADGES.map(b=>b.n).join(", ")+". Only list badges that are equipped or shown with a tier. Read the tier from the label or the badge colour (bronze, silver, gold, purple Hall of Fame, red/orange Legend).",
  "tokens: only if the screen shows each category's total badge tokens; otherwise omit it. Omit any key you cannot read."].join("\n")}
 function impOpen(where,merge){IMP.where=where;if(merge&&IMP.res){IMP.merge=true;IMP.prev=IMP.res;IMP.prevFiles=IMP.files}else{IMP.merge=false;IMP.prev=null}IMP.res=null;
-  if(!SAMPLE){impPanel('<p>Screenshot import uses Claude to read your screenshots, so it only works when this page is opened inside Claude (claude.ai or the Claude app) and you allow it to use Claude.</p><div class="btns"><button class="btn" type="button" data-impclose="1">OK</button></div>');return}
   let f=$("#impFile");if(!f){f=document.createElement("input");f.type="file";f.id="impFile";f.accept="image/png,image/jpeg,image/webp";f.multiple=true;f.hidden=true;document.body.appendChild(f);
     f.addEventListener("change",()=>{if(f.files&&f.files.length)impRun([...f.files].slice(0,5));f.value=""})}
   f.click()}
 function impPanel(html){let p=$("#impbox");if(!p){p=document.createElement("div");p.id="impbox";p.setAttribute("role","dialog");p.setAttribute("aria-modal","true");document.body.appendChild(p)}
   p.innerHTML='<div class="impcard"><header><b>Import from screenshot</b><button type="button" class="bxclose" data-impclose="1" aria-label="Close">Close</button></header>'+html+'</div>';p.hidden=false}
-async function impRun(files){IMP.files=files;IMP.ctl=new AbortController();
-  impPanel('<div class="impthumbs">'+files.map(f=>'<img alt="" src="'+URL.createObjectURL(f)+'">').join("")+'</div><p class="impwait"><span class="spin"></span> Reading your screenshot'+(files.length>1?"s":"")+'... this can take up to a minute.</p><div class="btns"><button class="btn" type="button" data-impstop="1">Stop</button></div>');
-  try{const r=await SAMPLE.json(impPrompt(IMP.where),{images:files,signal:IMP.ctl.signal});const nr=impClean(r);if(IMP.merge&&IMP.prev){const o=IMP.prev;['pos','h','w','ws','tok'].forEach(k=>{if(nr[k]==null)nr[k]=o[k]});nr.v=Object.assign({},o.v,nr.v);nr.cb=Object.assign({},o.cb,nr.cb);nr.eq=Object.assign({},o.eq,nr.eq);nr.legend=[...new Set(o.legend.concat(nr.legend))];nr.unknown=[...new Set(o.unknown.concat(nr.unknown))];IMP.files=(IMP.prevFiles||[]).concat(files)}IMP.merge=false;IMP.res=nr;impPreview()}
-  catch(e){const msg={not_granted:"You did not allow this page to use Claude, so it cannot read screenshots.",image_rejected:"That image could not be read. Try a PNG or JPEG screenshot under 20 MB.",rate_limited:"Claude is busy for your account right now. Try again in a little while.",invalid_json:"Claude could not turn that screenshot into a build. Try a clearer screenshot of the attributes or badge screen.",refused:"Claude could not read that image.",cancelled:""}[e&&e.code];
+function impProg(st,p){const el=document.getElementById("impprog");if(el)el.textContent=(/recogniz/.test(st)?"Reading text":/load|initial/.test(st)?"Getting the screenshot reader ready":st)+(p>0&&p<1?" "+Math.round(p*100)+"%":"")}
+async function impRun(files){IMP.files=files;IMP.ctl=new AbortController();IMP.cancel=false;
+  impPanel('<div class="impthumbs">'+files.map(f=>'<img alt="" src="'+URL.createObjectURL(f)+'">').join("")+'</div><p class="impwait"><span class="spin"></span> Reading your screenshot'+(files.length>1?"s":"")+'... this can take up to a minute.</p>'+(SAMPLE?'':'<p class="note" id="impprog">Getting the screenshot reader ready</p><p class="note">This reads the screenshot on your device. The first time it downloads the reader (about 6 MB).</p>')+'<div class="btns"><button class="btn" type="button" data-impstop="1">Stop</button></div>');
+  try{const r=SAMPLE?await SAMPLE.json(impPrompt(IMP.where),{images:files,signal:IMP.ctl.signal}):ocrParse(await ocrRead(files,impProg));if(IMP.cancel)return;const nr=impClean(r);if(IMP.merge&&IMP.prev){const o=IMP.prev;['pos','h','w','ws','tok'].forEach(k=>{if(nr[k]==null)nr[k]=o[k]});nr.v=Object.assign({},o.v,nr.v);nr.cb=Object.assign({},o.cb,nr.cb);nr.eq=Object.assign({},o.eq,nr.eq);nr.legend=[...new Set(o.legend.concat(nr.legend))];nr.unknown=[...new Set(o.unknown.concat(nr.unknown))];IMP.files=(IMP.prevFiles||[]).concat(files)}IMP.merge=false;IMP.res=nr;impPreview()}
+  catch(e){const msg={not_granted:"You did not allow this page to use Claude, so it cannot read screenshots.",image_rejected:"That image could not be read. Try a PNG or JPEG screenshot under 20 MB.",rate_limited:"Claude is busy for your account right now. Try again in a little while.",invalid_json:"Claude could not turn that screenshot into a build. Try a clearer screenshot of the attributes or badge screen.",refused:"Claude could not read that image.",load:"The screenshot reader could not download. Check your connection and try again.",image:"That image could not be opened. Try a PNG or JPEG screenshot.",cancelled:""}[e&&e.code];
     if(e&&e.code==="cancelled"){$("#impbox").hidden=true;return}impPanel('<p>'+(msg||"Something went wrong reading the screenshot. Try again.")+'</p><div class="btns"><button class="btn pri" type="button" data-impretry="1">Try again</button><button class="btn" type="button" data-impclose="1">Close</button></div>')}}
 function impClean(r){r=r&&typeof r==="object"?r:{};const out={pos:null,h:null,w:null,ws:null,v:{},cb:{},eq:{},legend:[],tok:null,notes:String(r.notes||"").slice(0,240),unknown:[]};
   const inch=s=>{const m=String(s||"").match(/(\d)\s*['’ft]\s*(\d{1,2})/);return m?+m[1]*12+ +m[2]:null};
@@ -2525,7 +2694,7 @@ function impClean(r){r=r&&typeof r==="object"?r:{};const out={pos:null,h:null,w:
   const byName={};ATTRS.forEach(a=>{byName[norm(a.n)]=a.k;byName[norm(SHORT[a.k]||a.n)]=a.k});
   Object.entries(r.ratings||{}).forEach(([n,v])=>{const k=byName[norm(n)];const x=Math.round(+v);if(k&&x>=25&&x<=99)out.v[k]=x;else if(!k)out.unknown.push(n)});
   Object.entries(r.capBreakers||{}).forEach(([n,v])=>{const k=byName[norm(n)];const x=Math.round(+v);if(k&&x>0)out.cb[k]=Math.min(5,x)});
-  const TT={bronze:1,silver:2,gold:3,halloffame:4,hof:4,legend:5};
+  const TT={bronze:1,silver:2,gold:3,halloffame:4,hof:4,legend:5,auto:-1};
   (Array.isArray(r.badges)?r.badges:[]).forEach(o=>{const b=BADGES.find(x=>norm(x.n)===norm(o&&o.name));const t=TT[norm(o&&o.tier)];if(!b||!t){if(o&&o.name)out.unknown.push(String(o.name));return}out.eq[b.id]=Math.min(4,t);if(t===5)out.legend.push(b.n)});
   if(r.tokens&&typeof r.tokens==="object"){const t={};GROUPS.forEach(g=>{const x=Math.round(+r.tokens[g[1]]);if(x>=0&&x<=60)t[g[0]]=x});if(Object.keys(t).length)out.tok=t}
   return out}
@@ -2535,7 +2704,7 @@ function impPreview(){const R=IMP.res,nv=Object.keys(R.v).length,nb=Object.keys(
   const body=[R.pos,R.h?ft(R.h):null,R.w?R.w+" lbs":null,R.ws?ft(R.ws)+" WS":null].filter(Boolean);
   if(body.length)h+='<p><b>Body:</b> '+body.join(" · ")+'</p>';
   if(nv)h+='<div class="impgrid">'+ATTRS.filter(a=>R.v[a.k]!=null).map(a=>'<span style="--gc:var(--c-'+a.g+')"><i>'+esc(SHORT[a.k]||a.n)+'</i><b>'+R.v[a.k]+(R.cb[a.k]?'<small> +'+R.cb[a.k]+' CB</small>':'')+'</b></span>').join("")+'</div>';
-  if(nb)h+='<p><b>Badges ('+nb+'):</b> '+BADGES.filter(b=>R.eq[b.id]).map(b=>TIERS[R.eq[b.id]]+' '+esc(b.n)).join(", ")+(R.legend.length?' <span class="note">(Legend comes from synergy, so '+esc(R.legend.join(", "))+' are added at HoF)</span>':'')+'</p>';
+  if(nb)h+='<p><b>Badges ('+nb+'):</b> '+BADGES.filter(b=>R.eq[b.id]).map(b=>(R.eq[b.id]<0?"":TIERS[R.eq[b.id]]+' ')+esc(b.n)).join(", ")+(BADGES.some(b=>R.eq[b.id]<0)?' <span class="note">(tiers set to the highest your ratings allow)</span>':'')+[''].map(x=>x).join(", ")+(R.legend.length?' <span class="note">(Legend comes from synergy, so '+esc(R.legend.join(", "))+' are added at HoF)</span>':'')+'</p>';
   if(R.tok)h+='<p><b>Tokens read:</b> '+GROUPS.filter(g=>R.tok[g[0]]!=null).map(g=>g[1]+' '+R.tok[g[0]]).join(", ")+'</p>';
   if(R.unknown.length)h+='<p class="note">Could not match: '+esc(R.unknown.slice(0,8).join(", "))+'</p>';
   if(R.notes)h+='<p class="note">'+esc(R.notes)+'</p>';
@@ -2545,13 +2714,13 @@ function impApply(){const R=IMP.res;if(!R)return;
   if(R.pos)S.pos=R.pos;if(R.h)S.h=R.h;if(R.w)S.w=R.w;if(R.ws)S.ws=R.ws;
   Object.entries(R.v).forEach(([k,x])=>S.v[k]=x);
   if(Object.keys(R.cb).length){Object.entries(R.cb).forEach(([k,n])=>S.cb[k]=n);const used=cbUsed();if(used>cbHave())S.cbHave=Math.min(28,used)}
-  if(Object.keys(R.eq).length){S.eq={};Object.entries(R.eq).forEach(([id,t])=>S.eq[id]=t)}
+  if(Object.keys(R.eq).length){S.eq={};const V0=vals();Object.entries(R.eq).forEach(([id,t])=>{const b=BADGES.find(x=>x.id===id);S.eq[id]=t<0?Math.max(1,b?badgeTier(b,V0):1):t})}
   if(R.tok&&S.h>=82){S.tokOvMap=S.tokOvMap||{};S.tokOvMap[S.pos+"|"+S.h]=R.tok}
   invalidate();clampAll();renderPoss();renderMeas();afterChange();$("#impbox").hidden=true;
   const V=vals(),short=BADGES.filter(b=>(S.eq[b.id]||0)>Math.max(0,badgeTier(b,V))).length;
   toast("Imported "+Object.keys(R.v).length+" ratings and "+Object.keys(R.eq).length+" badges"+(short?" ("+short+" badges need higher ratings than these)":""))}
 document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("button");if(!t)return;const d=t.dataset;
-  if(d.impbtn){impOpen(d.impbtn)}else if(d.impclose){const p=$("#impbox");if(p)p.hidden=true}else if(d.impstop){IMP.ctl&&IMP.ctl.abort()}
+  if(d.impbtn){impOpen(d.impbtn)}else if(d.impclose){const p=$("#impbox");if(p)p.hidden=true}else if(d.impstop){IMP.cancel=true;IMP.ctl&&IMP.ctl.abort();if(!SAMPLE){const p=$("#impbox");if(p)p.hidden=true}}
   else if(d.impretry){impOpen(IMP.where,d.impretry==="add")}else if(d.impapply){impApply()}});
 
 /* ---------------- QR CODE OF THE SHARE CODE ---------------- */
@@ -2733,6 +2902,79 @@ if(document.addEventListener){document.addEventListener("click",async e=>{const 
   if(d.shsend){try{await navigator.share({title:"2K27 Build Lab",text:APP_MSG,url:APP_URL})}catch(err){if(err&&err.name==="AbortError")return;copy(APP_URL,document.getElementById("shUrl"))}}
   else if(d.shcopy)copy(APP_URL,document.getElementById("shUrl"));
   else if(d.shmsg)copy(APP_MSG+"\n"+APP_URL,document.getElementById("shUrl"))},true)}
+/* ---------------- ROUND 16: badge changes on suggestions, cleaner layout ---------------- */
+const BID15={};BADGES.forEach(b=>BID15[b.id]=b);
+function bTiers(V){const m={};BADGES.forEach(b=>{const t=badgeTier(b,V);if(t>0)m[b.id]=t});return m}
+function bDiff(V0,V1){const a=bTiers(V0),c=bTiers(V1),out=[];new Set(Object.keys(a).concat(Object.keys(c))).forEach(id=>{const t0=a[id]||0,t1=c[id]||0;if(t0!==t1&&BID15[id])out.push({b:BID15[id],t0,t1})});
+  return out.sort((x,y)=>(y.t1>y.t0)-(x.t1>x.t0)||y.t1-x.t1)}
+function bUses(ks,V){const set=new Set(ks.map(k=>K.indexOf(k)));const m=bTiers(V);
+  return BADGES.filter(b=>m[b.id]&&b.req.some(l=>l&&l.some(q=>set.has(q[0])))).map(b=>({b,t0:m[b.id],t1:m[b.id]})).sort((x,y)=>y.t1-x.t1)}
+function bChip(x,mode){const up=x.t1>x.t0,dn=x.t1<x.t0;
+  const lab=mode==="keep"?TIERS[x.t1]:x.t0===0?"New "+TIERS[x.t1]:x.t1===0?TIERS[x.t0]+" lost":TIERS[x.t0]+" → "+TIERS[x.t1];
+  return'<span class="bx'+(up?" up":dn?" dn":"")+'" data-tip="b|'+x.b.id+'">'+badgeIcon(x.b.c,Math.max(0,x.t1||x.t0),18)+'<span class="bxn">'+esc(x.b.n)+'</span><em class="tr'+(x.t1||x.t0)+'">'+lab+'</em></span>'}
+function bChips(list,mode,max){max=max||4;if(!list.length)return'';const more=list.length-max;
+  return'<div class="bxs">'+list.slice(0,max).map(x=>bChip(x,mode)).join("")+(more>0?'<span class="bxmore" title="'+esc(list.slice(max).map(x=>x.b.n).join(", "))+'">+'+more+' more</span>':'')+'</div>'}
+function optBadgeInfo(R){const V0=vals();
+  R.trims.forEach(x=>{if(x.bx)return;const lower=stepDown(x.v,x.k);
+    x.held=lower?withState(lower,S.cb,()=>bDiff(V0,vals())).filter(d=>d.t1<d.t0):[];
+    x.keep=withState(x.v,S.cb,()=>bUses([x.k].concat(x.linked),vals()));x.bx=1});
+  (R.swaps||[]).forEach(x=>{if(x.bx)return;const cb=Object.assign({},S.cb,{[x.k]:x.n});
+    x.gain=withState(x.v,cb,()=>bDiff(V0,vals()));x.keep=withState(x.v,cb,()=>bUses([x.k],vals())).filter(k=>!x.gain.some(g=>g.b.id===k.b.id));x.bx=1});
+  R.ups.forEach(x=>{if(x.bx)return;x.gain=withState(x.v,S.cb,()=>bDiff(V0,vals())).filter(d=>d.t1>d.t0);x.bx=1});
+  R.best.forEach(x=>{if(x.bx)return;const cb=Object.assign({},S.cb,{[x.k]:CB_PER});x.gain=withState(S.v,cb,()=>bDiff(V0,vals())).filter(d=>d.t1>d.t0);x.bx=1})}
+OPT.more=OPT.more||{};
+function optSec(id,title,lead,more,list,rowFn,empty,foot){const n=list.length,open=OPT.more[id],show=open?list:list.slice(0,3);
+  return'<section class="osec"><header><h3>'+title+'</h3>'+(n?'<span class="ocount">'+n+'</span>':'')+'</header><p class="olead">'+lead+(more?' <button type="button" class="owhy" data-owhy="'+id+'" aria-expanded="'+!!OPT.more[id+"w"]+'">'+(OPT.more[id+"w"]?"Less":"Why?")+'</button>':'')+'</p>'+
+    (more&&OPT.more[id+"w"]?'<p class="omore">'+more+'</p>':'')+
+    (n?'<ol class="olist">'+show.map(rowFn).join("")+'</ol>'+(n>3?'<button type="button" class="oshow" data-omore="'+id+'">'+(open?'Show top 3':'Show all '+n)+'</button>':''):'<p class="oempty">'+empty+'</p>')+(foot||'')+'</section>'}
+function optRow(x,main,chips,btn){const g=ATTRS[IDX[x.k]].g;
+  return'<li class="orow2" style="--gc:var(--c-'+g+')"><div class="orh"><b class="oname">'+AN[x.k]+'</b>'+main+'</div>'+(btn||'')+(chips?'<div class="orb">'+chips+'</div>':'')+'</li>'}
+function optPanel(){if(!OPT.open)return'';if(!OPT.res||OPT.stale)runOpt();const R=OPT.res,left=cbLeft();optBadgeInfo(R);
+  const ap=(kind,k)=>'<button class="btn sm" type="button" data-opt="'+kind+'" data-k="'+k+'">Apply</button>';
+  const chg=(a,b)=>'<span class="ochg">'+a+' → <b>'+b+'</b></span>';
+  let h='<div class="opt2"><div class="opth2"><div><h2 class="sec">Smart suggestions</h2><p class="note">Ways to free overall or spend it better. Badge chips show exactly what each change keeps or unlocks.</p></div><label class="tog"><input type="checkbox" id="optanims" '+(OPT.anims?"checked":"")+'> Keep every animation I have</label></div><div class="ogrid2">';
+  h+=optSec("trim","Save points","Lower these and keep every badge, takeover"+(OPT.anims?" and animation":"")+".","Each rating here sits above the last thing it unlocks. The new number is exactly where the badges listed under it still hold. One point lower and they drop.",R.trims.slice(0,8),
+    x=>optRow(x,chg(S.v[x.k],x.to)+'<span class="osv">+'+x.saved.toFixed(2)+' OVR free</span>'+(x.linked.length?'<span class="olink">also lowers '+x.linked.map(z=>AN[z]).join(", ")+'</span>':''),
+      x.held.length?'<span class="olab">Held at '+x.to+' by</span>'+bChips(x.held.map(d=>({b:d.b,t0:d.t0,t1:d.t0})),"keep",4):(x.keep.length?'<span class="olab">Keeps</span>'+bChips(x.keep,"keep",4):''),ap("trim",x.k)),
+    "Nothing to trim. Every point is doing something.",R.trims.length?'<div class="ofoot"><button class="btn" type="button" data-opt="trimall">Apply all savings</button></div>':'');
+  h+=optSec("swap","Let cap breakers do the work","Build lower and let cap breakers lift it back.","Savings stack on top of Save points. Attributes your build type barely weighs get the biggest cap breaker jumps, so this frees the most overall there.",left?R.swaps.slice(0,6):[],
+    x=>optRow(x,chg(S.v[x.k],x.to)+'<span class="ocb">+'+x.extra+' cap breaker'+(x.extra>1?"s":"")+' → '+x.target+'+</span><span class="osv">+'+x.saved.toFixed(2)+' OVR free</span>',
+      (x.gain.length?'<span class="olab">Unlocks</span>'+bChips(x.gain,"chg",4):'')+(x.keep.length?'<span class="olab">Keeps</span>'+bChips(x.keep,"keep",x.gain.length?2:4):''),ap("swap",x.k)),
+    left?"No swap saves overall right now.":"No cap breakers left. Raise the number you have to see swaps.");
+  h+=optSec("up","Best value upgrades","The cheapest next unlock on each attribute.","Ranked by what you get per point of overall."+(complete(R.o0)?" Your build is at 99, so free points first with Save points.":""),R.ups,
+    x=>optRow(x,chg(S.v[x.k],x.to)+'<span class="ocost">'+x.cost.toFixed(2)+' OVR</span>',
+      (x.gain.length?bChips(x.gain,"chg",4):'')+(x.gains.some(s=>/takeover|animation/.test(s))?'<span class="olink">'+esc(x.gains.filter(s=>/takeover|animation/.test(s)).join(", "))+'</span>':''),ap("up",x.k)),
+    "No more unlocks within your caps.");
+  h+=optSec("cb","Biggest cap breaker gains","All five breakers on one attribute, and the badges that gets you.","Gains are what each breaker adds at your current ratings. Badge chips show what all five together would unlock.",R.best,
+    x=>optRow(x,'<span class="oincs">'+x.inc.filter(d=>d.g).map(d=>"+"+d.g).join(" ")+'</span><span class="osv">+'+x.tot+'</span>',
+      x.gain.length?'<span class="olab">With all five</span>'+bChips(x.gain,"chg",4):'<span class="olab dim">No new badge tiers</span>',''),
+    "",'<div class="ofoot"><button class="btn pri" type="button" data-opt="plan"'+(left?'':' disabled')+'>Plan my '+left+' remaining cap breaker'+(left===1?"":"s")+'</button></div>');
+  return h+'</div></div>'}
+
+/* ---- layout state ---- */
+const UIX={rv:null,tok:false};
+try{UIX.rv=localStorage.getItem("bl27-rview");UIX.tok=localStorage.getItem("bl27-tokopen")==="1"}catch(e){}
+if(!["simple","full","compact"].includes(UIX.rv))UIX.rv=ui.compact?"compact":((window.innerWidth||1200)<1000?"simple":"full");
+ui.compact=UIX.rv==="compact";
+function rvHTML(){return'<div class="seg" role="group" aria-label="How much to show">'+[["simple","Simple"],["full","Detailed"],["compact","One screen"]].map(o=>'<button type="button" data-rview="'+o[0]+'" aria-pressed="'+(UIX.rv===o[0])+'">'+o[1]+'</button>').join("")+'</div>'}
+function uixSync(){const B=document.body;if(!B||!B.setAttribute)return;B.setAttribute("data-sec",(SECTIONS.find(s=>s.tabs.some(t=>t[0]===ui.tab))||{id:""}).id);B.setAttribute("data-tab",ui.tab);B.setAttribute("data-rv",UIX.rv);B.classList.toggle("tokopen",!!UIX.tok);
+  if(document.querySelectorAll){document.querySelectorAll("#view-attrs .arow[data-k]").forEach(r=>r.classList.toggle("hascb",(S.cb[r.dataset.k]||0)>0));
+    let hw=document.querySelector("#view-attrs details.howto");const lg=document.querySelector("#view-attrs > .legend"),pn=document.querySelector("#view-attrs > p.note");
+    if(!hw&&(lg||pn)&&document.createElement){hw=document.createElement("details");hw.className="howto";hw.innerHTML='<summary><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.01"/></svg> Key and how this works</summary>';(lg||pn).before(hw);if(pn)hw.appendChild(pn)}
+    if(hw){const s=hw.querySelector("summary");if(lg)s.after(lg);const st=s.lastChild;if(st&&st.nodeType===3&&!/Key/.test(st.textContent))st.textContent=" Key and how this works"}
+    document.querySelectorAll("[data-rview]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.rview===UIX.rv))}}
+{const _rt=renderTabs;renderTabs=function(){const r=_rt.apply(this,arguments);try{uixSync()}catch(e){}return r}}
+{const _rv=renderView;renderView=function(){const r=_rv.apply(this,arguments);try{uixSync()}catch(e){}return r}}
+{const _ac=afterChange;afterChange=function(){const r=_ac.apply(this,arguments);try{uixSync()}catch(e){}return r}}
+if(document.addEventListener){
+document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-rview],[data-omore],[data-owhy],.tsl,.mm-close");if(!t)return;const d=t.dataset;
+  if(d.rview){e.stopPropagation();UIX.rv=d.rview;ui.compact=UIX.rv==="compact";try{localStorage.setItem("bl27-rview",UIX.rv);localStorage.setItem("bl27-compact",ui.compact?"1":"0")}catch(err){}renderCompact();uixSync()}
+  else if(d.omore){e.stopPropagation();OPT.more[d.omore]=!OPT.more[d.omore];const ob=document.getElementById("optbox");if(ob)ob.innerHTML=optPanel()}
+  else if(d.owhy){e.stopPropagation();OPT.more[d.owhy+"w"]=!OPT.more[d.owhy+"w"];const ob=document.getElementById("optbox");if(ob)ob.innerHTML=optPanel()}
+  else if(t.classList.contains("tsl")){UIX.tok=!UIX.tok;try{localStorage.setItem("bl27-tokopen",UIX.tok?"1":"0")}catch(err){}uixSync()}},true);
+document.addEventListener("click",e=>{const m=document.querySelector("details.moremenu[open]");if(m&&!m.contains(e.target))m.open=false});
+}
+if(window.MutationObserver&&document.getElementById){let busy=false;const va=document.getElementById("view-attrs");if(va)new MutationObserver(()=>{if(busy)return;busy=true;try{uixSync()}catch(e){}busy=false}).observe(va,{childList:true})}
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
