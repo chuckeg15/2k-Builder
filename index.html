@@ -1397,6 +1397,17 @@ body[data-xtab="saved"] .tokstrip,body[data-xtab="share"] .tokstrip,body[data-xt
 .btn.undo:disabled{opacity:.45}
 @media (max-width:999px){.atools .btn.undo{order:-2}}
 .ttools [data-undo] span,.ttools [data-redo] span{display:none}
+.lk{display:inline-grid;place-items:center;width:26px;height:26px;margin-right:6px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--muted);cursor:pointer;vertical-align:middle;padding:0}
+.lk svg{width:14px;height:14px}.lk.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.lk:hover{border-color:var(--accent);color:var(--accent)}.lk.on:hover{color:var(--accent-ink)}
+.arow.locked .vin,.crow.locked .cvin{box-shadow:inset 0 0 0 2px var(--accent)}
+.crow .lk{width:22px;height:22px;margin-right:4px}
+@media (pointer:coarse){.lk{width:34px;height:34px}.crow .lk{width:30px;height:30px}}
+.cbgoal{display:inline-flex;align-items:center;gap:6px;margin-right:8px;font-size:13px;font-weight:700;color:var(--muted)}
+.cbgoal select{font:inherit;font-weight:700;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;min-height:36px;padding:0 8px}
+.goat{font-size:10px;font-weight:900;letter-spacing:.06em;color:#fff;background:linear-gradient(90deg,#b8860b,#e6b93a);border-radius:3px;padding:1px 5px;vertical-align:middle}
+.crow .cn{display:inline-flex;align-items:center}
+@media (max-width:1600px){.ttools .tbtn[data-shgo] span,#sideBtn span,#themeBtn span{display:none}}
 
 </style>
 
@@ -3276,7 +3287,7 @@ function planFor(targets,label){const c=caps(),V0=vals(),base=sigLite(V0);let v=
   for(const k in targets){let g=0;while(effK(k)<targets[k]&&g++<90){if(v[k]<c[k]){v[k]++;linkFix(v,k,1);continue}
       const n=cb[k]||0,used=Object.values(cb).reduce((a,b)=>a+(b||0),0);if(n<5&&used<cbHave()&&cbIncs(k)[n]&&cbIncs(k)[n].g>0){cb[k]=n+1;cbAdd++;continue}
       return{label,bad:AN[k]+" can't reach "+targets[k]+" on this body"+(cbLeft()?", even with your cap breakers.":". You have no cap breakers left.")}}}
-  const prot=new Set(K.filter(k=>IMPV.protect[ATTRS[IDX[k]].g]));let guard=0;
+  const prot=new Set(K.filter(k=>IMPV.protect[ATTRS[IDX[k]].g]||(S.lock&&S.lock[k])));let guard=0;
   while(ovrOf(v,S.h)>99+1e-9&&guard++<400){const o0=ovrOf(v,S.h);let best=null,bk=1e18;
     for(const k of K){if(fixed.has(k)||prot.has(k)||v[k]<=25)continue;const t=Object.assign({},v);t[k]--;const fr=o0-ovrOf(t,S.h);if(fr<=1e-6)continue;
       const loss=withState(t,cb,()=>lossOf(base,vals()));const key=loss*1e4-fr*100;if(key<bk){bk=key;best=t}}
@@ -3614,6 +3625,68 @@ function ensureContrast(c,bg,min){let x=c;const toward=lum(bg)>.4?"#000000":"#ff
   acc=ensureContrast(acc,surf,4.5);r.setProperty("--accent",acc);r.setProperty("--accent-ink",contrast(acc,"#ffffff")>=contrast(acc,"#000000")?"#ffffff":"#000000");r.setProperty("--accent-soft",mix(surf,acc,dark?.22:.14));
   const tabHi=[t[3],t[4],"#ffffff"].find(c=>contrast(c,mast)>=3)||(contrast("#ffffff",mast)>contrast("#000000",mast)?"#ffffff":"#000000");r.setProperty("--team-hi",tabHi)}}
 try{applyTeam()}catch(e){}
+/* ---------------- ROUND 23: rating locks, cap breaker goals, GOAT builds, top 100 players ---------------- */
+/* ===== rating locks ===== */
+function isLocked(k){return !!(S.lock&&S.lock[k])}
+function trimUnder99(){let g=0;while(ovrOf(S.v,S.h)>99+1e-9&&g++<600){const o0=ovrOf(S.v,S.h);let best=null,bd=0;
+  for(const k of K){if(isLocked(k)||S.v[k]<=25)continue;const t=Object.assign({},S.v);t[k]--;const d=o0-ovrOf(t,S.h);if(d>bd){bd=d;best=t}}if(!best)break;S.v=best}}
+function restoreLocks(before){let n=0;K.forEach(k=>{if(isLocked(k)&&S.v[k]<before[k]){S.v[k]=Math.min(cap(k),before[k]);n++}});if(n)trimUnder99();return n}
+{const _sp2=spreadSmart;spreadSmart=function(){const before=Object.assign({},S.v);const r=_sp2.apply(this,arguments);const n=restoreLocks(before);if(n){afterChange();setTimeout(()=>toast("Smart fill kept your "+n+" locked rating"+(n>1?"s":"")+" and filled around them"),450)}return r}}
+{const _ca=clampAll;clampAll=function(){const before=Object.assign({},S.v);const r=_ca.apply(this,arguments);try{if(S.lock&&Object.keys(S.lock).length){K.forEach(k=>{if(isLocked(k)&&S.v[k]<before[k])S.v[k]=Math.min(cap(k),before[k])});trimUnder99()}}catch(e){}return r}}
+{const _ot=optTrims;optTrims=function(){return _ot.apply(this,arguments).filter(x=>!isLocked(x.k)&&!(x.linked||[]).some(isLocked))}}
+{const _os=optSwaps;optSwaps=function(){return _os.apply(this,arguments).filter(x=>!isLocked(x.k))}}
+const LOCK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+const UNLOCK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 7.5-2"/></svg>';
+function lockBtn(k){const on=isLocked(k);return'<button type="button" class="lk'+(on?" on":"")+'" data-lock="'+k+'" aria-pressed="'+on+'" title="'+(on?"Locked: Smart fill, suggestions and plans won\'t lower "+AN[k]:"Lock "+AN[k]+" so nothing automatic lowers it")+'" aria-label="Lock '+AN[k]+'">'+(on?LOCK_SVG:UNLOCK_SVG)+'</button>'}
+function lockSync(){if(!document.querySelectorAll)return;
+  document.querySelectorAll("#view-attrs .arow[data-k]").forEach(r=>{const k=r.dataset.k,n=r.querySelector(".aname");if(!n)return;let b=n.querySelector("[data-lock]");if(!b){n.insertAdjacentHTML("afterbegin",lockBtn(k))}else if((b.getAttribute("aria-pressed")==="true")!==isLocked(k))b.outerHTML=lockBtn(k);r.classList.toggle("locked",isLocked(k))});
+  document.querySelectorAll("#cmpv .crow").forEach(r=>{const i=r.querySelector("[data-ck]");if(!i)return;const k=i.dataset.ck,cn=r.querySelector(".cn");if(!cn)return;let b=r.querySelector("[data-lock]");if(!b)cn.insertAdjacentHTML("afterbegin",lockBtn(k));else if((b.getAttribute("aria-pressed")==="true")!==isLocked(k))b.outerHTML=lockBtn(k);r.classList.toggle("locked",isLocked(k))})}
+{const _ac6=afterChange;afterChange=function(){const r=_ac6.apply(this,arguments);try{lockSync()}catch(e){}return r}}
+{const _rc=renderCompact;renderCompact=function(){const r=_rc.apply(this,arguments);try{lockSync()}catch(e){}return r}}
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-lock]");if(!t)return;e.stopPropagation();e.preventDefault();const k=t.dataset.lock;S.lock=S.lock||{};
+  if(S.lock[k])delete S.lock[k];else S.lock[k]=true;OPT.stale=true;try{save()}catch(err){}lockSync();const ob=document.getElementById("optbox");if(ob&&OPT.open)ob.innerHTML=optPanel();toast(isLocked(k)?AN[k]+" locked at "+S.v[k]:AN[k]+" unlocked")},true);
+
+/* ===== cap breaker plan goals ===== */
+const CBGOALS=[["points","Most points"],["contacts","Contact dunks",{ddunk:1,vertical:.9,sdunk:.6}],["rim","Rim protection",{block:1,idef:1,sdunk:.4,strength:.3}],["shooting","Shooting",{three:1,mid:.8,ft:.4}],
+  ["finishing","Finishing",{close:1,layup:1,ddunk:.7}],["playmaking","Playmaking",{handle:1,pass:.8,swb:.8}],["perimeter","Perimeter defense",{pdef:1,steal:.8,agility:.5}],["rebounding","Rebounding",{dreb:1,oreb:.9,vertical:.3}],["athleticism","Athleticism",{speed:1,agility:.9,vertical:.9,strength:.6}]];
+ui.cbgoal=ui.cbgoal||"points";
+function planGoal(goal){const G=(CBGOALS.find(x=>x[0]===goal)||[])[2];if(!G)return autoPlanCB();let n=0,guard=0;
+  while(cbLeft()>0&&guard++<40){cbCache={};let best=null,bs=0;const V=vals();
+    for(const k in G){const c=S.cb[k]||0;if(c>=5)continue;if(ATTRS[IDX[k]].g==="PHY"&&phyCB()>=PHY_CB_MAX)continue;const inc=cbIncs(k)[c];if(!inc||inc.g<=0)continue;
+      const e=V[k],e2=e+inc.g,ticks=TICKS[k].filter(t=>t.v>e&&t.v<=e2&&(!t.b||(S.h>=t.b.h[0]&&S.h<=t.b.h[1]))).length,sc=G[k]*(inc.g+3*ticks);if(sc>bs){bs=sc;best=k}}
+    if(!best)break;S.cb[best]=(S.cb[best]||0)+1;n++}
+  cbCache={};const rest=cbLeft()>0?autoPlanCB():0;return{n,rest}}
+function cbGoalSelect(){return'<label class="cbgoal"><span>Aim for</span><select data-cbgoal="1">'+CBGOALS.map(g=>'<option value="'+g[0]+'"'+(ui.cbgoal===g[0]?" selected":"")+'>'+g[1]+'</option>').join("")+'</select></label>'}
+function cbGoalSync(){if(!document.querySelectorAll)return;document.querySelectorAll('[data-opt="plan"]').forEach(b=>{const p=b.previousElementSibling;if(!p||!p.classList||!p.classList.contains("cbgoal"))b.insertAdjacentHTML("beforebegin",cbGoalSelect())})}
+{const _ac7=afterChange;afterChange=function(){const r=_ac7.apply(this,arguments);try{cbGoalSync()}catch(e){}return r}}
+if(window.MutationObserver&&document.querySelector){const mn=document.querySelector(".main");if(mn){let busy=false;new MutationObserver(()=>{if(busy)return;busy=true;try{cbGoalSync()}catch(e){}busy=false}).observe(mn,{childList:true,subtree:true})}}
+if(document.addEventListener){document.addEventListener("change",e=>{if(e.target&&e.target.dataset&&e.target.dataset.cbgoal){ui.cbgoal=e.target.value;document.querySelectorAll("[data-cbgoal]").forEach(s=>s.value=ui.cbgoal)}});
+  document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest('[data-opt="plan"]');if(!t||ui.cbgoal==="points")return;e.stopPropagation();const r=planGoal(ui.cbgoal);OPT.stale=true;afterChange();
+    const lab=(CBGOALS.find(x=>x[0]===ui.cbgoal)||[])[1];toast(r.n||r.rest?"Placed "+r.n+" for "+lab.toLowerCase()+(r.rest?" and "+r.rest+" more where they add the most":""):"No cap breakers left to place")},true)}
+
+/* ===== GOAT builds and top 100 players ===== */
+const GOAT27=["Magic Johnson","Penny Hardaway","Gilbert Arenas","Derrick Rose","Kobe Bryant","Klay Thompson","Ray Allen","Michael Jordan","Anthony Edwards","LeBron James","Carmelo Anthony","Andrei Kirilenko","Kawhi Leonard","Dirk Nowitzki","Anthony Davis","Hakeem Olajuwon","Wilt Chamberlain","Dwight Howard"];
+const MORE_PLAYERS=[["George Mikan","C",82,245,"po rb rm"],["Dolph Schayes","PF",80,220,"sh rb"],["Bob Cousy","PG",73,175,"ps hd"],["Bill Sharman","SG",73,175,"sh"],["Sam Jones","SG",76,205,"md sh"],
+ ["John Havlicek","SF",77,205,"df md"],["Hal Greer","SG",74,175,"md"],["Nate Thurmond","C",83,225,"rm rb"],["Wes Unseld","C",79,245,"rb pw ps"],["Willis Reed","C",81,235,"po md rb"],["Dave Cowens","C",81,230,"rb md"],
+ ["Dave DeBusschere","PF",78,220,"df rb"],["Lenny Wilkens","PG",73,180,"ps"],["Dave Bing","SG",75,180,"sl md"],["Paul Arizin","SF",76,190,"md"],["Nate Archibald","PG",73,160,"sl ps"],["Billy Cunningham","SF",78,210,"sl rb"],
+ ["Adrian Dantley","SF",77,210,"po sl"],["Bob McAdoo","C",81,225,"md rb"],["Connie Hawkins","PF",80,215,"sl at"],["Spencer Haywood","PF",80,225,"rb md"],["Tom Heinsohn","PF",79,218,"md rb"],["Bob Lanier","C",83,250,"po pw"],
+ ["Jo Jo White","PG",75,190,"md"],["Neil Johnston","C",80,210,"po"],["Mark Price","PG",72,178,"sh ps"],["Kevin Johnson","PG",73,190,"sl ps"],["Dennis Johnson","SG",76,185,"df"],["Gary Payton","PG",76,180,"df ps po"],
+ ["Kevin McHale","PF",82,225,"po"],["James Harden","SG",77,220,"hd sh ps"],["Paul Pierce","SF",79,235,"md sh po"],["Grant Hill","SF",80,225,"sl ps"],["Clyde Drexler","SG",79,210,"sl at"],["Dominique Wilkins","SF",80,215,"sl at"],
+ ["Tracy McGrady","SG",80,210,"md sl"],["Vince Carter","SG",78,220,"at sl"],["Shawn Kemp","PF",82,230,"at pw"],["Chris Bosh","PF",83,235,"md rb"],["Yao Ming","C",90,310,"po rm"],["Ben Wallace","C",81,240,"rm rb df"],
+ ["Dennis Rodman","PF",79,210,"rb df"],["Amar'e Stoudemire","PF",82,245,"sl pw"],["Pete Maravich","SG",77,200,"hd ps"],["Jerry Lucas","PF",80,230,"rb sh"],["Scottie Pippen","SF",80,210,"df ps"],["Draymond Green","PF",78,230,"df ps"],
+ ["Anthony Davis","PF",82,253,"rm po"],["Karl-Anthony Towns","C",83,248,"sh po"],["Joel Embiid","C",84,280,"po md rm"],["Nikola Jokić","C",83,284,"ps po"],["Jayson Tatum","SF",80,210,"md sh"],["Devin Booker","SG",77,206,"md sh"],
+ ["Damian Lillard","PG",74,195,"sh hd"],["Paul George","SF",80,220,"sh df"],["Anthony Edwards","SG",76,225,"sl at"],["Carmelo Anthony","SF",79,240,"md po"],["Klay Thompson","SG",78,220,"sh"],["Ray Allen","SG",77,205,"sh"],
+ ["Kobe Bryant","SG",78,212,"md sl df"],["LeBron James","SF",81,250,"ps sl pw"],["Dirk Nowitzki","PF",84,245,"md sh"],["Penny Hardaway","PG",79,195,"ps sl"],["Gilbert Arenas","PG",76,191,"sh sl"],["Derrick Rose","PG",75,200,"sl at"],
+ ["Andrei Kirilenko","SF",81,235,"df rm"],["Kareem Abdul-Jabbar","C",86,225,"po rm"],["Shaquille O'Neal","C",85,325,"pw po rb"],["Kristaps Porziņģis","C",87,240,"sh rm"]];
+MORE_PLAYERS.forEach(p=>{const e=SHP[p[0]];if(e&&e.some(x=>x.add))return;(SHP[p[0]]=SHP[p[0]]||[]).push({pos:p[1],pi:POS.indexOf(p[1]),h:p[2],w:p[3],tags:p[4],add:true,est:true})});
+function lastKey(n){const parts=n.replace(/\b(Jr\.?|Sr\.?|II|III|IV)$/,"").trim().split(/\s+/);return(parts[parts.length-1]+" "+n).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")}
+SHB.goat=false;
+{const _rsb2=renderShadesBuilder;renderShadesBuilder=function(){_rsb2.apply(this,arguments);const v=document.getElementById("view-shades");if(!v)return;const grid=v.querySelector(".shpl");if(!grid)return;
+  const tools=v.querySelector(".svtools");if(tools&&!tools.querySelector("[data-shgoat]"))tools.insertAdjacentHTML("beforeend",'<button type="button" class="chip" data-shgoat="1" aria-pressed="'+SHB.goat+'">2K27 GOAT builds</button>');
+  const items=[...grid.children];items.forEach(b=>{const n=b.dataset.shpick;if(GOAT27.includes(n)&&!b.querySelector(".goat"))b.querySelector("b").insertAdjacentHTML("beforeend",' <span class="goat">GOAT</span>');if(SHB.goat&&!GOAT27.includes(n))b.remove()});
+  [...grid.children].sort((a,b)=>{const da=a.disabled?1:0,db=b.disabled?1:0;return da-db||lastKey(a.dataset.shpick).localeCompare(lastKey(b.dataset.shpick))}).forEach(x=>grid.appendChild(x));
+  const p=v.querySelector(".bmhead .note");if(p)p.textContent="Pick up to 3 players and the app builds a MyPLAYER that plays like all of them. "+Object.keys(SHP).length+" players, sorted by last name. Players marked 2K blueprint keep 2K's own blueprint ratings. The rest, including the 2K27 GOAT builds and the all-time greats, are Build Lab estimates from their real position, height and play style. Players whose sizes and positions are too far apart can't be combined."}}
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-shgoat]");if(!t)return;e.stopPropagation();SHB.goat=!SHB.goat;renderShadesBuilder()},true);
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
