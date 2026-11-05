@@ -1390,6 +1390,7 @@ body[data-xtab="saved"] .tokstrip,body[data-xtab="share"] .tokstrip,body[data-xt
 .thsw{display:flex;gap:6px}.thsw i{width:28px;height:18px;border-radius:4px;border:1px solid var(--line)}
 :root[data-team] .tabrow{box-shadow:inset 0 -3px 0 var(--team2)}
 @media (max-width:700px){.shtray{grid-template-columns:1fr}.shpl{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.shsrc{font-size:10.5px;font-weight:800;letter-spacing:.03em;color:var(--muted);text-transform:uppercase}.shsrc.bp{color:var(--accent)}
 
 </style>
 
@@ -3502,6 +3503,63 @@ if(document.addEventListener){
 }
 try{applyTeam()}catch(e){}
 window.__SIM={sim:t=>similarBodies(t),dbg:t=>{const ks=Object.keys(t);let n=0,ok=0,bad=[];for(const o of plBodies())for(const pos of o.pos){if(!ks.every(k=>o.caps[IDX[k]]>=t[k]-8))continue;n++;if(ok+bad.length<6){const r=withBody(o,pos,()=>planFor(t,""));if(r.bad)bad.push(pos+o.h+" "+r.bad);else ok++}}return{n,ok,bad}}};
+/* ---------------- ROUND 21: more Shades of NBA Players ----------------
+   Players from 2K's Signature Blueprints keep their blueprint ratings. These extra players are added by Build Lab:
+   position and height as 2K lists them, and a play style (tags) that shapes the build on top of the position profile.
+   Tags: sh shooter, md mid-range, sl slasher, hd handles, ps passer, po post, df perimeter defense, rm rim protector,
+   rb rebounder, at athlete, pw power. */
+const ADD_PLAYERS=[
+ ["Stephen Curry","PG",74,185,"sh hd"],["Allen Iverson","PG",72,165,"sl hd"],["Chris Paul","PG",72,175,"ps hd md"],["Magic Johnson","PG",81,215,"ps po rb"],["John Stockton","PG",73,175,"ps df"],
+ ["Steve Nash","PG",75,178,"ps sh"],["Kyrie Irving","PG",74,195,"hd sl sh"],["Jason Kidd","PG",76,205,"ps df rb"],["Isiah Thomas","PG",73,180,"hd ps sl"],["Tony Parker","PG",74,185,"sl md"],
+ ["Rajon Rondo","PG",73,180,"ps df"],["Jalen Brunson","PG",74,190,"md hd po"],["Trae Young","PG",73,164,"sh ps"],["LaMelo Ball","PG",79,180,"ps sh"],["Luka Dončić","PG",78,230,"po ps sh hd"],
+ ["Shai Gilgeous-Alexander","PG",78,195,"sl md df"],["Jamal Murray","PG",76,215,"sh md"],["Darius Garland","PG",73,192,"hd sh"],["Kyle Lowry","PG",72,196,"df sh"],["Mike Conley","PG",73,175,"sh ps"],
+ ["Fred VanVleet","PG",72,197,"sh df"],["Jrue Holiday","PG",76,205,"df"],["Kemba Walker","PG",72,184,"hd sh"],["Chauncey Billups","PG",75,202,"sh po"],["Tim Hardaway","PG",72,175,"hd sh"],
+ ["Nate Robinson","PG",69,180,"sl at"],["Oscar Robertson","PG",77,205,"ps po rb"],["Jerry West","PG",75,175,"sh md"],["Walt Frazier","PG",76,200,"df ps"],["Kenny Smith","PG",75,170,"sh ps"],
+ ["Jason Williams","PG",73,180,"ps hd"],["Coby White","PG",77,195,"sl sh"],["Scoot Henderson","PG",74,195,"sl at"],["Russell Westbrook","PG",76,200,"sl at rb"],["Dejounte Murray","PG",76,180,"df md"],
+ ["Michael Jordan","SG",78,216,"sl md df"],["Dwyane Wade","SG",76,220,"sl df"],["Reggie Miller","SG",79,185,"sh"],["Manu Ginóbili","SG",78,205,"sl ps"],["George Gervin","SG",79,185,"md sh"],
+ ["Bradley Beal","SG",76,207,"sh sl"],["Jaylen Brown","SG",78,223,"sl df"],["DeMar DeRozan","SG",78,220,"md sl"],["Tyler Herro","SG",77,195,"sh"],["Jalen Green","SG",76,186,"sl at"],
+ ["Shaedon Sharpe","SG",77,200,"at sl"],["Mikal Bridges","SG",78,209,"df sh"],["Joe Dumars","SG",75,190,"df md"],["Earl Monroe","SG",75,185,"hd md"],["Desmond Bane","SG",77,215,"sh"],
+ ["CJ McCollum","SG",75,190,"md hd"],["Jordan Poole","SG",76,194,"hd sh"],["Derrick White","SG",76,190,"df sh"],["Jamal Crawford","SG",77,200,"hd"],["Sidney Moncrief","SG",75,180,"df"],
+ ["Kawhi Leonard","SF",79,225,"df md"],["Jimmy Butler","SF",79,230,"df sl po"],["Larry Bird","SF",81,220,"sh ps rb"],["Julius Erving","SF",79,210,"sl at"],["Elgin Baylor","SF",77,225,"sl rb"],
+ ["Rick Barry","SF",79,205,"sh"],["Brandon Ingram","SF",80,190,"md"],["Khris Middleton","SF",79,222,"sh md"],["Jalen Williams","SF",77,211,"sl df"],["Andre Iguodala","SF",78,215,"df ps"],
+ ["Metta World Peace","SF",79,260,"df pw"],["Bernard King","SF",79,205,"sl md"],["Alex English","SF",80,190,"md"],["Chris Mullin","SF",78,215,"sh"],["Brandon Miller","SF",81,200,"sh"],
+ ["Deni Avdija","SF",81,240,"ps df"],["DeMarre Carroll","SF",80,212,"df"],["Kevin Durant","SF",83,240,"sh md"],["Mikal Bridges","SF",78,209,"df sh"],["Jaden Ivey","SG",76,195,"sl at"],
+ ["Giannis Antetokounmpo","PF",83,243,"sl rm at"],["Zion Williamson","PF",78,284,"pw sl"],["Tim Duncan","PF",83,250,"po rm rb"],["Kevin Garnett","PF",83,240,"df md rb"],["Karl Malone","PF",81,250,"po pw md"],
+ ["Charles Barkley","PF",78,252,"rb pw sl"],["Pau Gasol","PF",84,250,"po ps"],["Chris Webber","PF",82,245,"ps po"],["Rasheed Wallace","PF",83,230,"df sh po"],["Kevin Love","PF",80,251,"rb sh"],
+ ["LaMarcus Aldridge","PF",83,250,"md po"],["Julius Randle","PF",80,250,"po pw"],["Jaren Jackson Jr.","PF",83,242,"rm sh"],["Aaron Gordon","PF",80,235,"at sl"],["John Collins","PF",81,226,"at rb"],
+ ["Jalen Johnson","PF",81,220,"sl ps"],["Bob Pettit","PF",81,215,"rb po"],["Elvin Hayes","PF",81,235,"rb rm"],["Bam Adebayo","PF",81,255,"df ps rm"],["Tobias Harris","PF",80,226,"md"],
+ ["Hakeem Olajuwon","C",84,255,"po rm df"],["David Robinson","C",85,235,"rm at"],["Patrick Ewing","C",84,240,"po md rm"],["Wilt Chamberlain","C",85,275,"pw rb rm"],["Bill Russell","C",82,215,"rm rb df"],
+ ["Dikembe Mutombo","C",86,245,"rm rb"],["Moses Malone","C",82,215,"rb po"],["Dwight Howard","C",82,265,"rm rb pw"],["Rudy Gobert","C",85,258,"rm rb"],["Bill Walton","C",83,210,"ps rb"],
+ ["Robert Parish","C",84,230,"po"],["Brook Lopez","C",85,282,"sh rm"],["Al Horford","C",81,240,"sh ps"],["Clint Capela","C",82,256,"rb rm"],["Deandre Ayton","C",83,252,"po"],
+ ["Mitchell Robinson","C",84,240,"rm rb"],["Walker Kessler","C",84,245,"rm"],["Nikola Vučević","C",82,260,"po sh"],["Steven Adams","C",83,265,"pw rb"],["Marc Gasol","C",83,255,"ps po"],
+ ["Arvydas Sabonis","C",87,280,"ps po"],["Andre Drummond","C",82,279,"rb"],["Ivica Zubac","C",84,240,"rb po"],["Daniel Gafford","C",82,265,"rm at"],["Isaiah Hartenstein","C",84,250,"ps rb"],
+ ["Anthony Davis","C",82,253,"rm po"],["Artis Gilmore","C",86,240,"rm rb"],["Alonzo Mourning","C",82,240,"rm"],["Dwight Powell","C",82,240,"at rb"],["Victor Wembanyama","C",88,235,"rm sh"]];
+const TAGMULT={sh:{three:1.5,mid:1.3,ft:1.3},md:{mid:1.6,ft:1.1},sl:{layup:1.4,ddunk:1.4,close:1.2,speed:1.15},hd:{handle:1.5,swb:1.4},ps:{pass:1.6},po:{post:1.6,close:1.3,strength:1.2},
+  df:{pdef:1.5,steal:1.4,agility:1.2},rm:{block:1.6,idef:1.5},rb:{oreb:1.5,dreb:1.5},at:{vertical:1.5,speed:1.2,agility:1.2,ddunk:1.2},pw:{strength:1.5,sdunk:1.4}};
+function tagImp(pos,tags){const P=POSIMP[pos]||POSIMP.SF;const m={};K.forEach(k=>m[k]=P[k]);String(tags).split(/\s+/).forEach(t=>{const x=TAGMULT[t];if(x)for(const k in x)m[k]*=x[k]});const mx=Math.max(...K.map(k=>m[k]));return K.map(k=>m[k]/mx)}
+function bpImp(i){const b=BLUEPRINTS[i];const v=b[8].map(r=>((r[0]+(r[1]==null?Math.min(99,r[0]+8):r[1]))/2-25)/74);const mx=Math.max(...v)||1;return v.map(x=>Math.max(.02,x/mx))}
+const TAGNAME={sh:"Shooter",md:"Mid-range",sl:"Slasher",hd:"Handles",ps:"Passer",po:"Post",df:"Perimeter D",rm:"Rim protector",rb:"Rebounder",at:"Athlete",pw:"Power"};
+ADD_PLAYERS.forEach(p=>{if(SHP[p[0]]&&SHP[p[0]].some(x=>x.i!=null))return;(SHP[p[0]]=SHP[p[0]]||[]).push({pos:p[1],pi:POS.indexOf(p[1]),h:p[2],w:p[3],tags:p[4],add:true})});
+function shBuildSpec(){const bp=shCombo(SHB.sel);if(!bp.length)return null;
+  const pis=bp.map(x=>x.pi),pc={};pis.forEach(p=>pc[p]=(pc[p]||0)+1);const mean=pis.reduce((s,x)=>s+x,0)/pis.length;
+  const pos=POS[+Object.keys(pc).sort((a,b)=>pc[b]-pc[a]||Math.abs(a-mean)-Math.abs(b-mean))[0]];
+  const B=bp.map(x=>x.i!=null?BLUEPRINTS[x.i]:null),avg=a=>Math.round(a.reduce((s,x)=>s+x,0)/a.length);
+  const h=avg(bp.map(x=>x.h)),w=avg(bp.map((x,j)=>x.i!=null?B[j][5]:x.w)),ws=avg(bp.map((x,j)=>x.i!=null?B[j][6]:x.h+3));
+  const allBp=bp.every(x=>x.i!=null);
+  const lo=allBp?K.map((k,j)=>avg(B.map(b=>b[8][j][0]))):null,hi=allBp?K.map((k,j)=>avg(B.map(b=>b[8][j][1]==null?99:b[8][j][1]))):null;
+  const imps=bp.map(x=>x.i!=null?bpImp(x.i):tagImp(x.pos,x.tags)),imp=K.map((k,j)=>imps.reduce((s,v)=>s+v[j],0)/imps.length);
+  const from=bp.map((x,j)=>x.i!=null?B[j][0]+" blueprint":SHB.sel[j]+" ("+String(x.tags).split(/\s+/).map(t=>TAGNAME[t]).join(", ")+")");
+  return{pos,h,w,ws,lo,hi,imp,allBp,from,B:from.map(f=>[f])}}
+function shCreate(){const sp=shBuildSpec();if(!sp)return;S=Object.assign(fresh(),{name:("Shades of "+SHB.sel.map(n=>n.split(" ").slice(-1)[0]).join(", ")).slice(0,40),pos:sp.pos,h:sp.h,w:sp.w,ws:sp.ws});clampAll();
+  if(sp.allBp){K.forEach((k,j)=>{S.v[k]=Math.max(25,Math.min(cap(k),sp.lo[j]))});clampAll();const lim={};K.forEach((k,j)=>lim[k]=sp.hi[j]);let moved=true,g=0;
+    while(moved&&g++<400){moved=false;for(const k of K){if(isComplete(S.v))break;if(S.v[k]>=lim[k])continue;const v=tryStep(k,1);if(v){S.v=v;moved=true}}}}
+  else{const c=caps(),body={h:S.h,caps:K.map(k=>c[k])},fv=fillA(K.map(()=>25),body,sp.imp.map(x=>Math.pow(x,1.6)));K.forEach((k,i)=>S.v[k]=fv[i]);
+    let moved=true,g=0;const order=K.slice().sort((a,b)=>sp.imp[IDX[b]]-sp.imp[IDX[a]]);while(moved&&g++<300){moved=false;for(const k of order){if(isComplete(S.v))break;const v=tryStep(k,1);if(v){S.v=v;moved=true}}}}
+  invalidate();ui.tab="attrs";renderPoss();renderMeas();afterChange();toast("Build created from "+SHB.sel.join(", "));setTimeout(()=>{try{shOpen()}catch(e){}},300)}
+{const _rsb=renderShadesBuilder;renderShadesBuilder=function(){_rsb.apply(this,arguments);const v=document.getElementById("view-shades");if(!v)return;
+  const p=v.querySelector(".bmhead .note");if(p)p.textContent="Pick up to 3 players and the app builds a MyPLAYER that plays like all of them. "+Object.keys(SHP).length+" players: the ones marked 2K come from 2K's 40 official Signature Blueprints and keep those ratings; the rest use their real position, height and play style. Players whose sizes and positions are too far apart can't be combined, so no Shaq with a 6'0\" point guard.";
+  v.querySelectorAll(".shpick").forEach(b=>{const n=b.dataset.shpick,e=SHP[n];if(!e)return;const bp=e.some(x=>x.i!=null);if(!b.querySelector(".shsrc"))b.querySelector("b").insertAdjacentHTML("afterend",'<span class="shsrc'+(bp?" bp":"")+'">'+(bp?"2K blueprint":esc(String(e[0].tags||"").split(/\s+/).map(t=>TAGNAME[t]).filter(Boolean).join(" · ")))+'</span>')});
+  const sm=v.querySelector(".shprev small");const sp=SHB.sel.length?shBuildSpec():null;if(sm&&sp)sm.textContent="Blended from "+sp.from.join(", ")}}
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
