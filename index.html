@@ -1279,6 +1279,95 @@ details.bmsec[open]>summary::after{content:"▴"}
 details.bmsrcs{margin-top:8px;font-size:13px}details.bmsrcs summary{cursor:pointer;font-weight:700;color:var(--muted)}details.bmsrcs ul{margin:6px 0;padding-left:20px}
 @media (max-width:700px){.bmrow{grid-template-columns:1fr;padding:10px 12px 10px 15px}.bmslot{font-size:12px;text-transform:uppercase;letter-spacing:.04em}}
 
+/* ===== round 18: improvements, fits, shades ===== */
+.fitbox{margin-top:10px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface2)}
+.fitbox>summary{display:flex;align-items:center;gap:10px;padding:9px 12px;cursor:pointer;list-style:none}
+.fitbox>summary::-webkit-details-marker{display:none}
+.fitbox .fitsum{flex:1;min-width:0;font-size:13px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fitbox .edit{color:var(--accent);font-weight:700;font-size:13px}
+.fitbox[open] .edit::after{content:" (close)"}
+.fitbox .note{margin:0 12px 8px;font-size:12px}
+.fitpos{display:grid;grid-template-columns:34px 1fr;gap:6px;padding:6px 12px;border-top:1px solid var(--line)}
+.fitpos>b{font-weight:850;font-size:13px;padding-top:2px}.fitpos>b.cur{color:var(--accent)}
+.fitpos>div{display:grid;gap:3px}
+.fith{font-size:12.5px;color:var(--muted)}.fith i{font-style:normal;font-weight:800;color:var(--ink);display:inline-block;min-width:38px}.fith.cur i{color:var(--accent)}
+.fitnone{font-size:12.5px;color:var(--muted);margin:10px 0 0}
+.shbtn{display:inline-flex;align-items:center;gap:6px;margin-top:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:12.5px;font-weight:750;border-radius:999px;padding:4px 11px;cursor:pointer;min-height:30px}
+.shbtn svg{width:16px;height:16px}.shbtn:hover{border-color:var(--accent);color:var(--accent)}
+#shbox{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.65);display:grid;place-items:center;padding:16px;overflow:auto}
+#shbox[hidden]{display:none}
+.shc{width:min(860px,100%);max-height:92vh;overflow:auto;background:linear-gradient(160deg,#0f1722,#16202c 60%,#0d141c);color:#e9eef4;border-radius:10px;padding:16px 18px;display:grid;gap:12px;box-shadow:0 30px 80px rgba(0,0,0,.5);border:1px solid #263445}
+.shc header{display:flex;justify-content:space-between;align-items:center}
+.shc header b{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#8fe3c0}
+.shc .bxclose{color:#e9eef4}
+.shc h4{margin:10px 0 6px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#9fb0c3}
+.shc .note{color:#9fb0c3;font-size:12px}
+.shgrid2{display:grid;grid-template-columns:240px 1fr;gap:18px}
+.shp{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #263445}
+.shav{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#22324a;color:#8fe3c0;font-weight:800;font-size:13px;flex:none}
+.shbody{font-size:12px;font-weight:700;color:#9fb0c3;text-align:right}
+.sharch{margin:4px 0 6px;font-size:30px;font-weight:900;font-style:italic;letter-spacing:.02em;text-transform:uppercase;line-height:1.05;color:#fff}
+.shcols{display:grid;grid-template-columns:1fr 1fr;gap:16px;background:rgba(20,40,52,.55);border:1px solid #2b4152;border-radius:8px;padding:6px 14px 12px}
+.shb{display:flex;gap:10px;align-items:flex-start;padding:5px 0}.shb svg{flex:none}.shb b{display:block;font-size:14px}.shb small{display:block;font-size:11.5px;color:#9fb0c3;line-height:1.3}
+.sha{display:grid;grid-template-columns:1fr 60px 30px;align-items:center;gap:8px;padding:4px 0;font-size:13.5px;font-weight:700}
+.sha i{height:6px;border-radius:3px;background:repeating-linear-gradient(90deg,var(--gc) 0 6px,transparent 6px 9px)}.sha b{text-align:right;color:#8fe3c0}
+.shc ul{margin:0;padding-left:18px;font-size:13px;display:grid;gap:3px}
+.shbph{margin-top:2px!important}
+.shbps{display:grid;gap:6px}
+.shbp{display:flex;gap:10px;align-items:center;padding:8px 10px;border:1px solid #263445;border-radius:6px;background:rgba(255,255,255,.03)}
+.shbp>div{flex:1;min-width:0}.shbp b{display:block;font-size:14px}.shbp small{display:block;font-size:11.5px;color:#9fb0c3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.shbp .ocount{background:#22324a;border-color:#2b4152;color:#8fe3c0}
+.shbp .btn{background:#8fe3c0;color:#0d141c;border-color:#8fe3c0}
+.impv{border:1px solid var(--accent);border-radius:var(--r);background:var(--surface2);padding:14px;margin-bottom:14px;display:grid;gap:10px}
+.impv .opth2{margin:0}
+.ikinds{display:flex;flex-wrap:wrap}
+.iform{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.iform label{display:grid;gap:4px;font-size:12px;font-weight:750;color:var(--muted)}
+.iform label.grow{flex:1;min-width:220px}
+.iform select,.svin.sm{font:inherit;font-size:15px;min-height:40px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);padding:0 10px}
+.svin.sm{width:110px}.iform label.grow .svin.sm{width:100%;box-sizing:border-box}
+.iticks,.iprot,.ialist{display:flex;flex-wrap:wrap;gap:6px;align-items:center;width:100%}
+.iticks .chip,.ialist .chip,.iprot .chip{font-size:12.5px}
+.ialist small{color:var(--muted);font-weight:600}
+.iplans{display:grid;gap:10px}
+.ipc{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:10px 12px;display:grid;gap:7px}
+.ipc.bad{border-left-color:var(--bad)}.ipc.ok{border-left-color:var(--good)}.ipc p{margin:0;font-size:13.5px}
+.ipc header{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px;align-items:center}.ipc header b{font-size:15px;font-weight:850}
+.iprow{display:flex;flex-wrap:wrap;gap:5px 8px;align-items:center}
+.ichg{font-size:12.5px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);background:var(--surface2);white-space:nowrap}
+.ichg.up{border-color:color-mix(in srgb,var(--good) 55%,var(--line));background:var(--good-soft)}.ichg.dn{border-color:color-mix(in srgb,var(--bad) 55%,var(--line));background:var(--bad-soft)}
+.ipcb{font-size:13px;padding:6px 10px;border-radius:6px;background:var(--accent-soft)}
+#impvBtn[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+@media (max-width:700px){.shgrid2,.shcols{grid-template-columns:1fr}.sharch{font-size:24px}.shbody{text-align:left}.iform label{flex:1 1 140px}.iform select{width:100%}}
+@media (max-width:999px){.atools{grid-template-columns:1fr 1fr}}
+.shc,.shc *{min-width:0}
+.shgrid2{grid-template-columns:240px minmax(0,1fr)}.shcols{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.shc b,.shc .note b{color:inherit}
+.sharch{overflow-wrap:anywhere}
+.shb small{overflow-wrap:anywhere}
+@media (max-width:700px){.shgrid2,.shcols{grid-template-columns:minmax(0,1fr)}.shc{padding:14px 14px;max-height:88vh}.sharch{font-size:22px}
+  .iform label{flex:1 1 100%}.iform select{width:100%}.iform label .svin.sm{width:100%;box-sizing:border-box}}
+
+/* ===== round 19: fixes from the UI review ===== */
+:root:not([data-theme="dark"]){--accent:#c7360f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--accent:#ff5a2a}}
+.seg button{white-space:normal;line-height:1.15;padding:4px 10px}
+@media (max-width:999px){.atools .seg button{font-size:12.5px;padding:4px 6px;min-height:40px}}
+#agrp{min-width:0}
+@media (max-width:700px){#view-anims .toolbar{flex-wrap:wrap}#view-anims .toolbar #agrp{flex:1 1 100%!important;width:100%}}
+#view-anims .tablewrap,#view-anims table{max-width:100%}
+#view-anims .tablewrap{overflow-x:auto}
+#view-anims td,#view-anims th{white-space:normal;overflow-wrap:anywhere}
+.bxnote .lnk,p .lnk{display:inline!important;padding:0!important;min-height:0!important;width:auto!important;vertical-align:baseline;background:none;border:0;color:var(--accent);font:inherit;font-weight:700;text-decoration:underline;cursor:pointer}
+@media (max-width:999px){.tb{min-width:38px;min-height:40px}}
+.toast{pointer-events:none;max-width:min(92vw,520px);text-align:center}
+@media (max-width:999px){.toast{bottom:calc(150px + env(safe-area-inset-bottom,0px))}}
+body[data-xtab="saved"] .tokstrip,body[data-xtab="share"] .tokstrip,body[data-xtab="prog"] .tokstrip,body[data-xtab="info"] .tokstrip,body[data-xtab="bestmoves"] .tokstrip,body[data-xtab="anims"] .tokstrip{display:none}
+@media (max-width:999px){.chip{min-height:40px}.vin{min-height:36px}.stp{min-width:38px;min-height:38px}.sq{min-width:40px;min-height:40px}.tier{min-height:34px}.svb2{min-height:38px}}
+#summary{word-break:normal;overflow-wrap:anywhere}
+.shlink a,#view-share a{color:var(--accent)}
+.aval [id^="oc-"]{display:block;min-height:13px}
+
 </style>
 
 
@@ -1645,7 +1734,7 @@ BADGES.forEach(b=>b.req.forEach((list,ti)=>(list||[]).forEach(q=>{if(q[1]<=99)TI
 TAKEOVERS.forEach(t=>t.reqs.forEach(r=>TICKS[r[0]].push({v:r[1],t:0,lab:t.n+" takeover"})));
 function buildAttrs(){
   let h='<div class="legend"><span><i style="background:var(--accent)"></i>Your rating</span><span><i style="background:var(--good)"></i>Cap breaker boost</span><span><i style="background:var(--hatch)"></i>Above your cap</span><span><i style="background:var(--bronze)"></i><i style="background:var(--silver)"></i><i style="background:var(--gold)"></i><i style="background:var(--hof)"></i>Badge thresholds</span></div>';
-  h='<div class="atop">'+cbHaveBox('cbhave')+'<button class="btn" type="button" id="opttoggle" aria-pressed="'+OPT.open+'">'+(OPT.open?'Hide suggestions':'Smart suggestions')+'</button></div><div class="atools"><button class="btn" id="fillBtn" type="button" title="Fill to 99 the smart way: cheapest real unlocks first, then what matters most for your position">Smart fill to 99</button><button class="btn" id="resetBtn" type="button">Reset to 25</button><button class="btn" id="calBtn" type="button" aria-pressed="'+ui.calib+'" title="Type in-game caps if 2K changes them">'+(ui.calib?"Done editing caps":"Edit caps")+'</button>'+impBtnHTML("build")+rvHTML()+'</div><div id="optbox"></div>'+h;
+  h='<div class="atop">'+cbHaveBox('cbhave')+'<button class="btn" type="button" id="opttoggle" aria-pressed="'+OPT.open+'">'+(OPT.open?'Hide suggestions':'Smart suggestions')+'</button></div><div class="atools"><button class="btn" id="fillBtn" type="button" title="Fill to 99 the smart way: cheapest real unlocks first, then what matters most for your position">Smart fill to 99</button><button class="btn" id="resetBtn" type="button">Reset to 25</button><button class="btn" id="calBtn" type="button" aria-pressed="'+ui.calib+'" title="Type in-game caps if 2K changes them">'+(ui.calib?"Done editing caps":"Edit caps")+'</button><button class="btn" id="impvBtn" type="button" aria-pressed="'+(typeof IMPV!=="undefined"&&IMPV.open)+'" title="Pick something to get better at and see what it would cost">Improvements</button>'+impBtnHTML("build")+rvHTML()+'</div><div id="optbox"></div>'+h;
   h+='<p class="note" style="margin-top:0">Raising some attributes lifts linked ones automatically, the same way the 2K27 builder does (for example Ball Handle pulls up Speed With Ball). Type a rating straight into the box and press Enter or Tab, or use the slider. The small number under each rating is what the next point costs in overall.</p>';
   GROUPS.forEach(g=>{
     h+='<section class="grp" style="--gc:var(--c-'+g[0]+')"><div class="grph"><h3>'+g[1]+'</h3><span id="gavg-'+g[0]+'"></span></div>';
@@ -1796,7 +1885,7 @@ function renderCB(){
 function encode(){const o={n:S.name,p:S.pos,h:S.h,w:S.w,s:S.ws,v:K.map(k=>S.v[k]),c:K.map(k=>S.cb[k]||0),x:K.map(k=>S.cap[k]||0),e:S.eq,y:S.syn,t:S.tokOv,tm:S.tokOvMap,bh:S.cbHave,bs:S.bonusSlots,bt:S.bonusTok};
   return "BL27."+btoa(unescape(encodeURIComponent(JSON.stringify(o))))}
 function decode(code){const s=code.trim().replace(/^BL27\./,"");const o=JSON.parse(decodeURIComponent(escape(atob(s))));const b=fresh();
-  b.name=String(o.n||"Imported").slice(0,28);b.pos=POS.includes(o.p)?o.p:"PG";b.h=+o.h||75;b.w=+o.w||198;b.ws=+o.s||78;
+  b.name=String(o.n||"Imported").slice(0,40);b.pos=POS.includes(o.p)?o.p:"PG";b.h=+o.h||75;b.w=+o.w||198;b.ws=+o.s||78;
   K.forEach((k,i)=>{b.v[k]=+(o.v||[])[i]||25;if(+(o.c||[])[i])b.cb[k]=+o.c[i];if(+(o.x||[])[i])b.cap[k]=+o.x[i]});if(o.e&&typeof o.e==="object")b.eq=o.e;if(o.y&&Array.isArray(o.y.s))b.syn=o.y;if(o.t&&typeof o.t==="object")b.tokOv=o.t;if(o.tm&&typeof o.tm==="object")b.tokOvMap=o.tm;if(Number.isInteger(o.bh))b.cbHave=o.bh;if(o.bs)b.bonusSlots=+o.bs;if(o.bt)b.bonusTok=+o.bt;return b}
 function savedList(){return LS.get("bl27v2-builds")||[]}
 function renderSaved(){
@@ -2172,7 +2261,7 @@ function runTokenSearch(){const tg=GT.tg,goals=GT.req?gtPlanGoals():[];if(!GROUP
   const imp=styleImp(GT.fill);let per=bestPerHeight(res,r=>99-r.o+0.002*ATTRS.reduce((s,a)=>s+imp[a.i]*(r.b.caps[a.i]-25),0)).sort((a,b)=>b.s-a.s).slice(0,10);
   per.forEach(r=>{r.fv=fillA(r.v,r.b,imp)});PL_LAST=per;const box=$("#gt-res");
   if(!per.length){box.innerHTML='<div class="lock">No legal build earns all of those tokens'+(goals.length?" and unlocks your planned badges":"")+' at once'+(GT.pos!=="any"||GT.hmin>69||GT.hmax<88?" with your position and height filters":"")+'. Lower a target'+(goals.length?", drop a planned badge,":"")+' or widen the filters.</div>';return}
-  box.innerHTML='<p class="note">'+res.length.toLocaleString()+' possible builds can earn these tokens'+(goals.length?" and unlock your planned badges":"")+'. Best body at each height, ranked by how much overall is left ('+'). Extra points go to '+STYLES[GT.fill].n.toLowerCase()+'.</p><div class="rgrid">'+
+  box.innerHTML='<p class="note">'+res.length.toLocaleString()+' possible builds can earn these tokens'+(goals.length?" and unlock your planned badges":"")+'. Best body at each height, ranked by how much overall is left. Extra points go to '+STYLES[GT.fill].n.toLowerCase()+'.</p><div class="rgrid">'+
    per.map((r,i)=>resultCard(r,i,'<span class="rscore"><b>'+Math.max(0,99-r.o).toFixed(1)+'</b><small>OVR left</small></span>')).join("")+'</div>';
   box.scrollIntoView({behavior:"smooth",block:"start"})}
 function renderGoalTokens(){gtFix();const mx=gtMax(),cur=tokenBudget(),hs=[];for(let h=69;h<=88;h++)hs.push(h);
@@ -2376,8 +2465,8 @@ function renderTplView(){
   let h='<p class="note" style="margin-top:0">Two ways to start fast. <b>Templates</b> are this app\'s builds for each position. <b>Signature Blueprints</b> are 2K\'s 40 official presets: each one fixes the body and gives every rating a range. Loading either fills the build to 99, and you can change anything afterwards.</p>';
   h+='<h2 class="sec">Templates</h2><div class="tpls" id="tpls"></div>';
   h+='<h2 class="sec" style="margin-top:20px">Signature Blueprints</h2><div class="seg" role="group" aria-label="Blueprint position">'+POS.map(p=>'<button type="button" data-bpp="'+p+'" aria-pressed="'+(BPF.pos===p)+'">'+p+'</button>').join("")+'</div><div class="bpgrid">'+
-    BLUEPRINTS.map((b,i)=>({b,i})).filter(x=>x.b[1]===BPF.pos).map(({b,i})=>{const top=b[8].map((r,j)=>({j,hi:r[1]})).sort((x,y)=>y.hi-x.hi).slice(0,4);
-      return'<article class="bpc"><header><b>'+esc(b[0])+'</b><span>'+b[1]+' · '+ft(b[4])+' · '+b[5]+' lbs · '+ft(b[6])+' WS</span></header><p>'+esc(b[3])+'</p><div class="bptop">'+top.map(x=>'<span>'+esc(ATTRS[x.j].n)+' <b>'+b[8][x.j][0]+' to '+b[8][x.j][1]+'</b></span>').join("")+'</div><div class="bpfoot"><small>Plays like '+esc(b[7].join(", "))+'</small><button class="btn pri" type="button" data-bp="'+i+'">Load</button></div></article>'}).join("")+'</div>';
+    BLUEPRINTS.map((b,i)=>({b,i})).filter(x=>x.b[1]===BPF.pos).map(({b,i})=>{const top=b[8].map((r,j)=>({j,hi:r[1]==null?r[0]:r[1]})).sort((x,y)=>y.hi-x.hi).slice(0,4);
+      return'<article class="bpc"><header><b>'+esc(b[0])+'</b><span>'+b[1]+' · '+ft(b[4])+' · '+b[5]+' lbs · '+ft(b[6])+' WS</span></header><p>'+esc(b[3])+'</p><div class="bptop">'+top.map(x=>'<span>'+esc(ATTRS[x.j].n)+' <b>'+b[8][x.j][0]+(b[8][x.j][1]==null?'+':' to '+b[8][x.j][1])+'</b></span>').join("")+'</div><div class="bpfoot"><small>Plays like '+esc(b[7].join(", "))+'</small><button class="btn pri" type="button" data-bp="'+i+'">Load</button></div></article>'}).join("")+'</div>';
   $("#view-tpl").innerHTML=h;renderTpls()}
 function loadBlueprint(i){const b=BLUEPRINTS[i];S=Object.assign(fresh(),{name:b[0],pos:b[1],h:b[4],w:b[5],ws:b[6]});clampAll();
   K.forEach((k,j)=>{S.v[k]=Math.max(25,Math.min(cap(k),b[8][j][0]))});
@@ -2626,15 +2715,15 @@ function renderInfo(){const h0=S.h,w=DATA.w[h0],arch=winArch(S.v,h0),wa=w[arch],
   const links=(DATA.assoc[h0]||[]).filter(r=>r[2]!==0).map(r=>({s:ATTRS[r[0]],d:ATTRS[r[1]],x:r[2]}));
   const bySrc={};links.forEach(l=>{(bySrc[l.s.k]=bySrc[l.s.k]||[]).push(l)});
   let h='<div class="info">';
-  h+='<section><h2 class="sec">Cap breakers</h2><p>A cap breaker raises one attribute past its cap. You can earn up to <b>28</b> by Season 9 (11 from REP, 4 from Crew, 9 from Season tracks, 2 from Lifetime Challenges and 2 from Build Specialization, which go in your specialization category or Physicals). Each attribute takes at most <b>5</b>. They raise ratings, badge tiers, takeovers and animations, but they never add badge tokens or badge slots: those come from your base ratings only.</p>'+
+  h+='<section><h2 class="sec">Cap breakers</h2><p>A cap breaker raises one attribute above where you built it, up to that attribute\'s cap. You can earn up to <b>28</b> by Season 9 (2K26\'s total; 2K has not confirmed 2K27\'s yet. 11 from REP, 4 from Crew, 9 from Season tracks, 2 from Lifetime Challenges and 2 from Build Specialization, which go in your specialization category or Physicals). Each attribute takes at most <b>5</b>. They raise ratings, badge tiers, takeovers and animations, but they never add badge tokens or badge slots: those come from your base ratings only.</p>'+
    '<h3>Why one breaker gives +1 and another +8</h3><p>Every breaker\'s size comes from three things:</p><ol class="infol"><li><b>Your build type.</b> 2K scores your base ratings against 15 hidden build types (the same ones that set your overall). The one that scores highest is your type.</li><li><b>How much that type cares about the attribute.</b> The less your type weighs an attribute, the bigger the jump. We show this as the "boost share": 100% means your type ignores it, 0% means it is one of its key attributes.</li><li><b>How high the rating already is.</b> A breaker is worth 15 points at a rating of 25 and shrinks steadily to 1 point at 99.</li></ol>'+
    '<p class="formula">gain = boost share × (15 − ⌊14 × (rating − 25) ÷ 74⌋), rounded (halves round to even), at least +1, never past the cap. Each next breaker is worked out from the new rating.</p>'+
    '<p>This rule matches all <b>13,280</b> measured gains in 2K\'s builder data and <b>63</b> cap breaker ladders read off in-game screens. Your current type mostly weighs <b>'+top.slice(0,4).map(x=>esc(x.a.n)).join(", ")+'</b>, so those get small boosts, while things like <b>'+top.slice(-3).map(x=>esc(x.a.n)).join(", ")+'</b> get big ones. Because the type is read from your base ratings, changing your build can change every breaker.</p>'+
    '<div class="tablewrap"><table><thead><tr><th>Attribute</th><th>Rating</th><th>Boost share</th><th>Next 5 breakers</th><th>Cap</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>';
-  h+='<section><h2 class="sec">Linked attributes</h2><p>2K ties related skills together so a build cannot max one and leave its partner at 25. When you raise the first attribute, the second is pulled up so it stays within the gap shown. When you lower the second, the first comes down with it. These links change with height; below are the ones at <b>'+ft(h0)+'</b>.</p><div class="links">'+
+  h+='<section><h2 class="sec">Linked attributes</h2><p>2K ties related skills together so a build cannot max one and leave its partner at 25. When you raise the first attribute, the second is pulled up so it stays within the gap shown. You can lower the second again afterward: 2K\'s builder allows it, so this app does too (checked against an in-game 6\'10" build with Close Shot 80 and Post Control 53). These links change with height; below are the ones at <b>'+ft(h0)+'</b>.</p><div class="links">'+
     Object.keys(bySrc).map(k=>'<div class="lk1"><b style="color:var(--c-'+ATTRS[IDX[k]].g+')">'+esc(AN[k])+'</b><span>pulls up</span><ul>'+bySrc[k].sort((a,b)=>a.x-b.x).map(l=>'<li><span style="color:var(--c-'+l.d.g+')">'+esc(l.d.n)+'</span> to within <b>'+l.x+'</b></li>').join("")+'</ul></div>').join("")+'</div></section>';
   h+='<section><h2 class="sec">Overall</h2><p>Overall is scored against the same 15 build types, using 2K\'s weight for every attribute at your height; your overall is the best of the 15. Ratings above 75 are weighted more heavily, which is why the last points cost the most. The build is finished when no single +1 fits under 99.00, matching the in-game builder.</p></section>';
-  h+='<section><h2 class="sec">Badge tokens and slots</h2><p>Each attribute earns tokens for its category at set ratings. A build that qualifies for any badge gets 20 slots, split across categories from your tokens and how many badges you qualify for in each (2K\'s own rule, matching all 2,123 measured splits). Badge prices are cumulative: the price shown for Gold already includes Bronze and Silver. Token amounts differ slightly by position; this app\'s numbers are exact for point guards and 6\'9" and under, so type your in-game totals if they differ.</p></section>';
+  h+='<section><h2 class="sec">Badge tokens and slots</h2><p>Each attribute earns tokens for its category at set ratings. A build that qualifies for any badge gets 20 slots, split across categories from your tokens and how many badges you qualify for in each (2K\'s own rule, matching all 2,123 measured splits at 6\'9" and under). Badge prices are cumulative: the price shown for Gold already includes Bronze and Silver. Tokens come from your ratings and height, not your position. 2K\'s builder data stops at 6\'9", so taller builds use the 6\'9" table. That matches an in-game 6\'10" build, but bigs at 7\'2" and up may earn about 2 more Finishing and Defense tokens than shown. Type your in-game totals if they differ.</p></section>';
   h+='<section><h2 class="sec">Where the numbers come from</h2><ul class="infol"><li><b>Overall, linked attributes, badge requirements, badge prices, token earnings, takeovers and animations:</b> the 2K27 builder engine data from 2K\'s NBA 2K HQ app (tuning of August 22, 2026), published as nba2k27-builder-dataset, checked against all 40 official Signature Blueprints.</li><li><b>Attribute caps:</b> measured for all 18,935 legal bodies by NBA2KLab (October 22, 2026), with gaps filled from court-lab; the two agree on 99.7% of shared bodies.</li><li><b>Cap breaker sizes and the slot split:</b> rules read from the Locker Codes builder and checked against the measured data above.</li><li><b>Badge test results:</b> NBA2KLab\'s published tests. <b>Synergy and rewards:</b> 2K\'s builder and synergy pages plus NBA2KLab\'s reward lists.</li></ul><p>2K can retune things server-side. If the game ever shows a different cap, use Edit caps on the Ratings tab.</p></section>';
   $("#view-info").innerHTML=h+'</div>'}
 
@@ -2853,7 +2942,7 @@ function renderSaved(){const v=document.getElementById("view-saved");if(!v)retur
   if(cur)h+='<p class="note svcur">Working on <b>'+esc(cur.name)+'</b>'+(svDirty()?' <span class="svun">unsaved changes</span>':' <span class="svok">all changes saved</span>')+'</p>';
   if(SV.mode==="cloud"&&SV.localCount)h+='<div class="svmove"><span>'+SV.localCount+' build'+(SV.localCount>1?"s are":" is")+' saved only in this browser.</span><button class="btn" type="button" data-svmove="1">Add to my account</button></div>';
   if(SV.list.length>3)h+='<div class="svtools"><input class="svin" id="svQ" type="search" placeholder="Search saved builds" value="'+esc(SV.q)+'" aria-label="Search saved builds"><select id="svSort" aria-label="Sort"><option value="new"'+(SV.sort==="new"?" selected":"")+'>Recent</option><option value="name"'+(SV.sort==="name"?" selected":"")+'>Name</option><option value="ovr"'+(SV.sort==="ovr"?" selected":"")+'>Overall</option></select></div>';
-  if(!SV.list.length&&SV.ready)h+='<div class="svempty"><b>No saved builds yet</b><span>Tap Save (top right, or Ctrl+S) to keep this build. Load it back any time, compare it to others, or share it.</span></div>';
+  if(!SV.list.length&&SV.ready)h+='<div class="svempty"><b>No saved builds yet</b><span>Tap Save to keep this build. Load it back any time, compare it to others, or share it.</span></div>';
   else if(!list.length&&SV.ready)h+='<p class="note">No builds match "'+esc(SV.q)+'".</p>';
   h+='<div class="svgrid">'+list.map(r=>{const on=r.id===SV.cur;const posc={PG:"FIN",SG:"SHT",SF:"PLY",PF:"REB",C:"DEF"}[r.pos]||"FIN";
     const conf=SV.confirm===r.id,ren=SV.rename===r.id;
@@ -2967,11 +3056,11 @@ function optPanel(){if(!OPT.open)return'';if(!OPT.res||OPT.stale)runOpt();const 
   const chg=(a,b)=>'<span class="ochg">'+a+' → <b>'+b+'</b></span>';
   let h='<div class="opt2"><div class="opth2"><div><h2 class="sec">Smart suggestions</h2><p class="note">Ways to free overall or spend it better. Badge chips show exactly what each change keeps or unlocks.</p></div><label class="tog"><input type="checkbox" id="optanims" '+(OPT.anims?"checked":"")+'> Keep every animation I have</label></div><div class="ogrid2">';
   h+=optSec("trim","Save points","Lower these and keep every badge, takeover"+(OPT.anims?" and animation":"")+".","Each rating here sits above the last thing it unlocks. The new number is exactly where the badges listed under it still hold. One point lower and they drop.",R.trims.slice(0,8),
-    x=>optRow(x,chg(S.v[x.k],x.to)+'<span class="osv">+'+x.saved.toFixed(2)+' OVR free</span>'+(x.linked.length?'<span class="olink">also lowers '+x.linked.map(z=>AN[z]).join(", ")+'</span>':''),
+    x=>optRow(x,chg(S.v[x.k],x.to)+'<span class="osv">+'+x.saved.toFixed(2)+' OVR to spend</span>'+(x.linked.length?'<span class="olink">also lowers '+x.linked.map(z=>AN[z]).join(", ")+'</span>':''),
       x.held.length?'<span class="olab">Held at '+x.to+' by</span>'+bChips(x.held.map(d=>({b:d.b,t0:d.t0,t1:d.t0})),"keep",4):(x.keep.length?'<span class="olab">Keeps</span>'+bChips(x.keep,"keep",4):''),ap("trim",x.k)),
     "Nothing to trim. Every point is doing something.",R.trims.length?'<div class="ofoot"><button class="btn" type="button" data-opt="trimall">Apply all savings</button></div>':'');
   h+=optSec("swap","Let cap breakers do the work","Build lower and let cap breakers lift it back.","Savings stack on top of Save points. Attributes your build type barely weighs get the biggest cap breaker jumps, so this frees the most overall there.",left?R.swaps.slice(0,6):[],
-    x=>optRow(x,chg(S.v[x.k],x.to)+'<span class="ocb">+'+x.extra+' cap breaker'+(x.extra>1?"s":"")+' → '+x.target+'+</span><span class="osv">+'+x.saved.toFixed(2)+' OVR free</span>',
+    x=>optRow(x,chg(S.v[x.k],x.to)+'<span class="ocb">+'+x.extra+' cap breaker'+(x.extra>1?"s":"")+' → '+x.target+'+</span><span class="osv">+'+x.saved.toFixed(2)+' OVR to spend</span>',
       (x.gain.length?'<span class="olab">Unlocks</span>'+bChips(x.gain,"chg",4):'')+(x.keep.length?'<span class="olab">Keeps</span>'+bChips(x.keep,"keep",x.gain.length?2:4):''),ap("swap",x.k)),
     left?"No swap saves overall right now.":"No cap breakers left. Raise the number you have to see swaps.");
   h+=optSec("up","Best value upgrades","The cheapest next unlock on each attribute.","Ranked by what you get per point of overall."+(complete(R.o0)?" Your build is at 99, so free points first with Save points.":""),R.ups,
@@ -2993,8 +3082,8 @@ function rvHTML(){return'<div class="seg" role="group" aria-label="How much to s
 function uixSync(){const B=document.body;if(!B||!B.setAttribute)return;B.setAttribute("data-xsec",(SECTIONS.find(s=>s.tabs.some(t=>t[0]===ui.tab))||{id:""}).id);B.setAttribute("data-xtab",ui.tab);B.setAttribute("data-rv",UIX.rv);B.classList.toggle("tokopen",!!UIX.tok);
   if(document.querySelectorAll){document.querySelectorAll("#view-attrs .arow[data-k]").forEach(r=>r.classList.toggle("hascb",(S.cb[r.dataset.k]||0)>0));
     let hw=document.querySelector("#view-attrs details.howto");const lg=document.querySelector("#view-attrs > .legend"),pn=document.querySelector("#view-attrs > p.note");
-    if(!hw&&(lg||pn)&&document.createElement){hw=document.createElement("details");hw.className="howto";hw.innerHTML='<summary><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.01"/></svg> Key and how this works</summary>';(lg||pn).before(hw);if(pn)hw.appendChild(pn)}
-    if(hw){const s=hw.querySelector("summary");if(lg)s.after(lg);const st=s.lastChild;if(st&&st.nodeType===3&&!/Key/.test(st.textContent))st.textContent=" Key and how this works"}
+    if(!hw&&(lg||pn)&&document.createElement){hw=document.createElement("details");hw.className="howto";hw.innerHTML='<summary><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.01"/></svg> How to read this</summary>';(lg||pn).before(hw);if(pn)hw.appendChild(pn)}
+    if(hw){const s=hw.querySelector("summary");if(lg)s.after(lg);const st=s.lastChild;if(st&&st.nodeType===3&&!/Key/.test(st.textContent))st.textContent=" How to read this"}
     document.querySelectorAll("[data-rview]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.rview===UIX.rv))}}
 {const _rt=renderTabs;renderTabs=function(){const r=_rt.apply(this,arguments);try{uixSync()}catch(e){}return r}}
 {const _rv=renderView;renderView=function(){const r=_rv.apply(this,arguments);try{uixSync()}catch(e){}return r}}
@@ -3099,6 +3188,183 @@ function renderBestMoves(){const v=document.getElementById("view-bestmoves");if(
   h+='<details class="bmsrcs"><summary>Where these picks come from</summary><ul>'+Object.values(BM_SRC).map(x=>'<li><a href="'+x[1]+'" target="_blank" rel="noopener">'+esc(x[0])+'</a></li>').join("")+'</ul><p class="note">Guides were checked in November 2026. 2K patches animations during the season, so picks can change. Slots marked "No tested 2K27 favorite found yet" had no published 2K27 ranking, so the app shows the highest-tier options your ratings unlock instead.</p></details>';
   v.innerHTML=h}
 if(document.addEventListener)document.addEventListener("toggle",e=>{const t=e.target;if(t&&t.dataset&&t.dataset.bmsec)BM.open[t.dataset.bmsec]=t.open},true);
+/* ---------------- ROUND 18: Improvements planner, bodies this build fits, Shades Of card ---------------- */
+
+/* ===== bodies this build fits ===== */
+let FIT_CACHE={key:"",res:null};
+function fitBodies(){const v=K.map(k=>S.v[k]),key=v.join(",");if(FIT_CACHE.key===key)return FIT_CACHE.res;
+  const ovrH={};const out=[];
+  for(const o of plBodies()){let ok=true;for(let i=0;i<21;i++)if(v[i]>o.caps[i]){ok=false;break}if(!ok)continue;
+    if(ovrH[o.h]==null)ovrH[o.h]=ovrA(v,o.h);if(ovrH[o.h]>99+1e-6)continue;out.push(o)}
+  FIT_CACHE={key,res:out};return out}
+function rangeTxt(a,f){a=[...new Set(a)].sort((x,y)=>x-y);if(!a.length)return"";const parts=[];let s=a[0],p=a[0];
+  for(let i=1;i<=a.length;i++){if(a[i]===p+1){p=a[i];continue}parts.push(s===p?f(s):f(s)+" to "+f(p));s=p=a[i]}return parts.join(", ")}
+function fitHTML(){const L=fitBodies();if(!L.length)return'<p class="fitnone">No other legal body can hold these exact ratings at 99 or under.</p>';
+  const byPos={};POS.forEach(p=>byPos[p]=[]);L.forEach(o=>o.pos.forEach(p=>byPos[p].push(o)));
+  const rows=POS.filter(p=>byPos[p].length).map(p=>{const hs={};byPos[p].forEach(o=>{(hs[o.h]=hs[o.h]||[]).push(o)});
+    return'<div class="fitpos"><b'+(p===S.pos?' class="cur"':'')+'>'+p+'</b><div>'+Object.keys(hs).sort((a,b)=>a-b).map(h=>{const os=hs[h];
+      return'<span class="fith'+(+h===S.h&&p===S.pos?" cur":"")+'"><i>'+ft(+h)+'</i> '+rangeTxt(os.map(o=>o.w),x=>x)+' lbs · '+rangeTxt(os.map(o=>o.ws),ft)+' WS</span>'}).join("")+'</div></div>'}).join("");
+  const nPos=POS.filter(p=>byPos[p].length).length,nH=new Set(L.map(o=>o.h)).size;
+  return'<details class="fitbox" id="fitBox"'+(ui.fitOpen?" open":"")+'><summary><span class="label">Also fits</span><span class="fitsum">'+L.length+' bod'+(L.length===1?"y":"ies")+' · '+nH+' height'+(nH>1?"s":"")+' · '+POS.filter(p=>byPos[p].length).join(", ")+'</span><span class="edit">View</span></summary><p class="note">Every legal position and body where these same base ratings fit under the caps and stay at 99 or under. Badge height limits and cap breaker gains can change with the body.</p>'+rows+'</details>'}
+function renderFit(){const be=document.getElementById("bodyEd");if(!be)return;let el=document.getElementById("fitWrap");if(!el){el=document.createElement("div");el.id="fitWrap";be.after(el)}el.innerHTML=fitHTML()}
+
+/* ===== Shades Of card ===== */
+const STRW={FIN:[["Finishes through contact at the rim","Lives in the paint"],["Struggles to finish inside"]],SHT:[["Knocks down shots from anywhere","Spaces the floor"],["Defenders can sag off the jumper"]],
+  PLY:[["Creates for himself and others","Breaks defenders down off the dribble"],["Needs others to create"]],DEF:[["Locks up his matchup","Protects the paint"],["Gets exposed on defense"]],
+  REB:[["Owns the glass","Ends possessions"],["Gives up second chances"]],PHY:[["Covers ground faster than anyone","Bullies smaller players"],["Gets pushed around","A step slow"]]};
+function grade(r){return r>=95?"A+":r>=90?"A":r>=87?"A-":r>=83?"B+":r>=80?"B":r>=77?"B-":r>=73?"C+":r>=70?"C":r>=65?"C-":r>=55?"D":"F"}
+function bpMatches(){const V=vals();return BLUEPRINTS.map((b,i)=>{let d=0;K.forEach((k,j)=>{const m=(b[8][j][0]+b[8][j][1])/2;d+=Math.abs(V[k]-m)});d=d/21+Math.abs(b[4]-S.h)*1.2+(b[1]===S.pos?0:3);
+  return{i,b,score:Math.max(0,Math.round(100-d*2.2))}}).sort((x,y)=>y.score-x.score)}
+function shadesHTML(){const V=vals(),M=bpMatches(),top=M[0],T=BADGES.map(b=>({b,t:Math.max(0,badgeTier(b,V)),e:S.eq[b.id]||0})).filter(x=>x.t>0);
+  const go=T.map(x=>({b:x.b,t:x.e?Math.min(x.e,x.t):x.t,eq:!!x.e})).sort((a,b)=>(b.eq-a.eq)||b.t-a.t||((b.b.n<a.b.n)-(b.b.n>a.b.n))).slice(0,3);
+  const tops=ATTRS.map(a=>({a,v:V[a.k]})).sort((x,y)=>y.v-x.v).slice(0,3);
+  const g=GROUPS.map(gr=>{const as=ATTRS.filter(a=>a.g===gr[0]);return{g:gr[0],s:as.reduce((t,a)=>t+V[a.k],0)/as.length}}).sort((a,b)=>b.s-a.s);
+  const str=[STRW[g[0].g][0][0],STRW[g[0].g][0][1],STRW[g[1].g][0][0]],weak=[STRW[g[5].g][1][0],STRW[g[4].g][1][0]];
+  let h='<div class="shc"><header><b>Your archetype</b><button type="button" class="bxclose" data-shx="1" aria-label="Close">×</button></header><div class="shgrid2">'+
+    '<section class="shleft"><h4>Shades of</h4>'+top.b[7].map(n=>'<div class="shp"><span class="shav">'+esc(n.split(" ").map(w=>w[0]).join("").slice(0,2))+'</span><b>'+esc(n)+'</b></div>').join("")+
+    '<p class="note">From 2K\'s <b>'+esc(top.b[0])+'</b> Signature Blueprint, your closest match ('+top.score+'%).</p></section>'+
+    '<section class="shright"><div class="shbody">POS: '+S.pos+' / HT: '+ft(S.h)+' / WT: '+S.w+' lbs / WS: '+ft(S.ws)+'</div><h2 class="sharch">'+esc(archetype())+'</h2><div class="shcols"><div><h4>Go-To badges</h4>'+
+    (go.length?go.map(x=>'<div class="shb">'+badgeIcon(x.b.c,x.t,34)+'<div><b>'+esc(x.b.n)+'</b><small>'+TIERS[x.t]+(x.eq?"":" available")+' · '+esc((x.b.d||"").slice(0,90))+'</small></div></div>').join(""):'<p class="note">No badges yet.</p>')+
+    '</div><div><h4>Top attributes</h4>'+tops.map(x=>'<div class="sha"><span>'+esc(x.a.n)+'</span><i style="--gc:var(--c-'+x.a.g+')"></i><b>'+grade(x.v)+'</b></div>').join("")+
+    '<h4>Strengths</h4><ul>'+str.map(s=>'<li>'+esc(s)+'</li>').join("")+'</ul><h4>Weaknesses</h4><ul>'+weak.map(s=>'<li>'+esc(s)+'</li>').join("")+'</ul></div></div></section></div>'+
+    '<h4 class="shbph">Closest Signature Blueprints</h4><div class="shbps">'+M.slice(0,4).map(m=>'<div class="shbp"><div><b>'+esc(m.b[0])+'</b><small>'+m.b[1]+' · '+ft(m.b[4])+' · plays like '+esc(m.b[7].join(", "))+'</small></div><span class="ocount">'+m.score+'% match</span><button class="btn sm" type="button" data-bp="'+m.i+'" data-shx="1">Load</button></div>').join("")+'</div>'+
+    '<p class="note">Archetype and grades use this app\'s scale. Shades of and blueprints come from 2K\'s 40 official Signature Blueprints in NBA 2K HQ.</p></div>';
+  return h}
+function shOpen(){let b=document.getElementById("shbox");if(!b){b=document.createElement("div");b.id="shbox";b.setAttribute("role","dialog");b.setAttribute("aria-modal","true");b.setAttribute("aria-label","Your archetype");document.body.appendChild(b)}b.innerHTML=shadesHTML();b.hidden=false}
+function shClose(){const b=document.getElementById("shbox");if(b)b.hidden=true}
+
+/* ===== Improvements planner ===== */
+const IMPV={open:false,kind:"attr",k:"three",target:null,badge:null,tier:0,tko:null,anim:"",animSel:null,style:"SHT",protect:{},res:null};
+function sigLite(V){const s=new Map();BADGES.forEach(b=>{const t=badgeTier(b,V);if(t>0)s.set(b.id,t)});const tk=new Set();TAKEOVERS.forEach(t=>{if(t.reqs.length&&reqMet(t.reqs,t.op,V))tk.add(t.n)});return{s,tk}}
+function lossOf(base,V){const n=sigLite(V);let l=0;base.s.forEach((t,id)=>{const t2=n.s.get(id)||0;if(t2<t)l+=(t-t2)*10});base.tk.forEach(x=>{if(!n.tk.has(x))l+=8});return l}
+function effV(v){return withState(v,S.cb,()=>vals())}
+/* targets: {k: effective rating wanted}. returns plan or null */
+function planFor(targets,label){const c=caps(),V0=vals(),base=sigLite(V0);let v=Object.assign({},S.v),cb=Object.assign({},S.cb);const fixed=new Set(Object.keys(targets));let cbAdd=0;
+  const effK=k=>withState(v,cb,()=>eff(k));
+  for(const k in targets){let g=0;while(effK(k)<targets[k]&&g++<90){if(v[k]<c[k]){v[k]++;linkFix(v,k,1);continue}
+      const n=cb[k]||0,used=Object.values(cb).reduce((a,b)=>a+(b||0),0);if(n<5&&used<cbHave()&&cbIncs(k)[n]&&cbIncs(k)[n].g>0){cb[k]=n+1;cbAdd++;continue}
+      return{label,bad:AN[k]+" can't reach "+targets[k]+" on this body"+(cbLeft()?", even with your cap breakers.":". You have no cap breakers left.")}}}
+  const prot=new Set(K.filter(k=>IMPV.protect[ATTRS[IDX[k]].g]));let guard=0;
+  while(ovrOf(v,S.h)>99+1e-9&&guard++<400){const o0=ovrOf(v,S.h);let best=null,bk=1e18;
+    for(const k of K){if(fixed.has(k)||prot.has(k)||v[k]<=25)continue;const t=Object.assign({},v);t[k]--;const fr=o0-ovrOf(t,S.h);if(fr<=1e-6)continue;
+      const loss=withState(t,cb,()=>lossOf(base,vals()));const key=loss*1e4-fr*100;if(key<bk){bk=key;best=t}}
+    if(!best)return{label,bad:"Not enough overall to free up without lowering protected categories. Unprotect one and try again."};v=best}
+  const V1=withState(v,cb,()=>vals()),chg=K.filter(k=>v[k]!==S.v[k]).map(k=>({k,from:S.v[k],to:v[k]}));const cbChg=K.filter(k=>(cb[k]||0)!==(S.cb[k]||0)).map(k=>({k,n:cb[k]||0,to:V1[k]}));
+  const tk0=sigLite(V0).tk,tk1=sigLite(V1).tk;
+  return{label,v,chg,up:chg.filter(x=>x.to>x.from),down:chg.filter(x=>x.to<x.from),bd:bDiff(V0,V1),tkGain:[...tk1].filter(x=>!tk0.has(x)),tkLost:[...tk0].filter(x=>!tk1.has(x)),
+    loss:lossOf(base,V1),ovr:ovrOf(v,S.h),cb,cbChg,left:99-ovrOf(v,S.h)}}
+/* requirement list (badge style, left to right AND/OR) to alternative target sets */
+function reqAlts(list){if(!list||!list.length)return[{}];const groups=[[]];list.forEach((q,i)=>{groups[groups.length-1].push(q);if(q[2]==="OR"&&i<list.length-1)groups.push([])});
+  return groups.map(g=>{const t={};g.forEach(q=>{const k=K[q[0]];t[k]=Math.max(t[k]||0,q[1])});return t})}
+function reqsAlts(reqs,op){if(!reqs.length)return[{}];if(op==="OR")return reqs.map(q=>({[q[0]]:q[1]}));const t={};reqs.forEach(q=>t[q[0]]=Math.max(t[q[0]]||0,q[1]));return[t]}
+function bestOf(alts,label){const V=vals();const plans=alts.map(t=>{const need={};for(const k in t)if(V[k]<t[k])need[k]=t[k];return Object.keys(need).length?planFor(need,label):{label,already:true}});
+  const good=plans.filter(p=>!p.bad);return good.length?good.sort((a,b)=>(a.already?-1:0)-(b.already?-1:0)||a.loss-b.loss||a.chg.length-b.chg.length)[0]:plans[0]}
+function cbOption(k,t){const left=cbLeft();if(!left||eff(k)>=t)return null;const inc=cbIncs(k),n0=S.cb[k]||0;let e=eff(k),n=n0;while(e<t&&n<Math.min(5,n0+left)&&inc[n]&&inc[n].g>0){e+=inc[n].g;n++}return e>=t?{k,n,extra:n-n0,to:e}:null}
+function impvRun(){const V=vals();let plans=[];
+  if(IMPV.kind==="attr"){const k=IMPV.k,t=+IMPV.target||Math.min(99,V[k]+1);const cbo=cbOption(k,t);plans=[planFor({[k]:t},"Raise "+AN[k]+" to "+t)];if(cbo)plans[0].cbo=cbo}
+  else if(IMPV.kind==="badge"){const b=BADGES.find(x=>x.id===IMPV.badge);if(!b)return null;const t=IMPV.tier||Math.min(4,Math.max(0,badgeTier(b,V))+1);
+    if(S.h<b.h[0]||S.h>b.h[1])return[{label:b.n,bad:b.n+" is not available at "+ft(S.h)+"."}];plans=[bestOf(reqAlts(b.req[t-1]),TIERS[t]+" "+b.n)]}
+  else if(IMPV.kind==="tko"){const t=TAKEOVERS.find(x=>x.n===IMPV.tko);if(!t)return null;plans=[bestOf(reqsAlts(t.reqs,t.op),t.n+" takeover")]}
+  else if(IMPV.kind==="anim"){const a=IMPV.animSel!=null?ANIMS[IMPV.animSel]:null;if(!a)return null;if(!sizeOk(a.sz,S.h))return[{label:a.n,bad:a.n+" is not available at "+ft(S.h)+"."}];plans=[bestOf(reqsAlts(a.reqs,a.op),a.n+" ("+AGROUPS[a.g][1]+")")]}
+  else if(IMPV.kind==="style"){const ks=ATTRS.filter(a=>a.g===IMPV.style).map(a=>a.k);
+    plans=ks.map(k=>{const nx=nextTick(k);if(!nx)return null;const p=planFor({[k]:nx.v},AN[k]+" to "+nx.v+" for "+nx.lab);p.goal=nx.lab;return p}).filter(Boolean).filter(p=>!p.bad).sort((a,b)=>a.loss-b.loss||a.chg.length-b.chg.length).slice(0,4)}
+  return plans}
+function impvPlanHTML(p,i){if(p.bad)return'<div class="ipc bad"><b>'+esc(p.label)+'</b><p>'+esc(p.bad)+'</p></div>';if(p.already)return'<div class="ipc ok"><b>'+esc(p.label)+'</b><p>You already have this.</p></div>';
+  const ups=p.bd.filter(d=>d.t1>d.t0),dns=p.bd.filter(d=>d.t1<d.t0);
+  return'<div class="ipc"><header><b>'+esc(p.label)+'</b><span class="osv">'+(p.loss?'Costs '+dns.length+' badge tier'+(dns.length===1?"":"s")+(p.tkLost.length?" and "+p.tkLost.length+" takeover"+(p.tkLost.length>1?"s":""):""):'No badges or takeovers lost')+'</span></header>'+
+    (p.cbo?'<p class="ipcb">Or use <b>'+p.cbo.extra+' cap breaker'+(p.cbo.extra>1?"s":"")+'</b> on '+AN[p.cbo.k]+' to reach '+p.cbo.to+' without changing anything else.</p>':'')+
+    (p.cbChg.length?'<div class="iprow"><span class="olab">Cap breakers</span>'+p.cbChg.map(x=>'<span class="ichg up">'+AN[x.k]+': use '+x.n+' → <b>'+x.to+'</b></span>').join("")+'</div>':'')+
+    (p.up.length?'<div class="iprow"><span class="olab">Raise</span>':'<div class="iprow" hidden>')+p.up.map(x=>'<span class="ichg up">'+AN[x.k]+' '+x.from+' → <b>'+x.to+'</b></span>').join("")+'</div>'+
+    (p.down.length?'<div class="iprow"><span class="olab">Pay with</span>'+p.down.map(x=>'<span class="ichg dn">'+AN[x.k]+' '+x.from+' → <b>'+x.to+'</b></span>').join("")+'</div>':'<div class="iprow"><span class="olab">Pay with</span><span class="note">Nothing. You had overall to spare.</span></div>')+
+    (ups.length||p.tkGain.length?'<div class="iprow"><span class="olab">You gain</span>'+bChips(ups,"chg",6)+p.tkGain.map(x=>'<span class="ichg up">'+esc(x)+' takeover</span>').join("")+'</div>':'')+
+    (dns.length||p.tkLost.length?'<div class="iprow"><span class="olab">You lose</span>'+bChips(dns,"chg",6)+p.tkLost.map(x=>'<span class="ichg dn">'+esc(x)+' takeover</span>').join("")+'</div>':'')+
+    (p.left>0.05&&p.down.length?'<p class="note">Leaves '+p.left.toFixed(2)+' overall unspent, so the ring may read '+Math.floor(p.ovr)+' until you spend it.</p>':'')+
+    '<div class="btns"><button class="btn pri sm" type="button" data-impvapply="'+i+'">Apply this</button></div></div>'}
+function impvHTML(){if(!IMPV.open)return'';const V=vals();
+  const kinds=[["attr","An attribute"],["badge","A badge"],["tko","A takeover"],["anim","An animation"],["style","A play style"]];
+  let h='<div class="impv"><div class="opth2"><div><h2 class="sec">Improvements</h2><p class="note">Pick what you want to get better at. The app finds the cheapest way to pay for it at 99 overall and shows what you would gain and lose. Nothing changes unless you tap Apply.</p></div><button class="btn sm" type="button" data-impvclose="1">Close</button></div>';
+  h+='<div class="seg ikinds" role="group" aria-label="What to improve">'+kinds.map(x=>'<button type="button" data-impvkind="'+x[0]+'" aria-pressed="'+(IMPV.kind===x[0])+'">'+x[1]+'</button>').join("")+'</div><div class="iform">';
+  if(IMPV.kind==="attr"){const k=IMPV.k,reach=withState(Object.assign({},S.v,{[k]:cap(k)}),Object.assign({},S.cb,{[k]:5}),()=>eff(k)),tk=TICKS[k].filter(t=>t.v>V[k]&&t.v<=reach&&(!t.b||S.h>=t.b.h[0]&&S.h<=t.b.h[1])).sort((a,b)=>a.v-b.v),seen=new Set();
+    h+='<label>Attribute <select data-impvk="1">'+ATTRS.map(a=>'<option value="'+a.k+'"'+(a.k===k?" selected":"")+'>'+esc(a.n)+' ('+V[a.k]+')</option>').join("")+'</select></label>'+
+      (V[k]>=reach?'<p class="note">'+esc(AN[k])+' is already as high as this body allows, even with cap breakers.</p>':'')+'<label>Target <input class="svin sm" type="number" inputmode="numeric" min="'+(V[k]+1)+'" max="99" data-impvt="1" value="'+(IMPV.target||Math.min(99,(tk[0]||{v:V[k]+1}).v))+'"></label>'+
+      (tk.length?'<div class="iticks"><span class="olab">Next unlocks</span>'+tk.filter(t=>{if(seen.has(t.v))return false;seen.add(t.v);return true}).slice(0,6).map(t=>'<button type="button" class="chip" data-impvtv="'+t.v+'">'+t.v+': '+esc(TICKS[k].filter(x=>x.v===t.v).map(x=>x.lab).slice(0,2).join(", "))+'</button>').join("")+'</div>':'')}
+  else if(IMPV.kind==="badge"){const list=BADGES.filter(b=>S.h>=b.h[0]&&S.h<=b.h[1]&&Math.max(0,badgeTier(b,V))<4).sort((a,b)=>a.c.localeCompare(b.c)||a.n.localeCompare(b.n));if(!IMPV.badge||!list.some(b=>b.id===IMPV.badge))IMPV.badge=(list[0]||{}).id;
+    const b=BADGES.find(x=>x.id===IMPV.badge),cur=b?Math.max(0,badgeTier(b,V)):0;if(!IMPV.tier||IMPV.tier<=cur)IMPV.tier=Math.min(4,cur+1);
+    h+='<label>Badge <select data-impvb="1">'+GROUPS.map(g=>'<optgroup label="'+g[1]+'">'+list.filter(x=>x.c===g[0]).map(x=>{const t=Math.max(0,badgeTier(x,V));return'<option value="'+x.id+'"'+(x.id===IMPV.badge?" selected":"")+'>'+esc(x.n)+(t?' (now '+TIERS[t]+')':'')+'</option>'}).join("")+'</optgroup>').join("")+'</select></label>'+
+      '<label>Tier <select data-impvtier="1">'+[1,2,3,4].filter(t=>t>cur).map(t=>'<option value="'+t+'"'+(t===IMPV.tier?" selected":"")+'>'+TIERS[t]+'</option>').join("")+'</select></label>'}
+  else if(IMPV.kind==="tko"){const list=TAKEOVERS.filter(t=>t.reqs.length&&!reqMet(t.reqs,t.op,V));if(!IMPV.tko||!list.some(t=>t.n===IMPV.tko))IMPV.tko=(list[0]||{}).n;
+    h+=list.length?'<label>Takeover <select data-impvtko="1">'+list.map(t=>'<option'+(t.n===IMPV.tko?" selected":"")+'>'+esc(t.n)+'</option>').join("")+'</select></label>':'<p class="note">You already have every takeover.</p>'}
+  else if(IMPV.kind==="anim"){const q=IMPV.anim.trim().toLowerCase();const list=q.length>=2?ANIMS.map((a,i)=>({a,i})).filter(x=>sizeOk(x.a.sz,S.h)&&!animOk(x.a,V)&&(x.a.n+" "+AGROUPS[x.a.g][1]).toLowerCase().includes(q)).slice(0,30):[];
+    h+='<label class="grow">Search animations <input class="svin sm" type="search" data-impva="1" value="'+esc(IMPV.anim)+'" placeholder="Like Elite Contact, Kobe Bryant or Size-Up"></label>'+
+      (q.length>=2?(list.length?'<div class="ialist">'+list.map(x=>'<button type="button" class="chip" data-impvas="'+x.i+'" aria-pressed="'+(IMPV.animSel===x.i)+'">'+esc(x.a.n)+' <small>'+esc(AGROUPS[x.a.g][1])+'</small></button>').join("")+'</div>':'<p class="note">No locked animations match that at your height.</p>'):'')}
+  else if(IMPV.kind==="style"){h+='<div class="seg" role="group" aria-label="Play style">'+GROUPS.map(g=>'<button type="button" data-impvstyle="'+g[0]+'" aria-pressed="'+(IMPV.style===g[0])+'">'+g[1]+'</button>').join("")+'</div>'}
+  h+='</div><div class="iprot"><span class="olab">Never lower</span>'+GROUPS.map(g=>'<button type="button" class="chip" data-impvprot="'+g[0]+'" aria-pressed="'+!!IMPV.protect[g[0]]+'">'+g[1]+'</button>').join("")+'</div>';
+  h+='<div class="btns"><button class="btn pri" type="button" data-impvgo="1">Show suggestions</button></div>';
+  if(IMPV.res)h+='<div class="iplans">'+(IMPV.res.length?IMPV.res.map(impvPlanHTML).join(""):'<p class="note">Nothing to suggest here. Every attribute in this style is at its last unlock or cap.</p>')+'</div>';
+  return h+'</div>'}
+function impvRender(){const view=document.getElementById("view-attrs");if(!view||!view.querySelector)return;let el=document.getElementById("impvbox");
+  if(!el){const at=view.querySelector(".atools");if(!at)return;el=document.createElement("div");el.id="impvbox";at.after(el)}el.innerHTML=impvHTML();
+  const b=document.getElementById("impvBtn");if(b)b.setAttribute("aria-pressed",IMPV.open)}
+if(document.addEventListener){
+document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-impvkind],[data-impvtv],[data-impvgo],[data-impvclose],[data-impvprot],[data-impvstyle],[data-impvas],[data-impvapply],#impvBtn,[data-shopen],[data-shx],#shbox");if(!t)return;const d=t.dataset;
+  if(t.id==="shbox"){if(e.target===t)shClose();return}
+  if(d.shx){shClose();if(d.bp==null)return;else return}
+  if(d.shopen){e.stopPropagation();shOpen();return}
+  e.stopPropagation();
+  if(t.id==="impvBtn"){IMPV.open=!IMPV.open;IMPV.res=null;if(IMPV.open&&!IMPV.kSet){const c=ATTRS.map(x=>({k:x.k,n:nextTick(x.k)})).filter(x=>x.n).sort((p,q)=>(p.n.v-eff(p.k))-(q.n.v-eff(q.k)))[0];if(c){IMPV.k=c.k;IMPV.target=null}}impvRender();if(IMPV.open){const el=document.getElementById("impvbox");if(el&&el.scrollIntoView)el.scrollIntoView({behavior:"smooth",block:"start"})}return}
+  if(d.impvclose){IMPV.open=false;impvRender();return}
+  if(d.impvkind){IMPV.kind=d.impvkind;IMPV.res=null}
+  else if(d.impvtv){IMPV.target=+d.impvtv;IMPV.res=null}
+  else if(d.impvprot){IMPV.protect[d.impvprot]=!IMPV.protect[d.impvprot];if(IMPV.res)IMPV.res=impvRun()}
+  else if(d.impvstyle){IMPV.style=d.impvstyle;IMPV.res=null}
+  else if(d.impvas){IMPV.animSel=+d.impvas;IMPV.res=null}
+  else if(d.impvgo){t.disabled=true;t.textContent="Working...";setTimeout(()=>{IMPV.res=impvRun()||[];impvRender();const p=document.querySelector(".iplans");if(p&&p.scrollIntoView)p.scrollIntoView({behavior:"smooth",block:"nearest"})},20);return}
+  else if(d.impvapply!=null){const p=(IMPV.res||[])[+d.impvapply];if(p&&p.v){S.v=Object.assign({},p.v);if(p.cb)S.cb=Object.assign({},p.cb);IMPV.res=null;OPT.stale=true;afterChange();toast("Applied: "+p.label)}return}
+  impvRender()},true);
+document.addEventListener("change",e=>{const t=e.target;if(!t.dataset)return;const d=t.dataset;
+  if(d.impvk){IMPV.k=t.value;IMPV.kSet=true;IMPV.target=null;IMPV.res=null;impvRender()}
+  else if(d.impvt){IMPV.target=Math.max(25,Math.min(99,parseInt(t.value,10)||0));IMPV.res=null}
+  else if(d.impvb){IMPV.badge=t.value;IMPV.tier=0;IMPV.res=null;impvRender()}
+  else if(d.impvtier){IMPV.tier=+t.value;IMPV.res=null}
+  else if(d.impvtko){IMPV.tko=t.value;IMPV.res=null}});
+document.addEventListener("input",e=>{const t=e.target;if(t.dataset&&t.dataset.impva!=null){IMPV.anim=t.value;IMPV.animSel=null;IMPV.res=null;const pos=t.selectionStart;impvRender();const n=document.querySelector("[data-impva]");if(n){n.focus();try{n.setSelectionRange(pos,pos)}catch(err){}}}});
+document.addEventListener("toggle",e=>{if(e.target&&e.target.id==="fitBox")ui.fitOpen=e.target.open},true);
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){const b=document.getElementById("shbox");if(b&&!b.hidden)shClose()}});
+}
+/* re-render hooks */
+{const _rs=renderSide;renderSide=function(){const r=_rs.apply(this,arguments);try{renderFit()}catch(e){}return r}}
+if(window.MutationObserver&&document.getElementById){const va=document.getElementById("view-attrs");if(va)new MutationObserver(()=>{if(!document.getElementById("impvbox")&&IMPV.open)impvRender()}).observe(va,{childList:true})}
+{const _ac3=afterChange;afterChange=function(){const r=_ac3.apply(this,arguments);try{if(IMPV.open&&!document.getElementById("impvbox"))impvRender()}catch(e){}return r}}
+{const _rs2=renderSide;renderSide=function(){const r=_rs2.apply(this,arguments);try{const a=document.getElementById("arch");if(a&&!document.getElementById("shBtn")){a.insertAdjacentHTML("afterend",'<button type="button" class="shbtn" id="shBtn" data-shopen="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.8-3.2 3-5 5.5-5s4.7 1.8 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.3c2.3.2 4 1.8 4.6 4.7"/></svg>Shades of NBA players</button>')}}catch(e){}return r}}
+/* ---------------- ROUND 19: review fixes ---------------- */
+/* Physicals take at most 2 cap breakers (only the 2 Build Specialization breakers can go there) */
+const PHY_CB_MAX=2;
+function phyCB(cb){return ATTRS.filter(a=>a.g==="PHY").reduce((s,a)=>s+((cb||S.cb)[a.k]||0),0)}
+function phyTrim(){let g=0;while(phyCB()>PHY_CB_MAX&&g++<30){const a=ATTRS.filter(x=>x.g==="PHY"&&S.cb[x.k]).sort((x,y)=>S.cb[y.k]-S.cb[x.k])[0];if(!a)break;if(S.cb[a.k]>1)S.cb[a.k]--;else delete S.cb[a.k]}}
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-cbset]");if(!t)return;const k=t.dataset.cbset,n=+t.dataset.n,cur=S.cb[k]||0;
+  if(ATTRS[IDX[k]].g!=="PHY"||n<=cur)return;const after=phyCB()-cur+n;if(after>PHY_CB_MAX){e.stopPropagation();e.preventDefault();toast("Physicals can take only "+PHY_CB_MAX+" cap breakers in total (from Build Specialization)")}},true);
+{const _ac4=afterChange;afterChange=function(){try{phyTrim()}catch(e){}return _ac4.apply(this,arguments)}}
+{const _ap=autoPlanCB;autoPlanCB=function(){const r=_ap.apply(this,arguments);phyTrim();return r}}
+/* open a build from a link: ...#b=<share code> */
+function buildLink(code){return APP_URL+"#b="+encodeURIComponent(code)}
+(function(){try{const m=(location.hash||"").match(/^#b=(.+)$/);if(!m)return;const code=decodeURIComponent(m[1]);
+  setTimeout(()=>{decodeAny(code).then(x=>{S=x;fullRender();toast("Build loaded from the link");try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}).catch(()=>toast("That build link did not load"))},400)}catch(e){}})();
+if(document.addEventListener)document.addEventListener("click",async e=>{const t=e.target.closest&&e.target.closest("[data-blink]");if(!t)return;e.stopPropagation();
+  try{const c=typeof zCode==="function"?await zCode():encode();const url=buildLink(c);
+    if(navigator.share&&matchMedia("(pointer:coarse)").matches){try{await navigator.share({title:S.name+" (2K27 Build Lab)",url});return}catch(err){if(err&&err.name==="AbortError")return}}
+    copy(url,document.getElementById("code")||document.createElement("textarea"));toast("Build link copied. Anyone who opens it gets this build.")}catch(err){toast("Could not make a link")}},true);
+{const _rsv=renderSaved;renderSaved=function(){const r=_rsv.apply(this,arguments);try{const cc=document.getElementById("copyCode");if(cc&&!document.querySelector("[data-blink]"))cc.insertAdjacentHTML("beforebegin",'<button class="btn pri" type="button" data-blink="1">Copy build link</button>')}catch(e){}return r}}
+/* never let a bad code or saved state break the app */
+function sanitizeState(x){const f=fresh();x=Object.assign(f,x||{});if(!POS.includes(x.pos))x.pos="PG";x.h=Math.round(+x.h)||75;x.w=Math.round(+x.w)||190;x.ws=Math.round(+x.ws)||78;
+  const v={},cb={};K.forEach(k=>{const r=Math.round(+((x.v||{})[k]));v[k]=r>=25&&r<=99?r:25;const n=Math.round(+((x.cb||{})[k]));if(n>=1&&n<=5)cb[k]=n});x.v=v;x.cb=cb;
+  const cap={};K.forEach(k=>{const c=Math.round(+((x.cap||{})[k]));if(c>=25&&c<=99)cap[k]=c});x.cap=cap;
+  if(!x.eq||typeof x.eq!=="object")x.eq={};else Object.keys(x.eq).forEach(id=>{const t=Math.round(+x.eq[id]);if(!(t>=1&&t<=4)||!BADGES.some(b=>b.id===id))delete x.eq[id];else x.eq[id]=t});
+  x.name=String(x.name||"My build").slice(0,40);return x}
+{const _da=decodeAny;decodeAny=async function(c){return sanitizeState(await _da(c))}}
+try{S=sanitizeState(S)}catch(e){S=fresh()}
+/* One screen boxes always show the real rating after a change */
+if(document.addEventListener){document.addEventListener("change",e=>{const t=e.target;if(t&&t.dataset&&t.dataset.ck)setTimeout(()=>{document.querySelectorAll(".cvin[data-ck]").forEach(i=>{if(i!==document.activeElement||true)i.value=S.v[i.dataset.ck]})},0)});
+  document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-cbset]");if(!t||t.disabled)return;const k=t.dataset.cbset,n=+t.dataset.n,cur=S.cb[k]||0;if(n>cur&&cbLeft()<=0){toast("No cap breakers left. Raise the number you have, or take one off another attribute.")}},true)}
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
@@ -3202,7 +3468,7 @@ document.addEventListener("click",e=>{
   else if(d.opt){applyOpt(d.opt,d.k);}
   else if(t.id==="opttoggle"){OPT.open=!OPT.open;OPT.stale=true;buildAttrs();updAttrs();}
   else if(d.tpl!=null){applyTemplate(TEMPLATES[+d.tpl]);}
-  else if(t.id==="resetBtn"){const keep={name:S.name,pos:S.pos,h:S.h,w:S.w,ws:S.ws,cap:S.cap};S=Object.assign(fresh(),keep);afterChange();toast("Attributes reset");}
+  else if(t.id==="resetBtn"){const keep={name:S.name,pos:S.pos,h:S.h,w:S.w,ws:S.ws,cap:S.cap,cbHave:S.cbHave,eq:S.eq,bonusSlots:S.bonusSlots,bonusTok:S.bonusTok,tokOv:S.tokOv,tokOvMap:S.tokOvMap,syn:S.syn,lo:S.lo,synW:S.synW};S=Object.assign(fresh(),keep);afterChange();toast("Attributes reset");}
   else if(t.id==="fillBtn"){spreadSmart()}
   else if(t.id==="calBtn"){ui.calib=!ui.calib;t.setAttribute("aria-pressed",ui.calib);t.textContent=ui.calib?"Done editing caps":"Edit caps";K.forEach(k=>$("#cap-"+k).innerHTML="");if(ui.tab!=="attrs"){ui.tab="attrs";renderTabs()}renderView();}
   else if(t.id==="saveBuild"){const l=savedList();l.unshift({state:JSON.parse(JSON.stringify(S))});LS.set("bl27v2-builds",l.slice(0,30));renderSaved();toast("Build saved");}
