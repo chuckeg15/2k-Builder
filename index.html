@@ -9,7 +9,12 @@
 <meta name="apple-mobile-web-app-title" content="Build Lab">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta property="og:url" content="https://chuckeg15.github.io/2k-Builder/">
-<meta property="og:image" content="https://chuckeg15.github.io/2k-Builder/icon-512.png">
+<meta property="og:image" content="https://chuckeg15.github.io/2k-Builder/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://chuckeg15.github.io/2k-Builder/og.png">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -1407,7 +1412,49 @@ body[data-xtab="saved"] .tokstrip,body[data-xtab="share"] .tokstrip,body[data-xt
 .cbgoal select{font:inherit;font-weight:700;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;min-height:36px;padding:0 8px}
 .goat{font-size:10px;font-weight:900;letter-spacing:.06em;color:#fff;background:linear-gradient(90deg,#b8860b,#e6b93a);border-radius:3px;padding:1px 5px;vertical-align:middle}
 .crow .cn{display:inline-flex;align-items:center}
-@media (max-width:1600px){.ttools .tbtn[data-shgo] span,#sideBtn span,#themeBtn span{display:none}}
+@media (max-width:1600px){.ttools .tbtn[data-blink] span,#sideBtn span,#themeBtn span{display:none}}
+#cardbox{position:fixed;inset:0;z-index:320;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:16px}
+#cardbox[hidden]{display:none}
+.cardc{width:min(460px,100%);max-height:92vh;overflow:auto;background:var(--surface);color:var(--ink);border-radius:10px;padding:14px;display:grid;gap:10px}
+.cardc header{display:flex;justify-content:space-between;align-items:center}.cardc header b{font-size:16px;font-weight:850}
+.cardprev{display:grid;place-items:center;min-height:200px;background:var(--surface2);border-radius:8px;padding:8px}
+.cardprev img{width:100%;max-height:60vh;object-fit:contain;border-radius:6px}
+.cardc .seg{display:grid;grid-template-columns:1fr 1fr}
+
+/* round 25: review fixes */
+#view-shades .svtools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+#view-shades .svtools #shQ{flex:1 1 100%;width:100%;min-width:0;box-sizing:border-box}
+#view-shades .svtools .seg{flex-wrap:wrap}
+.shinfo{margin:2px 0 8px}.shinfo summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--accent)}.shinfo .note{margin:6px 0 0}
+.shstr{display:block;font-style:normal;font-size:12px;color:var(--warn,#b7791f);margin-top:4px}
+.shpick em{display:block;font-style:normal;font-size:11px;color:var(--muted);margin-top:3px}
+.shpick{border-left:4px solid var(--line)}
+.shpick[data-pos="PG"]{border-left-color:#3b82f6}.shpick[data-pos="SG"]{border-left-color:#14b8a6}.shpick[data-pos="SF"]{border-left-color:#f59e0b}.shpick[data-pos="PF"]{border-left-color:#ef4444}.shpick[data-pos="C"]{border-left-color:#8b5cf6}
+.shempty{padding:18px 4px;color:var(--muted)}
+.shc .bxclose,#shbox .bxclose{display:inline-block!important;font-size:22px;line-height:1;padding:4px 8px}
+.bmnr{margin:4px 0 8px;border:1px dashed var(--line);border-radius:6px;padding:6px 10px}
+.bmnr>summary{cursor:pointer;font-size:12.5px;color:var(--muted);line-height:1.4}
+.bmnr[open]>summary{margin-bottom:6px}
+.thmob{display:none}
+@media (max-width:999px){.thmob{display:inline-flex}}
+.fnote{margin:28px 0 12px;padding-top:12px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.5}
+@media (max-width:999px){.fnote{margin-bottom:90px}}
+.lnkbad{margin:0 0 12px;padding:10px 12px;border:1px solid var(--bad,#c0392b);border-radius:6px;background:color-mix(in srgb,var(--bad,#c0392b) 10%,var(--surface));font-size:13.5px}
+.lnkbad .lnk{margin-left:8px}
+#mkroom{position:fixed;left:50%;transform:translateX(-50%);bottom:84px;z-index:90;display:flex;gap:10px;align-items:center;flex-wrap:wrap;max-width:min(560px,calc(100vw - 32px));background:var(--ink,#111);color:var(--bg,#fff);padding:10px 14px;border-radius:8px;box-shadow:0 6px 24px rgba(0,0,0,.3);font-size:14px}
+#mkroom .lnk{color:inherit;opacity:.8}
+@media (max-width:999px){#mkroom{bottom:150px}}
+#frbox{position:fixed;inset:0;z-index:120;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px}
+#frbox .frc{background:var(--surface);color:var(--ink);border-radius:10px;max-width:720px;width:100%;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.4);text-align:center}
+#frbox h2{margin:0 0 4px;font-size:24px}
+#frbox .frg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}
+#frbox .frb{display:flex;flex-direction:column;gap:6px;text-align:left;padding:16px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);cursor:pointer;min-height:44px}
+#frbox .frb:hover,#frbox .frb:focus-visible{border-color:var(--accent);outline:none}
+#frbox .frb b{font-size:16px}#frbox .frb small{color:var(--muted);font-size:13px;line-height:1.4}
+@media (max-width:640px){#frbox .frg{grid-template-columns:1fr}}
+.cardhide{display:flex;gap:8px;align-items:center;justify-content:center;margin:8px 0 0;font-size:13px}
+html,body{overflow-x:clip}
+.shtip{margin:6px 0 10px;font-weight:700;font-size:14px}
 
 </style>
 
@@ -1453,7 +1500,7 @@ body[data-xtab="saved"] .tokstrip,body[data-xtab="share"] .tokstrip,body[data-xt
   </aside>
 
   <main class="main panel">
-    <div class="tabrow"><nav class="tabs primary" role="tablist" id="tabs" aria-label="Build modes"></nav><div class="ttools"><span class="tovr" id="tovr" hidden></span><button class="tbtn svb" id="svBtn" data-svbtn type="button" title="Save this build (Ctrl+S)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/></svg><span>Save</span></button><button class="tbtn" type="button" data-shgo="1" title="Send this app to friends"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 11l7.6-4M8.2 13l7.6 4"/></svg><span>Share app</span></button><button class="tbtn" id="sideBtn" type="button" aria-pressed="false" title="Hide the player panel to widen the builder"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 3.5v13" stroke="currentColor" stroke-width="1.6"/></svg><span>Hide panel</span></button><button class="tbtn" id="themeBtn" type="button" title="Switch light and dark"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg><span>Theme</span></button></div></div>
+    <div class="tabrow"><nav class="tabs primary" role="tablist" id="tabs" aria-label="Build modes"></nav><div class="ttools"><span class="tovr" id="tovr" hidden></span><button class="tbtn svb" id="svBtn" data-svbtn type="button" title="Save this build (Ctrl+S)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/></svg><span>Save</span></button><button class="tbtn" type="button" data-blink="1" title="Copy a link to this build"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 11l7.6-4M8.2 13l7.6 4"/></svg><span>Share build</span></button><button class="tbtn" id="sideBtn" type="button" aria-pressed="false" title="Hide the player panel to widen the builder"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 3.5v13" stroke="currentColor" stroke-width="1.6"/></svg><span>Hide panel</span></button><button class="tbtn" id="themeBtn" type="button" title="Switch light and dark"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg><span>Theme</span></button></div></div>
     <nav class="tabs tabs2" role="tablist" id="tabs2" aria-label="Details"></nav>
     <div class="tokstrip" id="tokstrip" aria-label="Badge tokens by category"></div>
     <div class="view" id="view-attrs" role="tabpanel"></div>
@@ -2475,7 +2522,7 @@ const ICONS={
 function icon(n,c){return'<svg class="ico'+(c?" "+c:"")+'" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+ICONS[n]+'</svg>'}
 const SECTIONS=[
  {id:"build",n:"Build",tabs:[["attrs","Ratings"],["cb","Cap breakers"],["info","How it works"]]},
- {id:"find",n:"Build By",tabs:[["finder","Preferences"],["shades","Shades of NBA Players"],["gbadges","Badges"],["ganims","Moves"],["gtokens","Tokens"],["tpl","Templates"]]},
+ {id:"find",n:"Build By",tabs:[["shades","Shades of NBA Players"],["finder","Preferences"],["gbadges","Badges"],["ganims","Moves"],["gtokens","Tokens"],["tpl","Templates"]]},
  {id:"badges",n:"Badges",tabs:[["badges","Loadout"],["syn","Synergy"],["takeovers","Takeovers"]]},
  {id:"moves",n:"Moves",tabs:[["anims","Animations"],["bestmoves","Best Moves for your Build"]]},
  {id:"me",n:"My stuff",tabs:[["prog","Unlocks"],["saved","Saved"],["share","Share app"]]}];
@@ -3207,7 +3254,7 @@ function bmJump(V){const sz=sizeOf(S.h),best=Math.max(V.three,V.mid),gi=bmGroup(
   const nx=rows.filter(x=>!(best>=x.r[1]&&animOk(x.a,V))).map(x=>({x,need:Math.max(x.r[1],x.a.reqs.reduce((s,q)=>Math.max(s,q[1]),0))})).filter(o=>o.need>best).sort((p,q)=>p.need-q.need)[0];
   return{ok,nx,best,sz}}
 function bmCard(lab,inner,cls){return'<div class="bmrow'+(cls?" "+cls:"")+'"><div class="bmslot">'+lab+'</div><div class="bmbody">'+inner+'</div></div>'}
-function bmSrc(s){const x=BM_SRC[s];return x?'<a class="bmsrc" href="'+x[1]+'" target="_blank" rel="noopener">'+esc(s==="glossary"?"2K glossary":x[0].split(":")[0])+'</a>':""}
+function bmSrc(s){const x=BM_SRC[s];return x?'<a class="bmsrc" href="'+x[1]+'" target="_blank" rel="noopener">'+esc(s==="glossary"?"2K glossary":s==="u7buy"?"Community testing":x[0].split(":")[0])+'</a>':""}
 function renderBestMoves(){const v=document.getElementById("view-bestmoves");if(!v)return;const V=vals(),szName={S:"6'4\" and under",W:"6'5\" to 6'9\"",B:"6'10\" and up"}[sizeOf(S.h)];
   let h='<div class="bmhead"><div><h2 class="sec">Best moves for your build</h2><p class="note">'+esc(S.pos)+' · '+ft(S.h)+' ('+szName+'). The top community pick in each slot that your current ratings unlock, plus the next better pick and what it takes. Every pick is matched to 2K\'s official requirements.</p></div>'+
     '<div class="bmkey"><span class="bmk got">Equip this</span><span class="bmk nx">Next upgrade</span><span class="bmk un">No ranked pick yet</span></div></div>';
@@ -3256,13 +3303,16 @@ const STRW={FIN:[["Finishes through contact at the rim","Lives in the paint"],["
   PLY:[["Creates for himself and others","Breaks defenders down off the dribble"],["Needs others to create"]],DEF:[["Locks up his matchup","Protects the paint"],["Gets exposed on defense"]],
   REB:[["Owns the glass","Ends possessions"],["Gives up second chances"]],PHY:[["Covers ground faster than anyone","Bullies smaller players"],["Gets pushed around","A step slow"]]};
 function grade(r){return r>=95?"A+":r>=90?"A":r>=87?"A-":r>=83?"B+":r>=80?"B":r>=77?"B-":r>=73?"C+":r>=70?"C":r>=65?"C-":r>=55?"D":"F"}
-function bpMatches(){const V=vals();return BLUEPRINTS.map((b,i)=>{let d=0;K.forEach((k,j)=>{const m=(b[8][j][0]+b[8][j][1])/2;d+=Math.abs(V[k]-m)});d=d/21+Math.abs(b[4]-S.h)*1.2+(b[1]===S.pos?0:3);
+function bpMatches(){const V=vals();return BLUEPRINTS.map((b,i)=>{let d=0;K.forEach((k,j)=>{const m=(b[8][j][0]+b[8][j][1])/2;d+=Math.abs(V[k]-m)});d=d/21+Math.abs(b[4]-S.h)*1.2+Math.abs(POS.indexOf(b[1])-POS.indexOf(S.pos))*4;
   return{i,b,score:Math.max(0,Math.round(100-d*2.2))}}).sort((x,y)=>y.score-x.score)}
-function shadesHTML(){const V=vals(),M=bpMatches(),top=M[0],T=BADGES.map(b=>({b,t:Math.max(0,badgeTier(b,V)),e:S.eq[b.id]||0})).filter(x=>x.t>0);
+function shadesHTML(){const V=vals(),M0=bpMatches(),SHL=Array.isArray(S.shades)&&S.shades.length?S.shades:[],M=M0.filter(m=>m.b[1]===S.pos).concat(M0.filter(m=>m.b[1]!==S.pos)),top=M[0],T=BADGES.map(b=>({b,t:Math.max(0,badgeTier(b,V)),e:S.eq[b.id]||0})).filter(x=>x.t>0);
   const go=T.map(x=>({b:x.b,t:x.e?Math.min(x.e,x.t):x.t,eq:!!x.e})).sort((a,b)=>(b.eq-a.eq)||b.t-a.t||((b.b.n<a.b.n)-(b.b.n>a.b.n))).slice(0,3);
   const tops=ATTRS.map(a=>({a,v:V[a.k]})).sort((x,y)=>y.v-x.v).slice(0,3);
   const g=GROUPS.map(gr=>{const as=ATTRS.filter(a=>a.g===gr[0]);return{g:gr[0],s:as.reduce((t,a)=>t+V[a.k],0)/as.length}}).sort((a,b)=>b.s-a.s);
-  const str=[STRW[g[0].g][0][0],STRW[g[0].g][0][1],STRW[g[1].g][0][0]],weak=[STRW[g[5].g][1][0],STRW[g[4].g][1][0]];
+  const gmax=gg=>Math.max(...ATTRS.filter(a=>a.g===gg).map(a=>V[a.k]));const str=[STRW[g[0].g][0][0],STRW[g[0].g][0][1],STRW[g[1].g][0][0]];
+  let weak=g.slice().reverse().filter(x=>gmax(x.g)<80).slice(0,2).map(x=>STRW[x.g][1][0]);
+  if(weak.length<2)ATTRS.map(a=>({a,v:V[a.k]})).sort((x,y)=>x.v-y.v).forEach(x=>{if(weak.length<2&&x.v<75)weak.push("Low "+x.a.n+" ("+grade(x.v)+")")});
+  if(!weak.length)weak=["No real holes in this build"];
   let h='<div class="shc"><header><b>Your archetype</b><button type="button" class="bxclose" data-shx="1" aria-label="Close">×</button></header><div class="shgrid2">'+
     '<section class="shleft"><h4>Shades of</h4>'+(Array.isArray(S.shades)&&S.shades.length?S.shades:top.b[7]).map(n=>'<div class="shp"><span class="shav">'+esc(n.split(" ").map(w=>w[0]).join("").slice(0,2))+'</span><b>'+esc(n)+'</b></div>').join("")+
     (Array.isArray(S.shades)&&S.shades.length?'<p class="note">The players you picked. Closest 2K Signature Blueprint: <b>'+esc(top.b[0])+'</b> ('+top.score+'%), which plays like '+esc(top.b[7].join(", "))+'.</p>':'<p class="note">From 2K\'s <b>'+esc(top.b[0])+'</b> Signature Blueprint, your closest match ('+top.score+'%).</p>')+'</section>'+
@@ -3391,7 +3441,7 @@ if(document.addEventListener)document.addEventListener("click",e=>{const t=e.tar
 /* open a build from a link: ...#b=<share code> */
 function buildLink(code){return APP_URL+"#b="+encodeURIComponent(code)}
 (function(){try{const m=(location.hash||"").match(/^#b=(.+)$/);if(!m)return;const code=decodeURIComponent(m[1]);
-  setTimeout(()=>{decodeAny(code).then(x=>{S=x;fullRender();toast("Build loaded from the link");try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}).catch(()=>toast("That build link did not load"))},400)}catch(e){}})();
+  setTimeout(()=>{decodeAny(code).then(x=>{S=x;fullRender();toast("Build loaded from the link");try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}).catch(()=>{try{const m=document.querySelector(".main");if(m)m.insertAdjacentHTML("afterbegin",'<div class="lnkbad" role="alert"><b>That build link is damaged.</b> Ask your friend to send it again. You are looking at the default build.<button type="button" class="lnk" onclick="this.parentNode.remove()">Dismiss</button></div>')}catch(err){}toast("That build link did not load")})},400)}catch(e){}})();
 if(document.addEventListener)document.addEventListener("click",async e=>{const t=e.target.closest&&e.target.closest("[data-blink]");if(!t)return;e.stopPropagation();
   try{const c=typeof zCode==="function"?await zCode():encode();const url=buildLink(c);
     if(navigator.share&&matchMedia("(pointer:coarse)").matches){try{await navigator.share({title:S.name+" (2K27 Build Lab)",url});return}catch(err){if(err&&err.name==="AbortError")return}}
@@ -3576,7 +3626,7 @@ function shCreate(){const sp=shBuildSpec();if(!sp)return;S=Object.assign(fresh()
   invalidate();ui.tab="attrs";renderPoss();renderMeas();afterChange();toast("Build created from "+SHB.sel.join(", "));setTimeout(()=>{try{shOpen()}catch(e){}},300)}
 {const _rsb=renderShadesBuilder;renderShadesBuilder=function(){_rsb.apply(this,arguments);const v=document.getElementById("view-shades");if(!v)return;
   const p=v.querySelector(".bmhead .note");if(p)p.textContent="Pick up to 3 players and the app builds a MyPLAYER that plays like all of them. "+Object.keys(SHP).length+" players: the ones marked 2K come from 2K's 40 official Signature Blueprints and keep those ratings; the rest use their real position, height and play style. Players whose sizes and positions are too far apart can't be combined, so no Shaq with a 6'0\" point guard.";
-  v.querySelectorAll(".shpick").forEach(b=>{const n=b.dataset.shpick,e=SHP[n];if(!e)return;const bp=e.some(x=>x.i!=null);if(!b.querySelector(".shsrc"))b.querySelector("b").insertAdjacentHTML("afterend",'<span class="shsrc'+(bp?" bp":"")+'">'+(bp?"2K blueprint":esc(String(e[0].tags||"").split(/\s+/).map(t=>TAGNAME[t]).filter(Boolean).join(" · ")))+'</span>')});
+  v.querySelectorAll(".shpick").forEach(b=>{const n=b.dataset.shpick,e=SHP[n];if(!e)return;const bp=e.some(x=>x.i!=null);if(!b.querySelector(".shsrc"))b.querySelector("b").insertAdjacentHTML("afterend",'<span class="shsrc'+(bp?" bp":"")+'">'+(bp?"In a 2K blueprint":esc(String(e[0].tags||"").split(/\s+/).map(t=>TAGNAME[t]).filter(Boolean).join(" · ")))+'</span>')});
   const sm=v.querySelector(".shprev small");const sp=SHB.sel.length?shBuildSpec():null;if(sm&&sp)sm.textContent="Blended from "+sp.from.join(", ")}}
 if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-autoeq]");if(!t)return;e.stopPropagation();const V=vals(),L=bestLoadout(V,{});S.eq={};Object.entries(L.eq).forEach(([id,x])=>S.eq[id]=x);afterChange();toast("Equipped the best "+Object.keys(S.eq).length+" badges your tokens and slots allow")},true);
 /* ---------------- ROUND 22: creator and player review fixes ---------------- */
@@ -3685,8 +3735,153 @@ SHB.goat=false;
   const tools=v.querySelector(".svtools");if(tools&&!tools.querySelector("[data-shgoat]"))tools.insertAdjacentHTML("beforeend",'<button type="button" class="chip" data-shgoat="1" aria-pressed="'+SHB.goat+'">2K27 GOAT builds</button>');
   const items=[...grid.children];items.forEach(b=>{const n=b.dataset.shpick;if(GOAT27.includes(n)&&!b.querySelector(".goat"))b.querySelector("b").insertAdjacentHTML("beforeend",' <span class="goat">GOAT</span>');if(SHB.goat&&!GOAT27.includes(n))b.remove()});
   [...grid.children].sort((a,b)=>{const da=a.disabled?1:0,db=b.disabled?1:0;return da-db||lastKey(a.dataset.shpick).localeCompare(lastKey(b.dataset.shpick))}).forEach(x=>grid.appendChild(x));
-  const p=v.querySelector(".bmhead .note");if(p)p.textContent="Pick up to 3 players and the app builds a MyPLAYER that plays like all of them. "+Object.keys(SHP).length+" players, sorted by last name. Players marked 2K blueprint keep 2K's own blueprint ratings. The rest, including the 2K27 GOAT builds and the all-time greats, are Build Lab estimates from their real position, height and play style. Players whose sizes and positions are too far apart can't be combined."}}
+  const p=v.querySelector(".bmhead .note");if(p)p.textContent="Pick up to 3 players and the app builds a MyPLAYER that plays like all of them. "+Object.keys(SHP).length+" players, sorted by last name. Players marked In a 2K blueprint are listed by 2K on one of its 40 Signature Blueprints, and the app uses that blueprint's ratings. The GOAT tag marks the 18 players with a 2K27 GOAT build. Everyone else, including the all-time greats 2K has not made a blueprint for, is a Build Lab estimate from their real position, height and play style. Players with two sizes have two 2K blueprints; the app picks the one that fits your other picks best. Players whose sizes and positions are too far apart can't be combined."}}
 if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-shgoat]");if(!t)return;e.stopPropagation();SHB.goat=!SHB.goat;renderShadesBuilder()},true);
+/* ---------------- ROUND 24: share image (build card) ---------------- */
+let CARD_HIDE=false,CARD_FMT="post";
+function cardColors(){const cs=getComputedStyle(document.documentElement),g=n=>(cs.getPropertyValue(n)||"").trim();const t=(typeof TEAMS!=="undefined"&&TEAM)?TEAMS.find(x=>x[0]===TEAM):null;
+  return t?{bg1:t[2],bg2:mix(t[2],"#000000",.55),acc:[t[3],t[4]].find(c=>contrast(c,mix(t[2],"#000000",.3))>=3)||"#ffffff"}:{bg1:"#16202c",bg2:"#0b1118",acc:"#ff5a2a"}}
+function drawCard(fmt){const W=1080,H=fmt==="story"?1920:1350,cv=document.createElement("canvas");cv.width=W;cv.height=H;const c=cv.getContext("2d"),col=cardColors(),F=(w,s)=>w+" "+s+"px Archivo, 'Helvetica Neue', Arial, sans-serif";
+  const gr=c.createLinearGradient(0,0,W,H);gr.addColorStop(0,col.bg1);gr.addColorStop(1,col.bg2);c.fillStyle=gr;c.fillRect(0,0,W,H);
+  c.fillStyle="rgba(255,255,255,.04)";for(let i=0;i<14;i++){c.save();c.translate(W*.7,H*.2);c.rotate(i*.22);c.fillRect(0,-3,900,6);c.restore()}
+  const V=vals(),o=ovr(),top=fmt==="story"?300:90;let y=top;
+  c.fillStyle=col.acc;c.font=F("800",30);c.fillText("2K27 BUILD LAB",70,y);y+=40;
+  /* ovr ring */
+  const cx=180,cy=y+120,r=100;c.lineWidth=18;c.strokeStyle="rgba(255,255,255,.15)";c.beginPath();c.arc(cx,cy,r,0,Math.PI*2);c.stroke();c.strokeStyle=col.acc;c.beginPath();c.arc(cx,cy,r,-Math.PI/2,-Math.PI/2+Math.PI*2*Math.min(1,(o-25)/74));c.stroke();
+  c.fillStyle="#fff";c.textAlign="center";c.font=F("900",92);c.fillText(String(o),cx,cy+30);c.font=F("700",24);c.fillStyle="rgba(255,255,255,.7)";c.fillText("OVR",cx,cy+66);c.textAlign="left";
+  const nx=330;c.fillStyle="#fff";c.font=F("900",64);let nm=S.name||"My Build",fs=64;if(CARD_HIDE&&Array.isArray(S.shades)&&S.shades.length)nm="Guess the blend";while(c.measureText(nm).width>W-nx-60&&fs>40){fs-=4;c.font=F("900",fs)}if(c.measureText(nm).width>W-nx-60){while(c.measureText(nm+"...").width>W-nx-60&&nm.length>3)nm=nm.slice(0,-1);nm=nm.trim()+"..."}c.fillText(nm,nx,cy-30);
+  c.fillStyle=col.acc;c.font=F("800",34);c.fillText(String(archetype()).toUpperCase(),nx,cy+20);
+  c.fillStyle="rgba(255,255,255,.8)";c.font=F("600",30);c.fillText(S.pos+"  ·  "+ft(S.h)+"  ·  "+S.w+" lbs  ·  "+ft(S.ws)+" WS",nx,cy+66);
+  y=cy+150;
+  /* shades */
+  const M=bpMatches(),sh=(Array.isArray(S.shades)&&S.shades.length?S.shades:M[0].b[7]).slice(0,3);c.fillStyle="rgba(255,255,255,.6)";c.font=F("800",24);c.fillText("SHADES OF",70,y);y+=44;
+  c.fillStyle="#fff";let shs=CARD_HIDE?sh.map(()=>"???").join("  ·  "):sh.join("  ·  "),sf=38;c.font=F("800",sf);while(c.measureText(shs).width>W-140&&sf>24){sf-=2;c.font=F("800",sf)}c.fillText(shs,70,y);y+=70;
+  /* top attributes */
+  c.fillStyle="rgba(255,255,255,.6)";c.font=F("800",24);c.fillText("TOP ATTRIBUTES",70,y);y+=30;
+  const ta=ATTRS.map(a=>({a,v:V[a.k]})).sort((p,q)=>q.v-p.v).slice(0,6);
+  ta.forEach(x=>{y+=56;c.fillStyle="#fff";c.font=F("700",32);c.fillText(x.a.n,70,y);c.textAlign="right";c.font=F("900",36);c.fillText(String(x.v),W-70,y);c.textAlign="left";
+    c.fillStyle="rgba(255,255,255,.12)";c.fillRect(470,y-22,440,14);c.fillStyle=getComputedStyle(document.documentElement).getPropertyValue("--c-"+x.a.g).trim()||col.acc;c.fillRect(470,y-22,440*(x.v-25)/74,14)});
+  y+=70;
+  /* badges */
+  const T=BADGES.map(b=>({b,t:Math.max(0,badgeTier(b,V)),e:S.eq[b.id]||0})).filter(x=>x.t>0).map(x=>({b:x.b,t:x.e?Math.min(x.e,x.t):x.t,eq:!!x.e})).sort((p,q)=>(q.eq-p.eq)||q.t-p.t).slice(0,4);
+  const TC=["#888","#c47a3c","#b8c4d0","#e6b93a","#a985ff"];
+  c.fillStyle="rgba(255,255,255,.6)";c.font=F("800",24);c.fillText("GO-TO BADGES",70,y);y+=20;
+  T.forEach((x,i)=>{const bx=70+(i%2)*480,by=y+Math.floor(i/2)*84+20;c.fillStyle="rgba(255,255,255,.07)";c.fillRect(bx,by,450,68);c.fillStyle=TC[x.t];c.fillRect(bx,by,10,68);
+    c.fillStyle="#fff";c.font=F("800",30);c.fillText(x.b.n,bx+28,by+32);c.fillStyle=TC[x.t];c.font=F("800",22);c.fillText(TIERS[x.t].toUpperCase(),bx+28,by+58)});
+  /* footer + QR to the build */
+  const fy=H-(fmt==="story"?480:210);c.fillStyle="rgba(255,255,255,.75)";c.font=F("700",28);c.fillText("Make your own:",70,fy+60);c.fillStyle="#fff";c.font=F("800",30);c.fillText(APP_URL.replace(/^https?:\/\//,""),70,fy+102);
+  c.fillStyle="rgba(255,255,255,.5)";c.font=F("600",20);c.fillText("Not affiliated with 2K, Take-Two or the NBA.",70,fy+140);
+  return{cv,c,W,H,fy}}
+async function cardWithQR(fmt){const d=drawCard(fmt);try{const code=typeof zCode==="function"?await zCode():encode();const url=buildLink(code);if(window.qrcode){const q=qrcode(0,"L");q.addData(url);q.make();const n=q.getModuleCount(),s=Math.floor(170/(n+4)),Wq=(n+4)*s,x0=d.W-70-Wq,y0=d.fy;
+  d.c.fillStyle="#fff";d.c.fillRect(x0,y0,Wq,Wq);d.c.fillStyle="#000";for(let r=0;r<n;r++)for(let k=0;k<n;k++)if(q.isDark(r,k))d.c.fillRect(x0+(k+2)*s,y0+(r+2)*s,s,s);
+  d.c.fillStyle="rgba(255,255,255,.7)";d.c.font="700 18px Archivo, Arial, sans-serif";d.c.textAlign="center";d.c.fillText("Scan for this build",x0+Wq/2,y0+Wq+26);d.c.textAlign="left"}}catch(e){}return d.cv}
+async function shareCard(fmt){try{const cv=await cardWithQR(fmt),blob=await new Promise(r=>cv.toBlob(r,"image/png")),fn=(S.name||"build").replace(/[^a-z0-9]+/gi,"-").toLowerCase()+"-"+(fmt==="story"?"story":"post")+".png";
+  const file=typeof File==="function"?new File([blob],fn,{type:"image/png"}):null;
+  if(file&&navigator.canShare&&navigator.canShare({files:[file]})&&matchMedia("(pointer:coarse)").matches){try{await navigator.share({files:[file],title:S.name});return}catch(e){if(e&&e.name==="AbortError")return}}
+  if(typeof SVDL!=="undefined"&&SVDL){try{const buf=new Uint8Array(await blob.arrayBuffer());await SVDL.save({filename:fn,data:buf});toast("Build card saved");return}catch(e){}}
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=fn;document.body.appendChild(a);a.click();a.remove();toast("Build card saved")}catch(e){toast("Could not make the image here")}}
+function cardPreview(){let b=document.getElementById("cardbox");if(!b){b=document.createElement("div");b.id="cardbox";b.setAttribute("role","dialog");b.setAttribute("aria-modal","true");b.setAttribute("aria-label","Share image");document.body.appendChild(b)}
+  b.innerHTML='<div class="cardc"><header><b>Share image</b><button type="button" class="bxclose" data-cardx="1" aria-label="Close">×</button></header><div class="cardprev"><span class="spin"></span></div><div class="seg"><button type="button" data-cardfmt="post" aria-pressed="true">Post 4:5</button><button type="button" data-cardfmt="story" aria-pressed="false">Story 9:16</button></div><div class="btns"><button class="btn pri" type="button" data-cardgo="post">Save or share</button></div><label class="tog cardhide"><input type="checkbox" data-cardhide="1"'+(CARD_HIDE?" checked":"")+'> Hide the player names (Guess the blend)</label><p class="note">Includes a QR code that opens this exact build.</p></div>';b.hidden=false;cardRender("post")}
+async function cardRender(fmt){CARD_FMT=fmt;const cv=await cardWithQR(fmt),p=document.querySelector("#cardbox .cardprev");if(p){p.innerHTML="";const im=new Image();im.src=cv.toDataURL("image/png");im.alt="Preview of the share image";p.appendChild(im)}
+  document.querySelectorAll("[data-cardfmt]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.cardfmt===fmt));const g=document.querySelector("[data-cardgo]");if(g)g.dataset.cardgo=fmt}
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-card],[data-cardx],[data-cardfmt],[data-cardgo],#cardbox");if(!t)return;
+  if(t.id==="cardbox"){if(e.target===t)t.hidden=true;return}e.stopPropagation();const d=t.dataset;
+  if(d.card!=null)cardPreview();else if(d.cardx){document.getElementById("cardbox").hidden=true}else if(d.cardfmt)cardRender(d.cardfmt);else if(d.cardgo)shareCard(d.cardgo)},true);
+/* entry points: Shades card, Saved tab, top bar */
+{const _sh=shadesHTML;shadesHTML=function(){return _sh.apply(this,arguments).replace('<h4 class="shbph">','<div class="btns"><button class="btn pri" type="button" data-card="1">Make a share image</button></div><h4 class="shbph">')}}
+{const _rsv2=renderSaved;renderSaved=function(){const r=_rsv2.apply(this,arguments);try{const b=document.querySelector("[data-blink]");if(b&&!document.querySelector("#view-saved [data-card]"))b.insertAdjacentHTML("afterend",'<button class="btn" type="button" data-card="1">Share image</button>')}catch(e){}return r}}
+
+if(document.addEventListener)document.addEventListener("change",e=>{if(e.target&&e.target.dataset&&e.target.dataset.cardhide){CARD_HIDE=e.target.checked;cardRender(CARD_FMT)}});
+/* ---------------- ROUND 25: investor, CEO, creator and fan review fixes ---------------- */
+/* Shades: allow famous cross-position pairs (LeBron + Magic), block only truly incompatible bodies */
+function shTight(a,b){return SHP[a].some(x=>SHP[b].some(y=>Math.abs(x.h-y.h)<=4&&Math.abs(x.pi-y.pi)<=1))}
+shCompat=function(a,b){return SHP[a].some(x=>SHP[b].some(y=>Math.abs(x.h-y.h)<=6&&Math.abs(x.pi-y.pi)<=2))};
+function shStretch(){const s=SHB.sel;for(let i=0;i<s.length;i++)for(let j=i+1;j<s.length;j++)if(!shTight(s[i],s[j]))return[s[i],s[j]];return null}
+{const _rsb3=renderShadesBuilder;renderShadesBuilder=function(){_rsb3.apply(this,arguments);const v=document.getElementById("view-shades");if(!v)return;
+  /* explainer folds away so the search and grid are on screen */
+  const p=v.querySelector(".bmhead .note");if(p&&!p.closest("details")){const d=document.createElement("details");d.className="shinfo";d.innerHTML='<summary>How this works</summary>';p.parentNode.insertBefore(d,p);d.appendChild(p)}
+  const st=shStretch(),pv=v.querySelector(".shprev>div");if(st&&pv&&!pv.querySelector(".shstr"))pv.insertAdjacentHTML("beforeend",'<em class="shstr">Stretch combo: '+esc(st[0])+' and '+esc(st[1])+' play different spots, so the blend leans toward the middle.</em>');
+  const sm=v.querySelector(".shprev small");if(sm&&SHB.sel.length)sm.textContent="Blending "+SHB.sel.join(", ");const sp=SHB.sel.length?shBuildSpec():null,bb=v.querySelector(".shprev>div>b");if(sp&&bb&&DATA.bodies[sp.pos]){const r=DATA.bodies[sp.pos].h,hh=Math.min(r[1],Math.max(r[0],sp.h));if(hh!==sp.h){bb.textContent=sp.pos+" · "+ft(hh)+" · "+sp.w+" lbs · "+ft(sp.ws)+" WS";bb.insertAdjacentHTML("afterend",'<em class="shstr">2K27 lets a '+sp.pos+' go from '+ft(r[0])+' to '+ft(r[1])+', so the blend uses '+ft(hh)+'.</em>')}}
+  v.querySelectorAll(".shpick").forEach(b=>{const n=b.dataset.shpick,e=SHP[n];if(!e)return;b.dataset.pos=e[0].pos;const bps=e.filter(x=>x.i!=null);
+    if(bps.length>1){const s=b.querySelector("small");if(s)s.textContent=bps.length+" 2K blueprints: "+bps.map(x=>x.pos+" "+ft(x.h)).join(" or ")}})}}
+/* Shades build name stays short enough for cards and headers */
+{const _shc=shCreate;shCreate=function(){const r=_shc.apply(this,arguments);try{const NICK={"lebron james":"LeBron","magic johnson":"Magic","michael jordan":"MJ","kobe bryant":"Kobe","shaquille o'neal":"Shaq","kevin durant":"KD","stephen curry":"Steph","kareem abdul-jabbar":"Kareem","giannis antetokounmpo":"Giannis","nikola jokic":"Jokic","wilt chamberlain":"Wilt","larry bird":"Bird","hakeem olajuwon":"Hakeem","allen iverson":"AI","dwyane wade":"D-Wade","kevin garnett":"KG","dirk nowitzki":"Dirk","anthony davis":"AD","chris paul":"CP3","tim duncan":"Duncan","bill russell":"Russell","oscar robertson":"Oscar","julius erving":"Dr. J","anthony edwards":"Ant","victor wembanyama":"Wemby","luka doncic":"Luka","shai gilgeous-alexander":"SGA"};const ln=SHB.sel.map(n=>NICK[n.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()]||n.split(" ").slice(-1)[0]);S.name=(ln.length===1?"Shades of "+ln[0]:ln.join(" x ")).slice(0,28);const bn=document.getElementById("bname");if(bn)bn.value=S.name;afterChange()}catch(e){}return r}}
+
+/* Best Moves: one line for slots with no tested pick, and sections start folded on phones */
+{const _rbm=renderBestMoves;renderBestMoves=function(){if(!BM.init){BM.init=1;if(matchMedia("(max-width:999px)").matches)BM_SECT.forEach(([t],i)=>{if(i>0&&BM.open[t]==null)BM.open[t]=false})}
+  _rbm.apply(this,arguments);const v=document.getElementById("view-bestmoves");if(!v)return;
+  v.querySelectorAll("details.bmsec").forEach(sec=>{const nr=[...sec.querySelectorAll(":scope>.bmrow.nr")];if(nr.length<2)return;
+    const d=document.createElement("details");d.className="bmnr";d.innerHTML='<summary>'+nr.length+' more slots with no tested pick yet: '+nr.map(r=>esc(r.querySelector(".bmslot").textContent)).join(", ")+'</summary>';
+    nr[0].parentNode.insertBefore(d,nr[0]);nr.forEach(r=>d.appendChild(r))})}}
+
+/* Mobile theme button next to Save */
+function thMobBtn(){const r=document.querySelector(".bnrow");if(r&&!r.querySelector("[data-act='theme']"))r.insertAdjacentHTML("beforeend",'<button class="svb2 thmob" type="button" data-act="theme" aria-label="Theme and team colors"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 0 0 17z" fill="currentColor"/></svg><span>Theme</span></button>')}
+
+/* Footer: data date and not-affiliated note */
+function footNote(){const m=document.querySelector(".main");if(!m||document.getElementById("fnote"))return;m.insertAdjacentHTML("beforeend",'<footer id="fnote" class="fnote">Ratings, caps, tokens and badge data checked against NBA 2K27 in November 2026. 2K patches the game during the season, so numbers can shift. Build Lab is a free fan tool and is not affiliated with 2K, Take-Two Interactive or the NBA.</footer>')}
+
+/* First visit: three ways to start */
+const FR_KEY="bl27-firstrun";
+function firstRun(){let seen=false;try{seen=!!localStorage.getItem(FR_KEY)}catch(e){seen=true}if(seen||/#b=/.test(location.hash||""))return;
+  const b=document.createElement("div");b.id="frbox";b.setAttribute("role","dialog");b.setAttribute("aria-modal","true");b.setAttribute("aria-label","How do you want to start?");
+  b.innerHTML='<div class="frc"><h2>How do you want to start?</h2><p class="note">You can switch any time from the menu.</p><div class="frg">'+
+    [["shades","Copy NBA players","Pick up to 3 players and get a build that plays like them."],["finder","Answer a few questions","Tell the app how you play and it suggests builds."],["attrs","Build it myself","Go straight to the 99 builder with every number."]].map(x=>'<button type="button" class="frb" data-fr="'+x[0]+'"><b>'+x[1]+'</b><small>'+x[2]+'</small></button>').join("")+
+    '</div><button type="button" class="btn sm" data-fr="attrs">Skip</button></div>';document.body.appendChild(b)}
+function frGo(tab){try{localStorage.setItem(FR_KEY,"1")}catch(e){}const b=document.getElementById("frbox");if(b)b.remove();
+  if(tab!=="attrs"){const sec=SECTIONS.find(s=>s.tabs.some(t=>t[0]===tab));const nb=sec&&document.querySelector('.tabs.primary [data-sec="'+sec.id+'"]');if(nb){SEC_LAST[sec.id]=tab;nb.click()}else{ui.tab=tab;renderTabs();renderView()}}}
+if(document.addEventListener){document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-fr]");if(!t)return;e.stopPropagation();e.preventDefault();frGo(t.dataset.fr)},true);
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&document.getElementById("frbox"))frGo("attrs")})}
+setTimeout(()=>{try{thMobBtn();footNote();firstRun()}catch(e){}},60);
+
+/* Typed values past the budget: offer to make room instead of silently staying put */
+function makeRoom(k,target){target=Math.min(cap(k),target);if(S.v[k]>=target)return 0;const before=Object.assign({},S.v),v=Object.assign({},S.v);v[k]=target;linkFix(v,k,1);
+  const keep={};K.forEach(x=>{if(v[x]>before[x])keep[x]=1});const L0=S.lock;S.lock=Object.assign({},L0||{},keep);S.v=v;{let g=0;while(ovrOf(S.v,S.h)>99+1e-9&&g++<900){const o0=ovrOf(S.v,S.h),need=o0-99;let best=null,bs=1e9;for(const x of K){if(isLocked(x)||S.v[x]<=25)continue;const t=Object.assign({},S.v);t[x]--;const d=o0-ovrOf(t,S.h);if(d<=0)continue;const sc=d>=need-1e-9?d-need:1e3+(-d);if(sc<bs){bs=sc;best=t}}if(!best)break;S.v=best}}const low=K.filter(x=>!keep[x]&&S.v[x]<before[x]);S.lock=L0;{const low2=low.concat(K.filter(x=>x!==k&&!low.includes(x)&&!isLocked(x)));let mv=true,g=0;while(mv&&g++<300){mv=false;for(const x of low2){if(S.v[x]>=cap(x))continue;const t=Object.assign({},S.v);t[x]++;linkFix(t,x,1);if(ovrOf(t,S.h)<=99+1e-9){S.v=t;mv=true}}}}
+  if(ovrOf(S.v,S.h)>99+1e-9){S.v=before;return 0}return target}
+function roomPrompt(k,target){let p=document.getElementById("mkroom");if(p)p.remove();p=document.createElement("div");p.id="mkroom";p.setAttribute("role","status");
+  p.innerHTML='<span>'+(S.v[k]>=cap(k)?esc(AN[k])+' is at its cap ('+cap(k)+').':'No points left for '+esc(AN[k])+' '+target+'.')+'</span>'+(S.v[k]<Math.min(cap(k),target)?'<button type="button" class="btn pri sm" data-mkroom="'+k+'" data-t="'+target+'">Make room</button>':'')+'<button type="button" class="lnk" data-mkx="1">Dismiss</button>';
+  document.body.appendChild(p);clearTimeout(roomPrompt.t);roomPrompt.t=setTimeout(()=>{const q=document.getElementById("mkroom");if(q)q.remove()},7000)}
+if(document.addEventListener){document.addEventListener("change",e=>{const t=e.target;if(!t||!t.dataset)return;const k=t.dataset.ck||(t.classList&&t.classList.contains("vin")?t.id.slice(3):null);if(!k||!S.v||S.v[k]==null)return;
+    const n=parseInt(t.value,10);if(isNaN(n))return;setTimeout(()=>{if(S.v[k]<n&&(n>cap(k)||S.v[k]<Math.min(cap(k),n)))roomPrompt(k,n)},30)});
+  document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-mkroom],[data-mkx]");if(!t)return;e.stopPropagation();const p=document.getElementById("mkroom");
+    if(t.dataset.mkroom){const k=t.dataset.mkroom,before=Object.assign({},S.v),r=makeRoom(k,+t.dataset.t);if(r){afterChange();const dn=K.filter(x=>S.v[x]<before[x]).map(x=>AN[x]+" "+before[x]+" to "+S.v[x]);toast(AN[k]+" "+r+". Lowered "+(dn.length>3?dn.slice(0,3).join(", ")+" and "+(dn.length-3)+" more":dn.join(", ")))}else toast("Could not make room without breaking your locks")}
+    if(p)p.remove()},true)}
+
+/* Paste a code: empty field gets its own message */
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("#doImport");if(!t)return;const c=document.getElementById("importCode");if(c&&!c.value.trim()){e.stopPropagation();toast("Paste a code first");c.focus()}},true);
+
+/* Reset to 25 also clears a template name */
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("#resetBtn");if(!t)return;setTimeout(()=>{S.name="My Build";const b=document.getElementById("bname");if(b)b.value=S.name;try{afterChange()}catch(err){}},0)});
+
+/* Smart fill: tell people locks exist when it lowered something */
+{const _sp3=spreadSmart;spreadSmart=function(){const before=Object.assign({},S.v),r=_sp3.apply(this,arguments);try{const dn=K.filter(k=>S.v[k]<before[k]&&before[k]>25);if(dn.length&&!(S.lock&&Object.keys(S.lock).length))setTimeout(()=>toast("Smart fill lowered "+dn.map(k=>AN[k]).slice(0,3).join(", ")+(dn.length>3?" and more":"")+". Tap the lock next to a rating to keep it."),2000)}catch(e){}return r}}
+
+/* Cap breaker goals: contact dunks depend on height, and the ranked list follows the goal */
+{const _pg=planGoal;planGoal=function(goal){const g=CBGOALS.find(x=>x[0]==="contacts");if(g)g[2]=S.h>=82?{ddunk:1,vertical:.9,sdunk:.7,strength:.3}:{ddunk:1,vertical:.9,strength:.2};return _pg.apply(this,arguments)}}
+{const _sg=suggestions;suggestions=function(){const r=_sg.apply(this,arguments);try{if(ui.cbgoal&&ui.cbgoal!=="points"&&Array.isArray(r)){const g=CBGOALS.find(x=>x[0]===ui.cbgoal);const G=(g&&g[2])||{};
+  if(ui.cbgoal==="contacts")Object.assign(G,S.h>=82?{sdunk:.7}:{sdunk:0});return r.map((s,i)=>({s,i,w:G[s.k]||0})).sort((a,b)=>(b.w>0)-(a.w>0)||b.w-a.w||a.i-b.i).map(x=>x.s)}}catch(e){}return r}}
+if(document.addEventListener)document.addEventListener("change",e=>{if(e.target&&e.target.dataset&&e.target.dataset.cbgoal&&ui.tab==="cb")setTimeout(()=>{try{renderView()}catch(err){}},0)});
+
+/* Badges: explain why a category has no slots when cap breakers qualify you */
+{const _rl=renderLoadout;renderLoadout=function(){const r=_rl.apply(this,arguments);try{document.querySelectorAll(".bxnone").forEach(x=>{x.textContent=x.textContent.replace(/you qualify for no (\w+) badges yet/,"your builder ratings (before cap breakers) earn no $1 slots. Cap breakers raise badge levels but do not add slots or tokens")})}catch(e){}return r}}
+
+/* Left panel naming */
+{const _rs3=renderSide;renderSide=function(){const r=_rs3.apply(this,arguments);try{const b=document.getElementById("shBtn");if(b&&b.lastChild&&b.lastChild.nodeType===3)b.lastChild.textContent="Your archetype";
+  const sb=document.getElementById("sBadges");if(sb&&sb.nextElementSibling&&/^Badges$/i.test(sb.nextElementSibling.textContent.trim()))sb.nextElementSibling.textContent="Badges unlocked";thMobBtn()}catch(e){}return r}}
+
+/* Shades search: empty state */
+{const _rsb4=renderShadesBuilder;renderShadesBuilder=function(){_rsb4.apply(this,arguments);const v=document.getElementById("view-shades");if(!v)return;const g=v.querySelector(".shpl");
+  if(g&&!g.children.length)g.insertAdjacentHTML("afterend",'<p class="shempty">No players match. <button type="button" class="lnk" data-shclear="1">Clear search</button></p>')}}
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-shclear]");if(!t)return;e.stopPropagation();SHB.q="";SHB.pos="ALL";SHB.goat=false;renderShadesBuilder()},true);
+
+/* no "template loaded" toast on startup */
+{const _t=toast;let boot=true;setTimeout(()=>boot=false,1500);toast=function(m){if(boot&&/ loaded$/.test(String(m)))return;return _t.apply(this,arguments)}}
+/* Shades tray: empty slots collapse into one line */
+{const _rsb5=renderShadesBuilder;renderShadesBuilder=function(){_rsb5.apply(this,arguments);const v=document.getElementById("view-shades");if(!v)return;const tr=v.querySelector(".shtray");if(!tr)return;
+  const empt=[...tr.querySelectorAll(".shslot:not(.on)")];if(!SHB.sel.length){tr.outerHTML='<p class="shtip">Pick up to 3 players below.</p>'}else empt.slice(1).forEach(x=>x.remove())}}
+/* Cap breakers tab: show what the chosen goal would get next */
+{const _rcb=renderCB;renderCB=function(){const r=_rcb.apply(this,arguments);try{if(ui.cbgoal&&ui.cbgoal!=="points"){const g=CBGOALS.find(x=>x[0]===ui.cbgoal);if(!g)return r;if(g[0]==="contacts")g[2]=S.h>=82?{ddunk:1,vertical:.9,sdunk:.7,strength:.3}:{ddunk:1,vertical:.9,strength:.2};
+  const V=vals(),rows=Object.keys(g[2]).sort((a,b)=>g[2][b]-g[2][a]).map(k=>{const c=S.cb[k]||0,inc=cbIncs(k)[c];return c>=5?AN[k]+": all 5 used":!inc||inc.g<=0?AN[k]+": at its cap ("+V[k]+")":AN[k]+" +"+inc.g+" to "+(V[k]+inc.g)});
+  const h=[...document.querySelectorAll("#view-cb h2.sec")].find(x=>/Best next/.test(x.textContent));if(h&&!document.getElementById("cbgoalnext"))h.insertAdjacentHTML("beforebegin",'<div id="cbgoalnext" class="lock soft"><b>Next for '+esc(g[1].toLowerCase())+':</b> '+rows.map(esc).join(" · ")+(g[0]==="contacts"&&S.h<82?'. Standing contact dunks need 6\'10" or taller, so they are left out.':'')+'</div>')}}catch(e){}return r}}
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
