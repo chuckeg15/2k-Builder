@@ -1141,7 +1141,7 @@ details.howto>p{padding:10px 12px}
 .formula{overflow-wrap:anywhere;white-space:normal}
 .view p,.view li{overflow-wrap:break-word}
 /* data sources live on How it works only */
-body:not([data-tab="info"]) #foot{display:none}
+body:not([data-xtab="info"]) #foot{display:none}
 /* desktop: use the width */
 @media (min-width:1000px){.app{max-width:1500px}}
 /* ratings toolbar */
@@ -1212,8 +1212,8 @@ details.howto>.legend{padding:10px 12px 0;margin:0}
 /* phones and tablets */
 @media (max-width:999px){
   /* the player card only on Build; the bottom bar keeps overall in view elsewhere */
-  body:not([data-sec="build"]) .side{display:none}
-  body:not([data-sec="build"]) .mbar{transform:none}
+  body:not([data-xsec="build"]) .side{display:none}
+  body:not([data-xsec="build"]) .mbar{transform:none}
   .side .card .bname{font-size:22px}
   /* tokens: one slim row, tap to expand */
   body:not(.tokopen) .tokstrip{grid-template-columns:auto repeat(6,minmax(0,1fr))}
@@ -1252,6 +1252,32 @@ details.howto>.legend{padding:10px 12px 0;margin:0}
 .mrow .min{width:100%;max-width:110px;box-sizing:border-box;font-size:15px;padding:4px 6px;min-height:34px}
 .tokstrip .tsl small.est{display:inline-block;margin-top:2px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--accent)}
 @media (max-width:999px){.atools{grid-template-columns:1fr 1fr 1fr}.atools .btn.imp{order:0}}
+
+/* ===== round 17: best moves ===== */
+.bmhead{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:flex-end;justify-content:space-between;margin-bottom:12px}
+.bmhead .sec{margin:0}.bmhead .note{margin:4px 0 0;max-width:70ch}
+.bmkey{display:flex;gap:6px;flex-wrap:wrap}
+.bmk{font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px;border:1px solid var(--line)}
+.bmk.got{background:var(--good-soft);color:var(--good)}.bmk.nx{background:var(--accent-soft);color:var(--accent)}.bmk.un{background:var(--surface2);color:var(--muted)}
+details.bmsec{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);margin-bottom:10px;overflow:hidden}
+details.bmsec>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface2)}
+details.bmsec>summary::-webkit-details-marker{display:none}
+details.bmsec>summary h3{margin:0;font-size:16px;font-weight:850}
+details.bmsec>summary::after{content:"▾";margin-left:auto;color:var(--muted)}
+details.bmsec[open]>summary::after{content:"▴"}
+.bmrow{display:grid;grid-template-columns:200px minmax(0,1fr);gap:4px 14px;padding:10px 14px 10px 17px;border-top:1px solid var(--line);position:relative}
+.bmrow::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:4px;border-radius:0 3px 3px 0;background:var(--line)}
+.bmrow.got::before{background:var(--good)}.bmrow.un::before,.bmrow.nr::before{background:var(--chip-none)}
+.bmslot{font-size:13px;font-weight:800;color:var(--muted);padding-top:2px}
+.bmbody{display:grid;gap:4px;min-width:0}
+.bmpick{font-size:14.5px}.bmpick b{font-weight:800}.bmpick.none{color:var(--muted);font-size:13.5px}.bmpick.none b{color:var(--ink);font-weight:700}
+.bmwhy{font-size:12.5px;color:var(--muted)}
+.bmalt{font-size:12.5px;color:var(--muted)}
+.bmnext{font-size:12.5px;color:var(--accent);font-weight:650}.bmnext b{font-weight:800}
+.bmsrc{font-size:11px;font-weight:700;color:var(--muted);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:1px 7px;margin-left:4px;white-space:nowrap}
+.bmsrc:hover{color:var(--accent);border-color:var(--accent)}
+details.bmsrcs{margin-top:8px;font-size:13px}details.bmsrcs summary{cursor:pointer;font-weight:700;color:var(--muted)}details.bmsrcs ul{margin:6px 0;padding-left:20px}
+@media (max-width:700px){.bmrow{grid-template-columns:1fr;padding:10px 12px 10px 15px}.bmslot{font-size:12px;text-transform:uppercase;letter-spacing:.04em}}
 
 </style>
 
@@ -1314,6 +1340,7 @@ details.howto>.legend{padding:10px 12px 0;margin:0}
     <div class="view" id="view-prog" role="tabpanel" hidden></div>
     <div class="view" id="view-info" role="tabpanel" hidden></div>
     <div class="view" id="view-saved" role="tabpanel" hidden></div>
+    <div class="view" id="view-bestmoves" role="tabpanel" hidden></div>
     <div class="view" id="view-share" role="tabpanel" hidden></div>
   </main>
 </div>
@@ -2319,7 +2346,7 @@ const SECTIONS=[
  {id:"build",n:"Build",tabs:[["attrs","Ratings"],["cb","Cap breakers"],["info","How it works"]]},
  {id:"find",n:"Build By",tabs:[["finder","Preferences"],["gbadges","Badges"],["ganims","Moves"],["gtokens","Tokens"],["tpl","Templates"]]},
  {id:"badges",n:"Badges",tabs:[["badges","Loadout"],["syn","Synergy"],["takeovers","Takeovers"]]},
- {id:"moves",n:"Moves",tabs:[["anims","Animations"]]},
+ {id:"moves",n:"Moves",tabs:[["anims","Animations"],["bestmoves","Best Moves for your Build"]]},
  {id:"me",n:"My stuff",tabs:[["prog","Unlocks"],["saved","Saved"],["share","Share app"]]}];
 const SEC_LAST={};
 function secOf(tab){return SECTIONS.find(s=>s.tabs.some(t=>t[0]===tab))||SECTIONS[0]}
@@ -2963,7 +2990,7 @@ try{UIX.rv=localStorage.getItem("bl27-rview");UIX.tok=localStorage.getItem("bl27
 if(!["simple","full","compact"].includes(UIX.rv))UIX.rv=ui.compact?"compact":((window.innerWidth||1200)<1000?"simple":"full");
 ui.compact=UIX.rv==="compact";
 function rvHTML(){return'<div class="seg" role="group" aria-label="How much to show">'+[["simple","Simple"],["full","With Cap Breakers"],["compact","One screen"]].map(o=>'<button type="button" data-rview="'+o[0]+'" aria-pressed="'+(UIX.rv===o[0])+'">'+o[1]+'</button>').join("")+'</div>'}
-function uixSync(){const B=document.body;if(!B||!B.setAttribute)return;B.setAttribute("data-sec",(SECTIONS.find(s=>s.tabs.some(t=>t[0]===ui.tab))||{id:""}).id);B.setAttribute("data-tab",ui.tab);B.setAttribute("data-rv",UIX.rv);B.classList.toggle("tokopen",!!UIX.tok);
+function uixSync(){const B=document.body;if(!B||!B.setAttribute)return;B.setAttribute("data-xsec",(SECTIONS.find(s=>s.tabs.some(t=>t[0]===ui.tab))||{id:""}).id);B.setAttribute("data-xtab",ui.tab);B.setAttribute("data-rv",UIX.rv);B.classList.toggle("tokopen",!!UIX.tok);
   if(document.querySelectorAll){document.querySelectorAll("#view-attrs .arow[data-k]").forEach(r=>r.classList.toggle("hascb",(S.cb[r.dataset.k]||0)>0));
     let hw=document.querySelector("#view-attrs details.howto");const lg=document.querySelector("#view-attrs > .legend"),pn=document.querySelector("#view-attrs > p.note");
     if(!hw&&(lg||pn)&&document.createElement){hw=document.createElement("details");hw.className="howto";hw.innerHTML='<summary><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.01"/></svg> Key and how this works</summary>';(lg||pn).before(hw);if(pn)hw.appendChild(pn)}
@@ -2998,6 +3025,80 @@ document.addEventListener("focusin",e=>{const t=e.target;if(t&&t.dataset&&(t.dat
 }
 /* tall builds: token numbers carried over from 6'9" */
 {const _ts=renderTokStrip;renderTokStrip=function(){const r=_ts.apply(this,arguments);try{const l=document.querySelector("#tokstrip .tsl");if(l&&S.h>=82&&!tokOvGet()&&!l.querySelector(".est")){l.insertAdjacentHTML("beforeend",'<small class="est" title="2K\'s builder data stops at 6\'9&quot;. Taller builds use the 6\'9&quot; numbers, which match a 6\'10&quot; in-game build. If yours differ, tap Edit tokens.">estimated</small>')}}catch(e){}return r}}
+/* keep the page where it is when a rating changes (renders were letting the browser jump to the top) */
+{const _ac2=afterChange;afterChange=function(){const y=window.scrollY||0,ae=document.activeElement,key=ae&&ae.dataset?(ae.id?"#"+ae.id:ae.dataset.ck?'[data-ck="'+ae.dataset.ck+'"]':ae.dataset.mi?'[data-mi="'+ae.dataset.mi+'"]':null):null;
+  const r=_ac2.apply(this,arguments);
+  const fix=()=>{if(typeof window.scrollTo==="function"&&Math.abs((window.scrollY||0)-y)>2)window.scrollTo(0,y)};fix();
+  if(key&&ae&&!ae.isConnected){const n=document.querySelector(key);if(n&&n.focus)try{n.focus({preventScroll:true})}catch(e){}}
+  if(typeof requestAnimationFrame==="function")requestAnimationFrame(fix);else setTimeout(fix,0);return r}}
+/* ---------------- BEST MOVES FOR YOUR BUILD (round 17) ----------------
+   Community picks gathered from 2K27 guides (see BM_SRC), each matched to 2K's official animation glossary,
+   then checked against this build's ratings and height. */
+const BM_PICKS={"Signature Size-Up": [["James Harden", "nba2klab", "Graded 6.3, best crossover/behind-back mix"], ["Shai Gilgeous-Alexander", "nba2klab", "Graded 5.7"], ["Kyrie Irving", "nba2klab", "Graded 5.7, small guards"], ["Coby White", "nba2klab", "Graded 5.7"], ["Zach LaVine", "nba2klab", "Graded 5.7"], ["Kawhi Leonard", "nba2klab", "Graded 5.7"], ["Jayson Tatum", "nba2klab", "Graded 5.7, best value at 75"], ["Zion Williamson", "u7buy", "Best option for bigs"]], "Dribble Style": [["Ja Morant", "htvg", "Fastest small-guard speed boost"], ["Zach LaVine", "u7buy", "Best overall dribble style"], ["Kevin Durant", "u7buy", "Tall guards"], ["Jaren Jackson Jr.", "u7buy", "Bigs"], ["Victor Wembanyama", "u7buy", "Bigs"], ["Chet Holmgren", "u7buy", "Bigs"], ["Domantas Sabonis", "u7buy", "Budget bigs"]], "Crossover": [["Jordan Poole", "u7buy", "Small guards"], ["Shaedon Sharpe", "u7buy", "Best crossover"], ["Victor Wembanyama", "u7buy", "Bigs"], ["Pro", "u7buy", "Budget"]], "Between Legs Cross": [["D'Angelo Russell", "u7buy", "Best between-the-legs"], ["Victor Wembanyama", "u7buy", "Bigs"]], "Behind the Back": [["Scottie Pippen", "u7buy", "Best behind-the-back"]], "Behind the Back Launch": [["Trae Young", "u7buy", "Small guards"], ["LeBron James", "u7buy", "Best overall"]], "Crossover Escape": [["Jimmy Butler", "u7buy", "Best crossover escape"], ["Anthony Edwards", "u7buy", "Budget"], ["Joel Embiid", "u7buy", "Bigs"]], "Hesitation Escape": [["Coby White", "u7buy", "Best hesitation escape"], ["Scottie Pippen", "u7buy", "Budget"], ["Paolo Banchero", "glossary", "One of the few options for 6'10\" and up"]], "Between Legs Escape": [["Zach LaVine", "u7buy", "Best between-legs escape"], ["Jayson Tatum", "u7buy", "Budget"], ["Joel Embiid", "u7buy", "Bigs"]], "Behind the Back Escape": [["Kawhi Leonard", "u7buy", "Best behind-back escape"], ["Scottie Pippen", "u7buy", "Budget"], ["Domantas Sabonis", "glossary", "One of the few options for 6'10\" and up"]], "Breakdown Combo": [["Coby White", "u7buy", "Best breakdown combo"], ["Victor Wembanyama", "u7buy", "Bigs"]], "Breakdown Moving Combo": [["Kawhi Leonard", "u7buy", "Best moving combo"]], "Combo Move": [["Pro", "u7buy", "Best combo move, any height"]], "Hesitation Crossover Combo": [["Shai Gilgeous-Alexander", "u7buy", "Best hesi-cross combo"], ["Kevin Durant", "u7buy", "Tall guards"]], "Double Crossover Combo": [["James Harden", "u7buy", "Best double crossover"]], "Hesitation": [["LeBron James", "u7buy", "Best hesitation"]], "Lateral Hesitation": [["Stephen Curry", "u7buy", "Small guards"], ["Rajon Rondo", "u7buy", "Best value"]], "Stepback": [["Jayson Tatum", "u7buy", "Best stepback"], ["Joel Embiid", "u7buy", "Bigs"]], "Crossover Stepback": [["Kyrie Irving", "u7buy", "Small guards"], ["Vince Carter", "u7buy", "Best value"]], "Lateral Stepback": [["Luka Dončić", "u7buy", "Bigger side boost"], ["Jimmy Butler", "u7buy", "Best value"]], "Spin": [["Penny Hardaway", "u7buy", "Best spin (requirement unverified at launch)"]], "Cross Spin": [["Coby White", "u7buy", "Best cross spin"], ["Nikola Jokić", "u7buy", "Bigs"]], "In and Out": [["Jordan Poole", "u7buy", "Best in-and-out"]], "Misdirection Hesitation": [["Pro", "u7buy", "Best misdirection hesitation"]], "Misdirection Crossover": [["Anthony Edwards", "u7buy", "Best misdirection crossover"]], "Misdirection Behind Back": [["Pro", "u7buy", "Best misdirection behind-back"]], "Triple Threat Style": [["Pro", "u7buy", "Best triple threat style"]], "Triple Threat Breakdown": [["Anthony Edwards", "u7buy", "Best breakdown"]], "Triple Threat Jab Steps": [["Kobe Bryant", "u7buy", "Best jab steps"]], "Triple Threat Stepovers": [["Stephen Curry", "u7buy", "Best stepovers"]], "Pass Style": [["Mike Conley", "htvg", ""], ["Rajon Rondo", "htvg", ""], ["Darius Garland", "htvg", ""], ["Chris Paul", "htvg", ""], ["Jamal Murray", "htvg", ""], ["LeBron James", "htvg", "Good for playmaking bigs"], ["Stephen Curry", "htvg", ""], ["Draymond Green", "htvg", ""], ["De'Aaron Fox", "htvg", ""], ["Amen Thompson", "htvg", ""]], "Motion Style": [["Ja Morant", "htvg", "Quick start-stop bursts"], ["Tyrese Maxey", "htvg", "Quick start-stop bursts"], ["Amen Thompson", "htvg", "Smooth acceleration"], ["Alex Caruso", "htvg", "Smooth acceleration"], ["Jalen Suggs", "htvg", "Smooth acceleration"], ["Quinten Post", "htvg", "7'0\" and taller"], ["Jaren Jackson Jr.", "htvg", "Bigs"], ["Jabari Smith Jr.", "htvg", "Bigs"]], "Layup Style": [["James Harden", "nba2king", "Euro step layups"]], "Two Foot Moving Dunks - Contact Dunks": [["Elite Contact Dunks Off Two", "nba2king", "Elite contacts"], ["Pro Contact Dunks Off Two", "nba2king", "Pro contacts"], ["Small Contact Dunks Off Two", "timesaver", "Contacts for 6'4\" and under"]], "One Foot Moving Dunks - Contact Dunks": [["Elite Contact Dunks Off One", "timesaver", "Top contact package"], ["Pro Contact Dunks Off One", "timesaver", ""], ["Small Contact Dunks Off One", "timesaver", "Contacts for 6'4\" and under"]], "Standing Dunks - Contact Dunks": [["Elite Bigman Contact Dunks", "nba2king", "Big man contacts"], ["Pro Bigman Contact Dunks", "nba2king", "Big man contacts at 80 Standing Dunk"]], "Alley-Oops - Contact Alley-Oops": [["Elite Contact Alley-Oop", "timesaver", ""], ["Pro Contact Alley-Oop", "timesaver", ""], ["Small Contact Alley-Oop", "timesaver", ""], ["Bigman Contact Alley-Oop", "timesaver", ""]], "Signature Dunks - Players": [["Ja Morant", "timesaver", "High-flying guards and wings under 6'10\""]], "One Foot Moving Dunks - NBA Dunks": [["Rim Grazers Off One", "timesaver", "Free, usable running dunk"]]};
+const BM_SRC={u7buy:["U7BUY: NBA 2K27 Best Dribble Moves and Best Jumpshots (Sep 2026)","https://www.u7buy.com/blog/nba-2k27-best-dribble-moves/"],
+  nba2klab:["NBA2KLab: 2K27 Best Dribble Moves (size-up grades)","https://www.nba2klab.com/nba2k-best-dribble-moves"],
+  timesaver:["Timesaver: NBA 2K27 Best Dunk Packages","https://timesaver.gg/blog/nba-2k27-best-dunk-packages"],
+  htvg:["How To Video Game: NBA 2K27 Best Animations","https://howtovideogame.com/nba-2k27-best-animations/"],
+  nba2king:["NBA2King: 2K27 Rating Thresholds","https://www.nba2king.com/News/nba-2k27-best-attributes-rating-thresholds-build-guide-for-every-position.html"],
+  glossary:["2K's official animation glossary","https://www.nba2klab.com/animation-requirements"]};
+const BM_JUMP=[ /* [size, from 3PT, to 3PT, base, release 1, release 2, blend, speed] from U7BUY's 2K27 jumpshot guide */
+ ["S",93,99,"JJ Redick","Beluba","Alex Caruso","30/70","Normal"],["S",90,99,"Kyrie Irving","","","","Normal"],["S",83,89,"Jump Shot WNBA 7","Jaden Springer","Steph Curry","53/47","Normal"],
+ ["S",80,83,"Quentin Grimes","Devin Booker","Darius Garland","40/60","Max"],["S",80,83,"Eric Bledsoe","","","","Normal"],
+ ["W",89,99,"Ray Allen","AJ Green","Beluba","57/43","Normal"],["W",89,91,"Ray Allen","Beluba","Denny Vegeta","60/40","Normal"],["W",80,83,"Jump Shot WNBA 7","Charles Bassey","Beluba","80/20","Normal"],["W",78,81,"Ace Bailey","Beluba","Charles Bassey","65/35","Full"],
+ ["B",91,99,"Kevin Durant","Michael Porter Jr","Beluba","51/49","Normal"],["B",88,99,"Michael Porter Jr.","Robert Williams III","Beluba","","Normal"],["B",83,99,"Joel Embiid","WNBA 33","Beluba","","Normal"],["B",25,99,"Dwight Powell","Beluba","Tim Duncan","50/50","Full"]];
+const BM_SECT=[["Shooting",["Jump Shot","Go-To Shot","Dribble Pull-Up","Hop Jumper","Spin Jumper"]],
+ ["Finishing",["Two Foot Moving Dunks - Contact Dunks","One Foot Moving Dunks - Contact Dunks","Standing Dunks - Contact Dunks","Alley-Oops - Contact Alley-Oops","Signature Dunks - Players","One Foot Moving Dunks - NBA Dunks","Layup Style"]],
+ ["Ball handling",["Signature Size-Up","Dribble Style","Crossover","Between Legs Cross","Behind the Back","Behind the Back Launch","Crossover Escape","Hesitation Escape","Between Legs Escape","Behind the Back Escape","Breakdown Combo","Breakdown Moving Combo","Combo Move","Hesitation Crossover Combo","Double Crossover Combo","Hesitation","Lateral Hesitation","Stepback","Crossover Stepback","Lateral Stepback","Spin","Cross Spin","In and Out","Misdirection Hesitation","Misdirection Crossover","Misdirection Behind Back"]],
+ ["Post",["Post Go-To Shot","Post Fade","Post Hook"]],
+ ["Style",["Motion Style","Pass Style","Triple Threat Style","Triple Threat Breakdown","Triple Threat Jab Steps","Triple Threat Stepovers"]]];
+const BM_LABEL={"Two Foot Moving Dunks - Contact Dunks":"Contact dunks off two","One Foot Moving Dunks - Contact Dunks":"Contact dunks off one","Standing Dunks - Contact Dunks":"Standing contact dunks","Alley-Oops - Contact Alley-Oops":"Contact alley-oops","Signature Dunks - Players":"Signature dunk","One Foot Moving Dunks - NBA Dunks":"Running dunks off one"};
+const BM={open:{}};
+function bmNorm(s){return String(s).toLowerCase().normalize("NFD").replace(/[^a-z0-9]/g,"")}
+function bmGroup(name){return AGROUPS.findIndex(g=>g[1]===name)}
+function bmFind(gi,name){const n=bmNorm(name);return ANIMS.find(a=>a.g===gi&&bmNorm(a.n)===n)}
+function bmSizeOk(a){return sizeOk(a.sz,S.h)}
+/* what it takes: [[attr,need,gap]] for AND, the cheapest single alternative for OR */
+function bmGap(a,V){if(!a.reqs.length)return[];const gaps=a.reqs.map(q=>[q[0],q[1],Math.max(0,q[1]-V[q[0]])]);
+  if(a.op==="OR"){const b=gaps.slice().sort((x,y)=>x[2]-y[2])[0];return b[2]>0?[b]:[]}return gaps.filter(g=>g[2]>0)}
+function bmGapTxt(g){return g.map(x=>AN[x[0]]+" "+x[1]+" (+"+x[2]+")").join(" and ")}
+function bmGapFits(g){return g.every(x=>x[1]<=cap(x[0])+(cbIncs(x[0]).reduce((s,d)=>s+d.g,0)))}
+function bmReqTxt(a){if(!a.reqs.length)return"No rating needed";const t=a.reqs.map(q=>AN[q[0]]+" "+q[1]);return a.op==="OR"?t.join(" or "):t.join(", ")}
+function bmSlot(gname,V){const gi=bmGroup(gname);if(gi<0)return null;const picks=(BM_PICKS[gname]||[]).map(p=>({a:bmFind(gi,p[0]),src:p[1],why:p[2]})).filter(p=>p.a);
+  const got=picks.find(p=>bmSizeOk(p.a)&&animOk(p.a,V));
+  let next=null;for(const p of picks){if(got&&p===got)break;if(!bmSizeOk(p.a))continue;const g=bmGap(p.a,V);if(g.length&&bmGapFits(g)){const c=g.reduce((t,x)=>t+x[2],0);if(!next||c<next.c)next={p,g,c}}}
+  const all=ANIMS.filter(a=>a.g===gi&&animOk(a,V));const score=a=>a.reqs.reduce((s,q)=>Math.max(s,q[1]),0);
+  let pool=all.filter(a=>!/WNBA/.test(a.n));if(pool.some(a=>score(a)>40))pool=pool.filter(a=>score(a)>40);const top=pool.sort((x,y)=>score(y)-score(x)).slice(0,3);
+  return{gname,gi,picks,got,next,top,ranked:picks.length>0}}
+function bmJump(V){const sz=sizeOf(S.h),best=Math.max(V.three,V.mid),gi=bmGroup("Jump Shot");
+  const rows=BM_JUMP.filter(r=>r[0]===sz).map(r=>({r,a:bmFind(gi,r[3])})).filter(x=>x.a);
+  const ok=rows.filter(x=>best>=x.r[1]&&animOk(x.a,V)).sort((x,y)=>y.r[1]-x.r[1]);
+  const nx=rows.filter(x=>!(best>=x.r[1]&&animOk(x.a,V))).map(x=>({x,need:Math.max(x.r[1],x.a.reqs.reduce((s,q)=>Math.max(s,q[1]),0))})).filter(o=>o.need>best).sort((p,q)=>p.need-q.need)[0];
+  return{ok,nx,best,sz}}
+function bmCard(lab,inner,cls){return'<div class="bmrow'+(cls?" "+cls:"")+'"><div class="bmslot">'+lab+'</div><div class="bmbody">'+inner+'</div></div>'}
+function bmSrc(s){const x=BM_SRC[s];return x?'<a class="bmsrc" href="'+x[1]+'" target="_blank" rel="noopener">'+esc(s==="glossary"?"2K glossary":x[0].split(":")[0])+'</a>':""}
+function renderBestMoves(){const v=document.getElementById("view-bestmoves");if(!v)return;const V=vals(),szName={S:"6'4\" and under",W:"6'5\" to 6'9\"",B:"6'10\" and up"}[sizeOf(S.h)];
+  let h='<div class="bmhead"><div><h2 class="sec">Best moves for your build</h2><p class="note">'+esc(S.pos)+' · '+ft(S.h)+' ('+szName+'). The top community pick in each slot that your current ratings unlock, plus the next better pick and what it takes. Every pick is matched to 2K\'s official requirements.</p></div>'+
+    '<div class="bmkey"><span class="bmk got">Equip this</span><span class="bmk nx">Next upgrade</span><span class="bmk un">No ranked pick yet</span></div></div>';
+  /* jump shot */
+  const J=bmJump(V);let jh='';
+  if(J.ok.length){const x=J.ok[0],r=x.r;jh='<div class="bmpick"><b>'+esc(x.a.n)+'</b> base'+(r[4]?' · <b>'+esc(r[4])+'</b>'+(r[5]?' / <b>'+esc(r[5])+'</b>':'')+' releases'+(r[6]?' · blend '+r[6]:''):'')+' · speed '+r[7]+'</div><div class="bmwhy">Recommended for '+r[1]+'+ three-point at your height. '+bmSrc("u7buy")+'</div>'+
+      (J.ok.length>1?'<div class="bmalt">Also good: '+J.ok.slice(1,3).map(o=>esc(o.a.n)+(o.r[4]?' ('+esc(o.r[4])+(o.r[5]?' / '+esc(o.r[5]):'')+')':'')).join(", ")+'</div>':'')}
+  else jh='<div class="bmpick none">No recommended jumper unlocked yet at '+J.best+' (higher of Three-Point and Mid-Range)</div>';
+  if(J.nx)jh+='<div class="bmnext">Raise Three-Point or Mid-Range to <b>'+J.nx.need+'</b> (+'+(J.nx.need-J.best)+') for <b>'+esc(J.nx.x.a.n)+'</b>'+(J.nx.x.r[4]?' with '+esc(J.nx.x.r[4])+(J.nx.x.r[5]?' / '+esc(J.nx.x.r[5]):''):'')+'</div>';
+  const secs=BM_SECT.map(([title,groups])=>{const rows=groups.map(g=>{if(g==="Jump Shot")return bmCard("Jump shot",jh,J.ok.length?"got":"un");const s=bmSlot(g,V);if(!s)return'';const lab=BM_LABEL[g]||g;
+      let b='';
+      if(s.got)b+='<div class="bmpick"><b>'+esc(s.got.a.n)+'</b>'+(s.got.why?'<span class="bmwhy"> · '+esc(s.got.why)+'</span>':'')+' '+bmSrc(s.got.src)+'</div>';
+      else if(s.ranked)b+='<div class="bmpick none">'+(s.picks.some(p=>bmSizeOk(p.a))?'No ranked pick unlocked yet':'The ranked picks are not available at your height')+(s.top.length?'. Best you have: <b>'+s.top.map(a=>esc(a.n)).join(", ")+'</b>':'')+'</div>';
+      else b+='<div class="bmpick none">No tested 2K27 favorite found yet.'+(s.top.length?' Highest-tier you unlock: <b>'+s.top.map(a=>esc(a.n)).join(", ")+'</b>':'')+'</div>';
+      if(s.next)b+='<div class="bmnext">'+bmGapTxt(s.next.g)+' for <b>'+esc(s.next.p.a.n)+'</b>'+(s.next.p.why?' · '+esc(s.next.p.why):'')+'</div>';
+      return bmCard(esc(lab),b,s.got?"got":s.ranked?"un":"nr")}).join("");
+    const nGot=groups.filter(g=>g==="Jump Shot"?J.ok.length:(bmSlot(g,V)||{}).got).length;
+    const open=BM.open[title]!==false;
+    return'<details class="bmsec"'+(open?" open":"")+' data-bmsec="'+esc(title)+'"><summary><h3>'+title+'</h3><span class="ocount">'+nGot+' of '+groups.length+' picked</span></summary>'+rows+'</details>'}).join("");
+  h+=secs;
+  h+='<details class="bmsrcs"><summary>Where these picks come from</summary><ul>'+Object.values(BM_SRC).map(x=>'<li><a href="'+x[1]+'" target="_blank" rel="noopener">'+esc(x[0])+'</a></li>').join("")+'</ul><p class="note">Guides were checked in November 2026. 2K patches animations during the season, so picks can change. Slots marked "No tested 2K27 favorite found yet" had no published 2K27 ranking, so the app shows the highest-tier options your ratings unlock instead.</p></details>';
+  v.innerHTML=h}
+if(document.addEventListener)document.addEventListener("toggle",e=>{const t=e.target;if(t&&t.dataset&&t.dataset.bmsec)BM.open[t.dataset.bmsec]=t.open},true);
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
@@ -3068,7 +3169,7 @@ window.addEventListener("scroll",()=>{if(TIP.on&&!TIP.on.isConnected)hideTip()},
 function renderView(){renderView0();foldIntro()}
 function renderView0(){
   if(ui.tab==="attrs"){updAttrs();renderCompact()}else if(ui.tab==="info")renderInfo();else if(ui.tab==="badges")renderBadgesTab();else if(ui.tab==="takeovers")renderTakeovers();
-  else if(ui.tab==="anims")renderAnims();else if(ui.tab==="cb")renderCB();
+  else if(ui.tab==="anims")renderAnims();else if(ui.tab==="bestmoves")renderBestMoves();else if(ui.tab==="cb")renderCB();
   else if(ui.tab==="gbadges")renderGoalBadges();else if(ui.tab==="ganims")renderGoalAnims();else if(ui.tab==="finder")renderQuiz();else if(ui.tab==="gtokens")renderGoalTokens();else if(ui.tab==="syn")renderSyn();else if(ui.tab==="tpl")renderTplView();else if(ui.tab==="prog")renderProg();else if(ui.tab==="share")renderShare();else renderSaved();
 }
 function afterChange(){
