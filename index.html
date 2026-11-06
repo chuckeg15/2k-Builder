@@ -1524,6 +1524,17 @@ html,body{overflow-x:clip}
 .jssum h3,.jsrecs h3{margin:0 0 6px;font-size:15px}.jsline{margin:0 0 6px;font-size:14px}.jssum .ok{color:var(--good,#1f8a4c);font-weight:700;margin:0}.jssum .bad{color:var(--bad,#c0392b);font-weight:700;margin:0}
 .jsrec{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}.jsrec:first-of-type{border-top:0}
 .jsrec>div{display:flex;flex-direction:column;gap:1px;min-width:0}.jsrec span{font-size:12.5px;color:var(--muted)}.jsrec small{font-size:11.5px;color:var(--muted)}.jsrec.off b{opacity:.6}
+/* shades result */
+#shres{position:fixed;inset:0;z-index:115;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px}
+#shres .shrc{background:var(--surface);color:var(--ink);border-radius:10px;width:min(760px,100%);max-height:88vh;overflow:auto;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+#shres header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}#shres header>div{display:flex;flex-direction:column;gap:2px}
+#shres header small{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}#shres header b{font-size:24px}#shres header span{font-size:13px;color:var(--muted)}
+#shres .bxclose{display:inline-block!important;font-size:24px;background:none;border:0;color:var(--ink);cursor:pointer;padding:4px 10px}
+.shrsum{margin:10px 0 12px;font-size:14px}.shrg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.shrp{border:1px solid var(--line);border-radius:8px;padding:10px 12px}.shrp>b{display:block;margin-bottom:6px}.shrp>b small{color:var(--muted);font-weight:600}
+.shri{display:grid;grid-template-columns:1fr auto;gap:0 8px;padding:4px 0;border-top:1px solid var(--line)}.shri span{font-size:13px}.shri b{font-size:15px;font-variant-numeric:tabular-nums}
+.shri em{grid-column:1/-1;font-style:normal;font-size:11.5px;color:var(--bad,#c0392b)}.shri.ok em{color:var(--good,#1f8a4c)}
+.shhit{display:block;font-style:normal;font-size:12.5px;font-weight:700;margin-top:4px}
 
 </style>
 
@@ -4338,6 +4349,51 @@ if(document.addEventListener)document.addEventListener("click",e=>{const t=e.tar
 {const _dc=drawCard;drawCard=function(fmt){const d=_dc.apply(this,arguments);try{const j=S.js;if(j&&j.b){const c=d.c,top=fmt==="story"?300:90,cy=top+40+120,x=330;c.save();
   c.fillStyle="rgba(255,255,255,.55)";c.font="800 20px Archivo, Arial, sans-serif";c.fillText("JUMPER",x,cy+108);const lw=c.measureText("JUMPER  ").width;
   c.fillStyle="#fff";c.font="700 22px Archivo, Arial, sans-serif";let t=j.b+(j.r1?" · "+j.r1+(j.r2?" / "+j.r2:""):"");while(c.measureText(t).width>d.W-x-lw-60&&t.length>4)t=t.slice(0,-2);c.fillText(t,x+lw,cy+108);c.restore()}}catch(e){}return d}}
+/* ---------------- ROUND 30: Shades builds from your picks, not 2K archetypes ---------------- */
+/* every chip row says Like most */
+{const _mix2=shMixHTML;shMixHTML=function(){return _mix2.apply(this,arguments).split('<span class="label">Copy</span>').join('<span class="label">Like most</span>')}}
+/* one combined target list: each picked skill, its target and how much it matters */
+function shTargets(sp){const W=sp.W,m={};SHB.sel.forEach((n,j)=>{const sig=sp.sigs[j]||{};Object.keys(sig).forEach((k,r)=>{const p=W[j]*(1-.08*r);const o=m[k];
+  if(!o)m[k]={k,t:sig[k],p,who:[n]};else{o.t=Math.max(o.t,sig[k]);o.p+=p;o.who.push(n)}})});const L=Object.values(m),tp=L.reduce((s,x)=>s+x.p,0)||1;L.forEach(x=>x.p/=tp);return L.sort((a,b)=>b.p-a.p)}
+let SH_CAPS=null;function shCapsMap(){if(SH_CAPS)return SH_CAPS;SH_CAPS=new Map();plBodies().forEach(b=>SH_CAPS.set(b.h*100000+b.w*100+b.ws,b));return SH_CAPS}
+/* raise the picked skills in priority order on one body, as far as 99 overall allows */
+function shFit(T,b){const h=b.h,c=b.caps,v=new Array(21).fill(25);let score=0;
+  for(const x of T){const i=IDX[x.k],tg=Math.min(c[i],x.t);if(v[i]<tg){let t2=v.slice();t2[i]=tg;linkA(t2,h,c,[i]);if(ovrA(t2,h)<=99+1e-9){for(let z=0;z<21;z++)v[z]=t2[z]}
+      else{let lo=v[i],hi=tg;while(hi-lo>1){const mid=(lo+hi)>>1;t2=v.slice();t2[i]=mid;linkA(t2,h,c,[i]);if(ovrA(t2,h)<=99+1e-9)lo=mid;else hi=mid}if(lo>v[i]){t2=v.slice();t2[i]=lo;linkA(t2,h,c,[i]);for(let z=0;z<21;z++)v[z]=t2[z]}}}
+    score+=x.p*Math.min(1,(v[i]-25)/Math.max(1,x.t-25))}
+  return{v,score}}
+/* look at every legal body near the blend (any position) and keep the one that lands the most picks */
+function shBestBody(sp,T){const M=shCapsMap(),out=[];
+  for(const pos of POS){const B=DATA.bodies[pos];for(let h=Math.max(B.h[0],sp.h-3);h<=Math.min(B.h[1],sp.h+3);h++){const r=B.rows[h];if(!r)continue;
+    const cl=(x,a)=>Math.max(a[0],Math.min(a[1],x));const ws=[...new Set([r[0][0],cl(sp.w,r[0]),r[0][1]])],wss=[...new Set([r[1][0],cl(sp.ws,r[1]),r[1][1]])];
+    for(const w of ws)for(const s of wss){const b=M.get(h*100000+w*100+s);if(!b)continue;const f=shFit(T,b);
+      const pen=.012*Math.abs(h-sp.h)+.0006*Math.abs(w-sp.w)+.004*Math.abs(s-sp.ws)+(pos===sp.pos?0:.01);out.push({pos,b,f,s:f.score-pen})}}}
+  out.sort((a,b)=>b.s-a.s);return out[0]||null}
+shCreate=function(){const sp=shBuildSpec();if(!sp)return;const T=shTargets(sp),best=shBestBody(sp,T);if(!best){toast("Couldn't find a legal body for these picks");return}
+  const b=best.b,fv=fillA(best.f.v.slice(),{h:b.h,caps:b.caps},sp.imp.map((x,i)=>Math.pow(x,1.6)*(T.some(t=>IDX[t.k]===i)?1.4:1)));
+  S=Object.assign(fresh(),{shades:SHB.sel.slice(),name:"Shades",pos:best.pos,h:b.h,w:b.w,ws:b.ws});K.forEach((k,i)=>S.v[k]=fv[i]);clampAll();invalidate();
+  /* finish exactly at 99 */
+  const c=caps();if(ovrOf(S.v,S.h)>99+1e-9)trimUnder99();{let mv=true,g=0;while(mv&&g++<400&&!isComplete(S.v)){mv=false;for(const x of T.map(t=>t.k).concat(K)){const t=Object.assign({},S.v);t[x]++;if(t[x]>c[x])continue;linkFix(t,x,1);if(ovrOf(t,S.h)<=99+1e-9){S.v=t;mv=true;if(isComplete(S.v))break}}}}
+  try{const NICK={"lebron james":"LeBron","magic johnson":"Magic","michael jordan":"MJ","kobe bryant":"Kobe","shaquille o'neal":"Shaq","kevin durant":"KD","stephen curry":"Steph","kareem abdul-jabbar":"Kareem","giannis antetokounmpo":"Giannis","nikola jokic":"Jokic","wilt chamberlain":"Wilt","larry bird":"Bird","hakeem olajuwon":"Hakeem","allen iverson":"AI","dwyane wade":"D-Wade","kevin garnett":"KG","dirk nowitzki":"Dirk","anthony davis":"AD","chris paul":"CP3","klay thompson":"Klay","kyrie irving":"Kyrie","damian lillard":"Dame","russell westbrook":"Russ","kawhi leonard":"Kawhi","joel embiid":"Embiid","dennis rodman":"Rodman","scottie pippen":"Pippen","vince carter":"Vince","ja morant":"Ja","zion williamson":"Zion","tim duncan":"Duncan","bill russell":"Russell","oscar robertson":"Oscar","julius erving":"Dr. J","anthony edwards":"Ant","victor wembanyama":"Wemby","luka doncic":"Luka","shai gilgeous-alexander":"SGA"};
+    const ln=SHB.sel.map(n=>NICK[shNorm(n)]||n.split(" ").slice(-1)[0]);S.name=(ln.length===1?"Shades of "+ln[0]:ln.join(" x ")).slice(0,28)}catch(e){}
+  try{const V=vals(),L=bestLoadout(V,{});S.eq={};Object.entries(L.eq).forEach(([id,t])=>S.eq[id]=t);S.myan=S.myan||{};AGROUPS.forEach((g,i)=>{if(S.myan[i]==null){const p=maBest(i,V);if(p!=null)S.myan[i]=p}})}catch(e){}
+  invalidate();ui.tab="attrs";renderPoss();renderMeas();fullRender();try{histRecord()}catch(e){}shResult(sp,T)};
+/* result: how each pick landed, instead of a 2K archetype */
+function shResult(sp,T){let b=document.getElementById("shres");if(!b){b=document.createElement("div");b.id="shres";b.setAttribute("role","dialog");b.setAttribute("aria-modal","true");b.setAttribute("aria-label","Your Shades build");document.body.appendChild(b)}
+  const V=vals(),c=caps(),hit=T.filter(x=>S.v[x.k]>=x.t).length;
+  const rows=SHB.sel.map((n,j)=>{const sig=sp.sigs[j]||{},ks=Object.keys(sig);if(!ks.length)return"";return'<div class="shrp"><b>'+esc(n)+' <small>'+Math.round(sp.W[j]*100)+'%</small></b>'+ks.map(k=>{const t=sig[k],v=S.v[k],ok=v>=t,capd=!ok&&c[k]<t;
+    return'<div class="shri'+(ok?" ok":"")+'"><span>'+esc(AN[k])+'</span><b>'+v+'</b><em>'+(ok?"✓ target "+t:capd?"Cap "+c[k]+" on this body (target "+t+")":"Short of "+t+" (+"+(t-v)+")")+'</em></div>'}).join("")+'</div>'}).join("");
+  b.innerHTML='<div class="shrc"><header><div><small>Your build</small><b>'+esc(S.name)+'</b><span>'+esc(S.pos)+' · '+ft(S.h)+' · '+S.w+' lbs · '+ft(S.ws)+' WS</span></div><button type="button" class="bxclose" data-shresx="1" aria-label="Close">×</button></header>'+
+   '<p class="shrsum"><b>'+hit+' of '+T.length+'</b> picks hit their target. The body and position were chosen to land the most of them, not to match a 2K archetype.</p><div class="shrg">'+rows+'</div>'+
+   '<div class="btns"><button type="button" class="btn pri" data-shresx="1">See my ratings</button><button type="button" class="btn" data-card="1">Make a share image</button><button type="button" class="btn" data-shresarch="1">Archetype card</button></div></div>';b.hidden=false}
+if(document.addEventListener){document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-shresx],[data-shresarch],#shres");if(!t)return;const b=document.getElementById("shres");
+  if(t.id==="shres"){if(e.target===t)b.hidden=true;return}e.stopPropagation();if(b)b.hidden=true;if(t.dataset.shresarch)try{shOpen()}catch(err){}},true);
+  document.addEventListener("click",e=>{if(e.target.closest&&e.target.closest("#shres [data-card]")){const b=document.getElementById("shres");if(b)b.hidden=true}},true);
+  document.addEventListener("keydown",e=>{const b=document.getElementById("shres");if(e.key==="Escape"&&b&&!b.hidden)b.hidden=true})}
+/* the preview line uses the same engine, so what you see is what you get */
+{const _rsb9=renderShadesBuilder;renderShadesBuilder=function(){const r=_rsb9.apply(this,arguments);try{const v=document.getElementById("view-shades"),bb=v&&v.querySelector(".shprev>div>b");if(bb&&SHB.sel.length){const sp=shBuildSpec(),T=shTargets(sp),best=shBestBody(sp,T);
+  if(best){bb.textContent=best.pos+" · "+ft(best.b.h)+" · "+best.b.w+" lbs · "+ft(best.b.ws)+" WS";v.querySelectorAll(".shprev .shstr").forEach(x=>{if(/lets a/.test(x.textContent))x.remove()});
+    const n=T.filter(x=>best.f.v[IDX[x.k]]>=x.t).length;const sm=v.querySelector(".shprev small");if(sm&&!v.querySelector(".shhit"))sm.insertAdjacentHTML("afterend",'<em class="shhit">'+n+' of '+T.length+' picks reach their target on this body.</em>')}}}catch(e){}return r}}
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
