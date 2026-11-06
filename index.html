@@ -1456,6 +1456,18 @@ body[data-xtab="saved"] .tokstrip,body[data-xtab="share"] .tokstrip,body[data-xt
 html,body{overflow-x:clip}
 .shtip{margin:6px 0 10px;font-weight:700;font-size:14px}
 
+/* round 26 */
+.nofitbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0;padding:8px 12px;border:1px dashed var(--line);border-radius:6px;font-size:13px;color:var(--muted)}
+.nofit{opacity:.55}.nofitwhy{display:block;font-size:11.5px;color:var(--bad,#c0392b);margin-top:3px;font-weight:600}
+.qopt.nofit{cursor:not-allowed}.qopt.nofit span{color:var(--bad,#c0392b)}
+.lookrow{margin-top:10px}.lookrow>.label{display:block;margin-bottom:6px}
+.looks{display:flex;flex-wrap:wrap;gap:6px}
+.lookb{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 10px;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;min-height:32px}
+.lookb.near{border-color:var(--accent)}
+.lookb.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.lookrow .note{display:block;margin-top:6px;font-size:11.5px;line-height:1.4}
+.fitlook{display:flex;gap:8px;align-items:center;margin:6px 0 8px}.fitlook select{font:inherit;padding:4px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
+
 </style>
 
 
@@ -3882,6 +3894,155 @@ if(document.addEventListener)document.addEventListener("click",e=>{const t=e.tar
 {const _rcb=renderCB;renderCB=function(){const r=_rcb.apply(this,arguments);try{if(ui.cbgoal&&ui.cbgoal!=="points"){const g=CBGOALS.find(x=>x[0]===ui.cbgoal);if(!g)return r;if(g[0]==="contacts")g[2]=S.h>=82?{ddunk:1,vertical:.9,sdunk:.7,strength:.3}:{ddunk:1,vertical:.9,strength:.2};
   const V=vals(),rows=Object.keys(g[2]).sort((a,b)=>g[2][b]-g[2][a]).map(k=>{const c=S.cb[k]||0,inc=cbIncs(k)[c];return c>=5?AN[k]+": all 5 used":!inc||inc.g<=0?AN[k]+": at its cap ("+V[k]+")":AN[k]+" +"+inc.g+" to "+(V[k]+inc.g)});
   const h=[...document.querySelectorAll("#view-cb h2.sec")].find(x=>/Best next/.test(x.textContent));if(h&&!document.getElementById("cbgoalnext"))h.insertAdjacentHTML("beforebegin",'<div id="cbgoalnext" class="lock soft"><b>Next for '+esc(g[1].toLowerCase())+':</b> '+rows.map(esc).join(" · ")+(g[0]==="contacts"&&S.h<82?'. Standing contact dunks need 6\'10" or taller, so they are left out.':'')+'</div>')}}catch(e){}return r}}
+/* ---------------- ROUND 26: Charles's fixes (Nov 6) ---------------- */
+/* A. Cap breakers start at 0 */
+{const _fr=fresh;fresh=function(){const o=_fr.apply(this,arguments);o.cbHave=0;return o}}
+cbHave=function(){const n=S.cbHave;return Number.isInteger(n)?Math.max(0,Math.min(28,n)):0};
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("#resetBtn");if(!t)return;setTimeout(()=>{try{if(!(typeof unlSum==="function"&&unlSum().cb>0)){S.cbHave=0;S.cb={};afterChange()}}catch(err){}},0)});
+
+/* B. Results load at the position you asked for */
+{const _lp=loadPlan;loadPlan=function(b,v,name){const pref=ui.tab==="finder"?QZ.pos:ui.tab==="ganims"?GA.pos:ui.tab==="gbadges"?GB.pos:(typeof GT!=="undefined"&&ui.tab==="gtokens"?GT.pos:null);
+  if(pref&&pref!=="any"&&b.pos.includes(pref))S.pos=pref;return _lp.apply(this,arguments)}}
+{const _rc=resultCard;resultCard=function(r,i,extra){const pref=ui.tab==="finder"?QZ.pos:ui.tab==="ganims"?GA.pos:ui.tab==="gbadges"?GB.pos:null;let h=_rc.apply(this,arguments);
+  if(pref&&pref!=="any"&&r.b.pos.includes(pref)&&r.b.pos.length>1)h=h.replace('<b>'+ft(r.b.h)+' '+esc(r.b.pos.join(" / "))+'</b>','<b>'+ft(r.b.h)+' '+pref+'</b>');return h}}
+
+/* C. Build By: hide options that can't work with what you already picked */
+function gOn(g,b){return g.alts.some(a=>b.h>=a.h[0]&&b.h<=a.h[1]&&a.req.every(q=>q[1]<=b.caps[q[0]]))}
+function fitBodiesFor(goals,st){return plBodies().filter(b=>b.h>=(st.hmin||69)&&b.h<=(st.hmax||88)&&(!st.pos||st.pos==="any"||b.pos.includes(st.pos))&&goals.every(g=>gOn(g,b)))}
+function gHeights(g){let lo=99,hi=0;g.alts.forEach(a=>{lo=Math.min(lo,a.h[0]);hi=Math.max(hi,a.h[1])});return[lo,hi]}
+function whyNot(g,FB,st){if(!FB.length)return"Nothing fits your filters";const lo=Math.min(...FB.map(b=>b.h)),hi=Math.max(...FB.map(b=>b.h)),[a,z]=gHeights(g);
+  if(z<lo||a>hi)return"Needs "+ft(a)+(z>=88?" or taller":" to "+ft(z))+". Your picks need "+ft(lo)+" to "+ft(hi);
+  return"Out of reach for the bodies your picks allow"}
+const NOFIT={ga:false,gb:false,qz:false};
+function nofitBar(key,n,what){return n?'<div class="nofitbar"><span>'+n+' '+what+' hidden because '+(n===1?"it doesn't":"they don't")+' fit your picks or filters.</span><button type="button" class="lnk" data-nofit="'+key+'">'+(NOFIT[key]?"Hide them":"Show them")+'</button></div>':""}
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-nofit]");if(!t)return;e.stopPropagation();const k=t.dataset.nofit;NOFIT[k]=!NOFIT[k];
+  if(k==="ga")renderGoalAnims();else if(k==="gb")renderGoalBadges();else renderQuiz()},true);
+function markRow(el,why,key){el.classList.add("nofit");el.setAttribute("title",why);if(!NOFIT[key])el.hidden=true}
+{const _rga=renderGoalAnims;renderGoalAnims=function(){_rga.apply(this,arguments);const v=document.getElementById("view-ganims");if(!v)return;
+  const st={pos:GA.pos,hmin:GA.hmin,hmax:GA.hmax},FB=fitBodiesFor(gaGoals(),st);let n=0;
+  v.querySelectorAll("[data-gaadd]").forEach(btn=>{const i=+btn.dataset.gaadd;if(GA.sel.includes(i))return;const g=animGoal(ANIMS[i]);if(FB.some(b=>gOn(g,b)))return;
+    const tr=btn.closest("tr"),why=whyNot(g,FB,st);n++;btn.disabled=true;btn.textContent="Won't fit";const td=tr&&tr.children[3];if(td)td.insertAdjacentHTML("beforeend",'<small class="nofitwhy">'+esc(why)+'</small>');if(tr)markRow(tr,why,"ga")});
+  const tw=v.querySelector(".tablewrap");if(tw)tw.insertAdjacentHTML("beforebegin",nofitBar("ga",n,"packages"))}}
+{const _rgb=renderGoalBadges;renderGoalBadges=function(){_rgb.apply(this,arguments);const v=document.getElementById("view-gbadges");if(!v)return;
+  const st={pos:GB.pos,hmin:GB.hmin,hmax:GB.hmax};let n=0;const cache={};
+  const fbExcept=id=>cache[id]||(cache[id]=fitBodiesFor(Object.entries(GB.sel).filter(([x])=>x!==id).map(([x,t])=>badgeGoal(BADGES.find(b=>b.id===x),t)).concat(Object.keys(GB.tos).map(nm=>toGoal(TAKEOVERS.find(t=>t.n===nm)))),st));
+  v.querySelectorAll(".pick").forEach(card=>{const tb=card.querySelector("[data-gbt]");if(!tb)return;const id=tb.dataset.gbt,b=BADGES.find(x=>x.id===id);if(!b)return;const FB=fbExcept(id);let any=false;
+    card.querySelectorAll("[data-gbt]").forEach(x=>{const t=+x.dataset.v;if(!t)return;const g=badgeGoal(b,t);if(g.alts.length&&FB.some(bd=>gOn(g,bd))){any=true;return}if(GB.sel[id]!==t){x.disabled=true;x.title=TIERS[t]+": "+whyNot(g,FB,st)}});
+    if(!any&&!GB.sel[id]){n++;markRow(card,whyNot(badgeGoal(b,1),FB,st),"gb");card.insertAdjacentHTML("beforeend",'<small class="nofitwhy">'+esc(whyNot(badgeGoal(b,1),FB,st))+'</small>')}});
+  const FBall=fitBodiesFor(gbGoals(),st);v.querySelectorAll("[data-gbto]").forEach(c=>{const nm=c.dataset.gbto;if(GB.tos[nm])return;const g=toGoal(TAKEOVERS.find(t=>t.n===nm));if(FBall.some(b=>gOn(g,b)))return;n++;c.disabled=true;markRow(c,whyNot(g,FBall,st),"gb")});
+  const pg=v.querySelector(".pgrid");if(pg)pg.insertAdjacentHTML("beforebegin",nofitBar("gb",n,"badges or takeovers"))}}
+/* Preferences: position, size, dunks, moves and must-haves rule each other out */
+function qzWith(patch,fn){const save={};for(const k in patch){save[k]=QZ[k];QZ[k]=patch[k]}try{return fn()}finally{Object.assign(QZ,save)}}
+function qzFB(patch){return qzWith(patch||{},()=>{const [h0,h1]=qSizeRange();return fitBodiesFor(quizGoals(),{pos:QZ.pos,hmin:h0,hmax:h1})})}
+{const _rq=renderQuiz;renderQuiz=function(){_rq.apply(this,arguments);const v=document.getElementById("view-finder");if(!v)return;let n=0;const s=QZ.step;
+  const off=(el,why)=>{el.disabled=true;el.classList.add("nofit");el.title=why;const sp=el.querySelector("span");if(sp)sp.textContent=why;else el.insertAdjacentHTML("beforeend",'<span>'+esc(why)+'</span>')};
+  if(s===3)v.querySelectorAll("[data-qpos]").forEach(el=>{const p=el.dataset.qpos;if(p==="any"||p===QZ.pos)return;if(!qzFB({pos:p}).length)off(el,QZ.size!=="any"?"Not available at the size you picked":"Doesn't fit your other picks")});
+  if(s===4)v.querySelectorAll("[data-qsize]").forEach(el=>{const z=el.dataset.qsize;if(z==="any"||z===QZ.size)return;if(!qzFB({size:z}).length)off(el,QZ.pos!=="any"?"A "+QZ.pos+" can't be this size in 2K27":"Doesn't fit your other picks")});
+  if(s===6)[["qdunk","dunk"],["qhandle","handle"],["qshot","shot"]].forEach(([a,f])=>v.querySelectorAll("[data-"+a+"]").forEach(el=>{const val=el.dataset[a];if(val==="none"||val===QZ[f])return;if(!qzFB({[f]:val}).length)off(el,"Out of reach for your position, size and picks")}));
+  if(s===8){const [h0,h1]=qSizeRange(),st={pos:QZ.pos,hmin:h0,hmax:h1};
+    v.querySelectorAll(".pick").forEach(card=>{const tb=card.querySelector("[data-qbt]");if(!tb)return;const id=tb.dataset.qbt,b=BADGES.find(x=>x.id===id);if(!b)return;
+      const others=Object.assign({},QZ.badges);delete others[id];const FB=qzFB({badges:others});let any=false;
+      card.querySelectorAll("[data-qbt]").forEach(x=>{const t=+x.dataset.v;if(!t)return;const g=badgeGoal(b,t);if(g.alts.length&&FB.some(bd=>gOn(g,bd))){any=true;return}if(QZ.badges[id]!==t){x.disabled=true;x.title=TIERS[t]+": "+whyNot(g,FB,st)}});
+      if(!any&&!QZ.badges[id]){n++;markRow(card,whyNot(badgeGoal(b,1),FB,st),"qz")}});
+    const FBall=qzFB();v.querySelectorAll("[data-qto]").forEach(c=>{const nm=c.dataset.qto;if(QZ.tos[nm])return;const g=toGoal(TAKEOVERS.find(t=>t.n===nm));if(FBall.some(b=>gOn(g,b)))return;n++;c.disabled=true;markRow(c,whyNot(g,FBall,st),"qz")});
+    const pg=v.querySelector(".pgrid");if(pg)pg.insertAdjacentHTML("beforebegin",nofitBar("qz",n,"badges or takeovers"))}}}
+/* a pick that no longer fits after you change position or size gets dropped, with a note */
+function qzPrune(){const dropped=[];const [h0,h1]=qSizeRange(),st={pos:QZ.pos,hmin:h0,hmax:h1};
+  [["dunk","none"],["handle","none"],["shot","none"]].forEach(([f,z])=>{if(QZ[f]!==z&&!qzFB().length){const old=QZ[f];QZ[f]=z;if(qzFB().length)dropped.push(f==="dunk"?"contact dunks":f==="handle"?"signature dribbles":"jumper bases");else QZ[f]=old}});
+  Object.keys(QZ.badges).forEach(id=>{const b=BADGES.find(x=>x.id===id);if(!b)return;if(!fitBodiesFor([badgeGoal(b,QZ.badges[id])],st).length){delete QZ.badges[id];dropped.push(b.n)}});
+  if(dropped.length)toast("Removed picks that can't work now: "+dropped.join(", "))}
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-qpos],[data-qsize]");if(!t||t.disabled)return;setTimeout(()=>{try{qzPrune()}catch(err){}},0)});
+if(document.addEventListener)document.addEventListener("change",e=>{const t=e.target;if(!t||!t.id)return;const m={gapos:[GA,"pos"],gahmin:[GA,"hmin"],gahmax:[GA,"hmax"]}[t.id];if(!m)return;
+  setTimeout(()=>{try{const st={pos:GA.pos,hmin:GA.hmin,hmax:GA.hmax},keep=[],drop=[];GA.sel.forEach(i=>{const g=animGoal(ANIMS[i]);if(fitBodiesFor(keep.map(j=>animGoal(ANIMS[j])).concat([g]),st).length)keep.push(i);else drop.push(ANIMS[i].n)});
+    if(drop.length){GA.sel=keep;toast("Removed picks that can't work now: "+drop.join(", "));renderGoalAnims()}}catch(err){}},30)});
+
+/* D. Auto-equip and every loadout lean on what the build is for */
+const ROLEPACK=[
+ [V=>V.block>=80||V.idef>=82,{paint_patroller:1.7,wall_up:1.5,high_flying_denier:1.4,post_lockdown:1.25,boxout_boss:1.2,brick_wall:1.2,off_ball_pest:.7,interceptor:.75,pick_dodger:.7}],
+ [V=>V.ddunk>=85,{posterizer:1.7,rise_up:1.3,physical_finisher:1.25,slippery_offball:1.15,aerial_wizard:1.05}],
+ [V=>V.sdunk>=80&&S.h>=82,{rise_up:1.5,physical_finisher:1.2,posterizer:1.1}],
+ [V=>V.layup>=85,{layup_mixmaster:1.35,float_game:1.2,physical_finisher:1.2}],
+ [V=>V.pdef>=85,{challenger:1.6,glove:1.35,interceptor:1.3,pick_dodger:1.3,off_ball_pest:1.25,ankle_braces:1.3,high_flying_denier:1.1}],
+ [V=>V.three>=85,{deadeye:1.5,limitless_range:1.45,set_and_fire:1.3,quick_trigger:1.25,mini_marksman:1.2}],
+ [V=>V.mid>=85,{static_middy:1.4,arc_cadence:1.2,smooth_operator:1.2}],
+ [V=>V.pass>=85,{dimer:1.5,versatile_visionary:1.35,break_starter:1.2,bail_out:1.2}],
+ [V=>V.handle>=85,{handles_for_days:1.35,ankle_assassin:1.4,strong_handle:1.25,unpluckable:1.25,lightning_launch:1.2}],
+ [V=>V.post>=80,{post_powerhouse:1.4,post_spin_catalyst:1.35,hook_specialist:1.3,post_fade_phenom:1.3}],
+ [V=>V.dreb>=82||V.oreb>=82,{boxout_boss:1.4,possession_closer:1.3,sync_snatcher:1.25,crasher:1.25,pogostick:1.15}],
+ [V=>V.strength>=80,{brick_wall:1.3,immovable_enforcer:1.3,bruiser:1.2,work_horse:1.1}]];
+function roleMult(id,V){let m=1;for(const [f,p] of ROLEPACK){try{if(f(V)&&p[id])m*=p[id]}catch(e){}}return Math.min(2.4,m)}
+{const _bi=bImp;bImp=function(b,V){const base=_bi.apply(this,arguments);let own=null;try{const r=DATA.breq[b.id]&&DATA.breq[b.id][0];if(r&&r.length){const ks=r.map(q=>K[q[0]]).filter(Boolean);if(ks.length)own=Math.max(...ks.map(k=>V[k]))}}catch(e){}
+  const ownF=own==null?1:Math.max(.35,Math.min(1.25,(own-45)/40));return base*ownF*roleMult(b.id,V)}}
+
+/* E. Shades of NBA players: pick order and who you picked drive the build */
+const SIG={"Stephen Curry":{three:99,ft:95,mid:90,handle:88,swb:82},"Klay Thompson":{three:96,mid:90,ft:88,pdef:80},"Ray Allen":{three:96,ft:92,mid:90},"Reggie Miller":{three:94,ft:92,mid:88},"Damian Lillard":{three:93,handle:88,swb:84,ft:90},"Trae Young":{three:90,pass:92,handle:88},
+ "LeBron James":{strength:90,ddunk:92,layup:90,pass:90,speed:85,vertical:80,handle:84,pdef:80},"Shaquille O'Neal":{strength:99,sdunk:96,close:92,post:88,dreb:85,idef:80},"Giannis Antetokounmpo":{ddunk:95,vertical:88,speed:84,block:84,dreb:85,idef:82},
+ "Michael Jordan":{mid:95,ddunk:92,layup:92,pdef:90,steal:85,vertical:85},"Kobe Bryant":{mid:95,layup:90,handle:85,pdef:86,ft:88,three:80},"Kevin Durant":{mid:95,three:90,ft:90,layup:85,handle:80},
+ "Magic Johnson":{pass:97,handle:88,post:80,dreb:80,layup:85},"Chris Paul":{pass:95,handle:92,mid:90,steal:85},"Steve Nash":{pass:95,three:88,mid:90,ft:92,handle:88},"Allen Iverson":{handle:95,swb:92,layup:90,speed:92,steal:84},
+ "Kyrie Irving":{handle:96,layup:95,swb:90,three:85,mid:88},"Tim Duncan":{post:90,idef:92,block:88,dreb:90,close:88},"Hakeem Olajuwon":{post:95,block:92,idef:90,steal:80,close:88},"Kareem Abdul-Jabbar":{close:95,post:95,block:88,idef:85},
+ "Wilt Chamberlain":{strength:95,sdunk:95,dreb:95,block:90,close:92},"Nikola Jokić":{pass:96,post:90,close:90,dreb:90,mid:85},"Larry Bird":{three:92,mid:92,pass:90,dreb:84,ft:92},"Dirk Nowitzki":{mid:96,three:88,ft:92,post:82},
+ "Kevin Garnett":{idef:90,mid:88,dreb:88,block:85,pdef:80},"Dwyane Wade":{layup:94,ddunk:88,swb:88,steal:84,block:70},"Russell Westbrook":{ddunk:92,speed:94,swb:92,pass:88,dreb:80},"Anthony Davis":{idef:92,block:92,sdunk:88,dreb:88,mid:82},
+ "Dennis Rodman":{dreb:99,oreb:96,pdef:88,idef:85,strength:85},"Ben Wallace":{block:92,dreb:94,idef:92,strength:88},"Dikembe Mutombo":{block:97,idef:92,dreb:90},"Bill Russell":{block:95,idef:92,dreb:95,pdef:82},
+ "Victor Wembanyama":{block:97,idef:90,three:85,dreb:88},"Luka Dončić":{pass:93,three:88,handle:90,post:82,mid:88},"Shai Gilgeous-Alexander":{mid:95,layup:92,handle:90,steal:84},"Anthony Edwards":{ddunk:94,three:86,speed:86,vertical:88},
+ "Vince Carter":{ddunk:97,vertical:92,three:84},"Zion Williamson":{ddunk:95,strength:92,layup:92,vertical:88},"Ja Morant":{ddunk:94,layup:94,speed:94,vertical:92,handle:90},"Oscar Robertson":{pass:92,mid:90,dreb:84,post:80},
+ "Julius Erving":{ddunk:94,layup:92,vertical:90},"Scottie Pippen":{pdef:94,steal:90,pass:85,layup:85},"Kawhi Leonard":{pdef:94,steal:88,mid:92,strength:80},"Paul George":{three:88,pdef:88,steal:85},"Jayson Tatum":{three:88,mid:88,layup:85,dreb:80},
+ "Joel Embiid":{post:94,mid:88,strength:90,idef:88,ft:88},"Gary Payton":{pdef:95,steal:92,pass:85,post:78},"Draymond Green":{pass:85,idef:88,pdef:88,strength:82},"Rudy Gobert":{block:92,idef:94,dreb:92,sdunk:85}};
+const TAGSIG={sh:{three:95,ft:90},md:{mid:95,ft:88},sl:{layup:94,ddunk:90},hd:{handle:94,swb:88},ps:{pass:95},po:{post:92,close:90},df:{pdef:93,steal:88},rm:{block:93,idef:93},rb:{dreb:92,oreb:88},at:{vertical:90,ddunk:92,speed:85},pw:{strength:93,sdunk:90}};
+function shNorm(n){return String(n).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase()}
+function shSig(name,entry){const hit=Object.keys(SIG).find(k=>shNorm(k)===shNorm(name));if(hit)return Object.assign({},SIG[hit]);
+  const tags=String((entry&&entry.tags)||((SHP[name]||[]).find(x=>x.tags)||{}).tags||"").split(/\s+/).filter(Boolean),o={};
+  tags.forEach((t,j)=>{const x=TAGSIG[t];if(!x)return;for(const k in x){const v=x[k]-3*j;if(!o[k]||o[k]<v)o[k]=v}});
+  if(!tags.length&&entry&&entry.i!=null){const B=BLUEPRINTS[entry.i];const mid=K.map((k,j)=>({k,v:(B[8][j][0]+(B[8][j][1]==null?99:B[8][j][1]))/2})).sort((a,b)=>b.v-a.v).slice(0,4);mid.forEach(x=>o[x.k]=Math.round(Math.min(97,x.v)))}
+  return o}
+const SH_W=[[1],[.65,.35],[.55,.3,.15]];
+shBuildSpec=function(){const sel=SHB.sel;if(!sel.length)return null;const bp=shCombo(sel);if(!bp.length)return null;const W=SH_W[sel.length-1];
+  /* each pick uses their real body when we have it, so the body follows pick 1 most */
+  const ent=sel.map((n,j)=>{const real=(SHP[n]||[]).find(x=>x.add&&Math.abs(x.pi-bp[j].pi)<=1)||bp[j];return{n,e:bp[j],real}});
+  const body=ent.map(x=>{const e=x.real;if(e.i!=null){const B=BLUEPRINTS[e.i];return{h:B[4],w:B[5],ws:B[6]}}return{h:e.h,w:e.w,ws:Math.min(e.h+6,e.h+(e.ws||3))}});
+  const pos=ent[0].real.pos||ent[0].e.pos,BW=[[1],[.75,.25],[.65,.25,.1]][sel.length-1];const wsum=(f)=>Math.round(body.reduce((s,b,j)=>s+BW[j]*f(b),0));
+  let h=wsum(b=>b.h);const hr=DATA.bodies[pos].h;h=Math.max(hr[0],Math.min(hr[1],h));const rr=DATA.bodies[pos].rows[h];const w=Math.max(rr[0][0],Math.min(rr[0][1],wsum(b=>b.w))),ws=Math.max(rr[1][0],Math.min(rr[1][1],wsum(b=>b.ws)));
+  const imps=ent.map(x=>{const e=x.real,a=e.i!=null?bpImp(e.i):tagImp(e.pos,e.tags);if(x.e.i!=null&&x.e!==e){const b2=bpImp(x.e.i);return a.map((v,i)=>.6*v+.4*b2[i])}return a});
+  const imp=K.map((k,j)=>imps.reduce((s,v,i)=>s+W[i]*v[j],0));
+  const sigs=ent.map((x,j)=>{const o=shSig(x.n,x.real),d=[0,5,10][j];const r={};for(const k in o)r[k]=Math.max(60,o[k]-d);return r});
+  const from=ent.map((x,j)=>(j+1)+". "+x.n+" ("+Object.keys(sigs[j]).slice(0,3).map(k=>AN[k]).join(", ")+")");
+  return{pos,h,w,ws,imp,sigs,W,from,allBp:false,lo:null,hi:null,B:from.map(f=>[f])}};
+shCreate=function(){const sp=shBuildSpec();if(!sp)return;S=Object.assign(fresh(),{shades:SHB.sel.slice(),name:"Shades",pos:sp.pos,h:sp.h,w:sp.w,ws:sp.ws});clampAll();invalidate();
+  const c=caps();
+  /* 1: each pick's signature ratings, pick 1 first, as high as the budget allows */
+  sp.sigs.forEach(sig=>{Object.keys(sig).sort((a,b)=>sig[b]-sig[a]).forEach(k=>{const tg=Math.min(c[k],sig[k]);let g=0;while(S.v[k]<tg&&g++<80){const v=tryStep(k,1);if(!v)break;S.v=v}})});
+  /* 2: the rest of the 99 goes where the blend's importance says */
+  const bd={h:S.h,caps:K.map(k=>c[k])},fv=fillA(K.map(k=>S.v[k]),bd,sp.imp.map(x=>Math.pow(x,1.6)));K.forEach((k,i)=>{if(fv[i]>S.v[k])S.v[k]=fv[i]});clampAll();
+  let moved=true,g=0;const order=K.slice().sort((a,b)=>sp.imp[IDX[b]]-sp.imp[IDX[a]]);while(moved&&g++<300){moved=false;for(const k of order){if(isComplete(S.v))break;const v=tryStep(k,1);if(v){S.v=v;moved=true}}}
+  if(ovrOf(S.v,S.h)>99+1e-9)trimUnder99();
+  try{const NICK={"lebron james":"LeBron","magic johnson":"Magic","michael jordan":"MJ","kobe bryant":"Kobe","shaquille o'neal":"Shaq","kevin durant":"KD","stephen curry":"Steph","kareem abdul-jabbar":"Kareem","giannis antetokounmpo":"Giannis","nikola jokic":"Jokic","wilt chamberlain":"Wilt","larry bird":"Bird","hakeem olajuwon":"Hakeem","allen iverson":"AI","dwyane wade":"D-Wade","kevin garnett":"KG","dirk nowitzki":"Dirk","anthony davis":"AD","chris paul":"CP3","klay thompson":"Klay","kyrie irving":"Kyrie","damian lillard":"Dame","russell westbrook":"Russ","kawhi leonard":"Kawhi","joel embiid":"Embiid","dennis rodman":"Rodman","scottie pippen":"Pippen","vince carter":"Vince","ja morant":"Ja","zion williamson":"Zion","tim duncan":"Duncan","bill russell":"Russell","oscar robertson":"Oscar","julius erving":"Dr. J","anthony edwards":"Ant","victor wembanyama":"Wemby","luka doncic":"Luka","shai gilgeous-alexander":"SGA"};
+    const ln=SHB.sel.map(n=>NICK[shNorm(n)]||n.split(" ").slice(-1)[0]);S.name=(ln.length===1?"Shades of "+ln[0]:ln.join(" x ")).slice(0,28)}catch(e){}
+  invalidate();ui.tab="attrs";renderPoss();renderMeas();fullRender();
+  const top=Object.keys(sp.sigs[0]).filter(k=>S.v[k]>=Math.min(cap(k),sp.sigs[0][k])).map(k=>AN[k]+" "+S.v[k]).slice(0,3);
+  toast("Built around "+SHB.sel[0]+(top.length?": "+top.join(", "):"")+(SHB.sel.length>1?". Then "+SHB.sel.slice(1).join(", then "):""));setTimeout(()=>{try{shOpen()}catch(e){}},300)};
+{const _rsb6=renderShadesBuilder;renderShadesBuilder=function(){_rsb6.apply(this,arguments);const v=document.getElementById("view-shades");if(!v)return;
+  v.querySelectorAll(".shslot.on").forEach((s,i)=>{const av=s.querySelector(".shav");if(av)av.textContent=String(i+1)});
+  const sm=v.querySelector(".shprev small");const sp=SHB.sel.length?shBuildSpec():null;if(sm&&sp)sm.textContent="Priority: "+sp.from.join(" · ");
+  const tip=v.querySelector(".shtip");if(tip)tip.textContent="Pick up to 3 players. Pick 1 matters most: the build starts with their signature ratings and body, then pick 2, then pick 3."}}
+
+/* F. Body look: the 11 looks from 2K27's body type list */
+const LOOKS=["Slim","Slender","Toned","Shredded","Balanced","Firm","Buff","Broad","Burly","Large","Stocky"];
+function lookIdx(pos,h,w,str){const r=DATA.bodies[pos]&&DATA.bodies[pos].rows[h];if(!r)return 4;const f=(w-r[0][0])/Math.max(1,r[0][1]-r[0][0]),s=((str==null?50:str)-25)/74;return Math.max(0,Math.min(10,Math.round(10*(.8*f+.2*s))))}
+function lookW(pos,h,i,str){const r=DATA.bodies[pos].rows[h][0],s=((str==null?50:str)-25)/74,f=Math.max(0,Math.min(1,(i/10-.2*s)/.8));return Math.round(r[0]+f*(r[1]-r[0]))}
+function lookBand(pos,h,i,str){const r=DATA.bodies[pos].rows[h][0];let lo=null,hi=null;for(let w=r[0];w<=r[1];w++)if(lookIdx(pos,h,w,str)===i){if(lo==null)lo=w;hi=w}return lo==null?null:[lo,hi]}
+{const _rm=renderMeas;renderMeas=function(){_rm.apply(this,arguments);const m=document.getElementById("meas");if(!m||!m.insertAdjacentHTML)return;const i=lookIdx(S.pos,S.h,S.w,S.v.strength);
+  m.insertAdjacentHTML("beforeend",'<div class="lookrow"><span class="label">Look</span><div class="looks" role="group" aria-label="Body look">'+LOOKS.map((n,j)=>'<button type="button" class="lookb'+(j===i?" on":Math.abs(j-i)===1?" near":"")+'" data-look="'+j+'" aria-pressed="'+(j===i)+'">'+n+'</button>').join("")+'</div><small class="note">Names from 2K27\'s body type list. Tap one to move your weight to where it shows up. 2K decides your exact choices from height, weight, wingspan and Strength, and you unlock more at the Gatorade facility, so this is a close guide, not a guarantee.</small></div>')}}
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-look]");if(!t)return;e.stopPropagation();const i=+t.dataset.look,w=lookW(S.pos,S.h,i,S.v.strength);if(w===S.w){toast(LOOKS[i]+" look");return}
+  S.w=w;fullRender();toast(LOOKS[i]+" look: weight set to "+w+" lbs")},true);
+/* Also fits: filter by look */
+let FIT_LOOK=-1;
+{const _fh=fitHTML;fitHTML=function(){let h=_fh.apply(this,arguments);if(!/fitbox/.test(h))return h;
+  const sel='<label class="fitlook"><span class="label">Look</span><select data-fitlook="1"><option value="-1">Any look</option>'+LOOKS.map((n,j)=>'<option value="'+j+'"'+(FIT_LOOK===j?" selected":"")+'>'+n+'</option>').join("")+'</select></label>';
+  h=h.replace('</p>','</p>'+sel);
+  if(FIT_LOOK>=0){const L=fitBodies(),str=S.v.strength,byPos={};POS.forEach(p=>byPos[p]={});L.forEach(o=>o.pos.forEach(p=>{if(lookIdx(p,o.h,o.w,str)===FIT_LOOK)(byPos[p][o.h]=byPos[p][o.h]||[]).push(o)}));
+    const rows=POS.filter(p=>Object.keys(byPos[p]).length).map(p=>'<div class="fitpos"><b'+(p===S.pos?' class="cur"':'')+'>'+p+'</b><div>'+Object.keys(byPos[p]).sort((a,b)=>a-b).map(hh=>{const os=byPos[p][hh];return'<span class="fith'+(+hh===S.h&&p===S.pos?" cur":"")+'"><i>'+ft(+hh)+'</i> '+rangeTxt(os.map(o=>o.w),x=>x)+' lbs · '+rangeTxt(os.map(o=>o.ws),ft)+' WS</span>'}).join("")+'</div></div>').join("");
+    const a=h.indexOf('<div class="fitpos">'),z=h.lastIndexOf('</details>');if(a>0&&z>a)h=h.slice(0,a)+(rows||'<p class="fitnone">No legal body holds these ratings with the '+LOOKS[FIT_LOOK]+' look.</p>')+h.slice(z)}
+  return h}}
+if(document.addEventListener)document.addEventListener("change",e=>{const t=e.target;if(!t||!t.dataset||!t.dataset.fitlook)return;FIT_LOOK=+t.value;ui.fitOpen=true;try{renderFit()}catch(err){fullRender()}});
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
