@@ -1637,6 +1637,13 @@ html,body{overflow-x:clip}
 .bnr>div{display:flex;flex-direction:column;gap:1px;min-width:0}.bnr span{font-size:12.5px;color:var(--muted)}.bnr .bntop{color:var(--ink);font-weight:600}.bnr.off b{opacity:.6}
 .bnu{font-style:normal;font-size:10.5px;font-weight:800;text-transform:uppercase;color:var(--accent);margin-left:4px}
 .bnname{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline;margin:2px 0 6px;font-size:13px}.bnname span{color:var(--muted);font-size:11.5px;text-transform:uppercase;font-weight:700}.bnname .lnk{font-weight:800}
+.hklock{font-size:13px;margin:8px 0 0;padding:6px 10px;border-radius:6px;background:color-mix(in srgb,var(--accent) 10%,transparent)}
+#bmbox{position:fixed;inset:0;z-index:118;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px}
+#bmbox .bmc{background:var(--surface);color:var(--ink);border-radius:10px;width:min(640px,100%);max-height:88vh;overflow:auto;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+#bmbox header{display:flex;justify-content:space-between;align-items:center}#bmbox header b{font-size:20px}#bmbox .bxclose{display:inline-block!important;font-size:24px;background:none;border:0;color:var(--ink);cursor:pointer;padding:4px 10px}
+.bmch{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.bmch span{border:1px solid var(--line);border-radius:6px;padding:4px 8px;font-size:13px}
+#bmbox h4{margin:12px 0 4px}#bmbox .dn{color:var(--bad,#c0392b)}#bmbox .ok{color:var(--good,#16a34a)}.bman{font-size:12px;color:var(--muted)}
+.shclr{margin:0 0 6px}
 
 </style>
 
@@ -4720,6 +4727,77 @@ if(document.addEventListener){document.addEventListener("click",e=>{const t=e.ta
   const best=bnClosest(vals("base"),S.pos,S.h,1)[0];if(!best)return r;if(!el){const sb=document.getElementById("shBtn");if(!sb)return r;sb.insertAdjacentHTML("beforebegin",'<div id="bnname" class="bnname"></div>');el=document.getElementById("bnname")}
   el.innerHTML='<span>Closest 2K name</span><button type="button" class="lnk" data-bnjump="1">'+esc(best.o.n)+'</button>'}catch(e){}return r}}
 if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-bnjump]");if(!t)return;e.stopPropagation();BNUI.q=t.textContent;BNUI.fam="All";BNUI.pos="ALL";const sec=SECTIONS.find(s=>s.id==="find");SEC_LAST.find="bnames";const nb=document.querySelector('.tabs.primary [data-sec="find"]');if(nb)nb.click();else{ui.tab="bnames";renderTabs();renderView()}},true);
+/* ---------------- ROUND 34: two-way linked ratings, locks everywhere, badge minimums, shades reset ---------------- */
+/* 2K27 links work both ways: raising a rating lifts its partners, lowering one pulls its partners down */
+linkFix=function(v,changed,dir){const rules=DATA.assoc[S.h]||[],q=[changed],c=caps();let guard=0;
+  while(q.length&&guard++<400){const k=q.shift(),i=IDX[k];
+    for(const r of rules){if(r[2]===0)continue;
+      if(dir>0&&r[0]===i){const t=K[r[1]],need=Math.min(c[t],v[k]-r[2]);if(v[t]<need){v[t]=need;q.push(t)}}
+      if(dir<0&&r[1]===i){const s=K[r[0]],lim=Math.max(25,v[k]+r[2]);if(v[s]>lim){v[s]=lim;q.push(s)}}}}
+  return v};
+/* the lowest a rating can go without moving anything else */
+function linkFloor(v,k){const rules=DATA.assoc[S.h]||[],i=IDX[k];let f=25;for(const r of rules){if(r[2]===0||r[1]!==i)continue;f=Math.max(f,v[K[r[0]]]-r[2])}return Math.min(f,v[k])}
+function linkBroken(v){v=v||S.v;const rules=DATA.assoc[S.h]||[],out=[];for(const r of rules){if(r[2]===0)continue;const s=K[r[0]],t=K[r[1]];if(v[t]<Math.min(cap(t),v[s]-r[2]))out.push([s,t,Math.min(cap(t),v[s]-r[2])])}return out}
+hkLowest=function(k){return linkFloor(S.v,k)};
+/* a build that breaks a link (from before this fix, an import or a code) gets a one-tap fix */
+function linkBanner(){const m=document.querySelector(".main");if(!m)return;let b=document.getElementById("lnkfix");const br=linkBroken();if(!br.length){if(b)b.remove();return}
+  const t=br.slice(0,3).map(([s,t,n])=>AN[t]+" must be at least "+n+" with "+AN[s]+" at "+S.v[s]).join("; ");
+  if(!b){m.insertAdjacentHTML("afterbegin",'<div id="lnkfix" class="lnkbad" role="alert"></div>');b=document.getElementById("lnkfix")}
+  b.innerHTML='<b>Linked ratings out of range.</b> '+esc(t)+(br.length>3?" and "+(br.length-3)+" more":"")+'. 2K won\'t allow this. <button type="button" class="btn sm" data-lnkfix="1">Fix it</button>'}
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-lnkfix]");if(!t)return;e.stopPropagation();const before=Object.assign({},S.v);let g=0,br;while((br=linkBroken()).length&&g++<60)br.forEach(([s,tt,n])=>{if(S.v[tt]<n)S.v[tt]=n});
+  if(ovrOf(S.v,S.h)>99+1e-9)trimUnder99();invalidate();afterChange();try{histRecord()}catch(err){}const ch=K.filter(k=>S.v[k]!==before[k]);toast("Fixed: "+ch.map(k=>AN[k]+" "+before[k]+" to "+S.v[k]).join(", "))},true);
+{const _ac3=afterChange;afterChange=function(){const r=_ac3.apply(this,arguments);try{linkBanner()}catch(e){}return r}}
+setTimeout(()=>{try{linkBanner()}catch(e){}},300);
+
+/* locks hold against everything: your own edits that would drag a locked rating, plans, suggestions */
+{const _sa2=setAttr;setAttr=function(k,target){if(isLocked(k)){const msg=AN[k]+" is locked at "+S.v[k]+". Tap its lock to change it.";try{renderView()}catch(e){}setTimeout(()=>toast(msg),80);return}
+  const before=Object.assign({},S.v);const r=_sa2.apply(this,arguments);const hit=K.filter(x=>x!==k&&isLocked(x)&&S.v[x]!==before[x]);
+  if(hit.length){S.v=before;invalidate();afterChange();const msg="Can't: that would move locked "+hit.map(x=>AN[x]+" ("+before[x]+")").join(", ")+". Unlock it first.";setTimeout(()=>toast(msg),80)}return r}}
+/* cap breaker hacks keep locked ratings exactly where they are */
+{const _hp=hkPlan;hkPlan=function(){const L=K.filter(isLocked);if(!L.length)return _hp.apply(this,arguments);const keepW=HK.want.slice(),keepD=HK.dump;
+  HK.want=HK.want.filter(k=>!isLocked(k));HK.dump=hkDump().filter(k=>!isLocked(k));let r;try{r=_hp.apply(this,arguments)}finally{HK.want=keepW;HK.dump=keepD}
+  const moved=L.filter(k=>r.v[k]!==S.v[k]);moved.forEach(k=>{r.v[k]=S.v[k];if(S.cb[k])r.cb[k]=S.cb[k];else delete r.cb[k]});r.lockWarn=moved;r.ovr=ovrOf(r.v,S.h);r.ok=r.ovr<=99+1e-9;
+  K.forEach(k=>{r.effNew[k]=hkGains(r.v,winArch(r.v,S.h),k,r.v[k],r.cb[k]||0)});return r}}
+{const _hh=hkHTML;hkHTML=function(){let h=_hh.apply(this,arguments);const r=HK.res;const L=K.filter(isLocked);
+  if(L.length)h=h.replace('<div class="hkrow"><span class="label">1. I mostly play','<p class="hklock">Locked and left alone: <b>'+L.map(k=>esc(AN[k])+" "+S.v[k]).join(", ")+'</b></p><div class="hkrow"><span class="label">1. I mostly play');
+  if(r&&r.lockWarn&&r.lockWarn.length)h=h.replace('<h3>The plan</h3>','<h3>The plan</h3><p class="hknote dn">The best plan wanted to move '+r.lockWarn.map(k=>esc(AN[k])).join(", ")+', but '+(r.lockWarn.length>1?"they are":"it is")+' locked, so this plan works around '+(r.lockWarn.length>1?"them":"it")+'.'+(r.ok?'':' It no longer fits under 99: unlock something or lower a target.')+'</p>');return h}}
+/* per-row apply refuses rows whose linked side effects would move a locked rating */
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-hkone],[data-hkapply]");if(!t||!HK.res)return;const r=HK.res;
+  const rows=t.dataset.hkone?[t.dataset.hkone]:K;const hit=[];rows.forEach(k=>{const fx=hkSide(r,k);fx.list.forEach(x=>{if(isLocked(x[0])&&!hit.includes(x[0]))hit.push(x[0])})});
+  if(hit.length){e.stopImmediatePropagation();toast("Not applied: it would move locked "+hit.map(x=>AN[x]).join(", ")+". Unlock or skip this row.")}},true);
+
+/* Set to Badge Minimums: lower each rating to the lowest value that keeps every badge tier */
+function bmTiers(){const V=vals(),o={};BADGES.forEach(b=>o[b.id]=Math.max(0,badgeTier(b,V)));return o}
+function bmPlan(){const save=S.v;try{const t0=bmTiers();let v=Object.assign({},S.v),moved=true,g=0;
+  while(moved&&g++<40){moved=false;for(const k of K){if(isLocked(k))continue;let gg=0;while(gg++<80){if(v[k]<=25)break;S.v=v;cbCache={};const t=tryStep(k,-1);if(!t||t[k]>=v[k])break;if(K.some(x=>isLocked(x)&&t[x]!==save[x]))break;
+      S.v=t;cbCache={};const ti=bmTiers();if(BADGES.some(b=>ti[b.id]<t0[b.id]))break;v=t;moved=true}}}
+  S.v=save;cbCache={};const ch=K.filter(k=>v[k]!==save[k]);
+  const Vb=vals();S.v=v;cbCache={};const Va=vals();S.v=save;cbCache={};
+  const anLost=ANIMS.filter(a=>animOk(a,Vb)&&!animOk(a,Va)),toLost=TAKEOVERS.filter(t=>t.reqs.length&&reqMet(t.reqs,t.op,Vb)&&!reqMet(t.reqs,t.op,Va));
+  return{v,ch,freed:ovrOf(save,S.h)-ovrOf(v,S.h),anLost,toLost}}finally{S.v=save;cbCache={}}}
+function bmConfirm(){const r=bmPlan();let b=document.getElementById("bmbox");if(!b){b=document.createElement("div");b.id="bmbox";b.setAttribute("role","dialog");b.setAttribute("aria-modal","true");b.setAttribute("aria-label","Set to Badge Minimums");document.body.appendChild(b)}
+  window.__BMP=r;const eq=MA&&S.myan?Object.values(S.myan).map(i=>ANIMS[i]).filter(Boolean):[];const eqLost=r.anLost.filter(a=>eq.includes(a));
+  b.innerHTML='<div class="bmc"><header><b>Set to Badge Minimums</b><button type="button" class="bxclose" data-bmx="1" aria-label="Close">×</button></header>'+
+   (r.ch.length?'<p>Each rating drops to the lowest value that keeps <b>every badge tier you have now</b>'+(K.some(isLocked)?' (locked ratings stay put)':'')+'. This frees <b>'+r.freed.toFixed(2)+' OVR</b>.</p><div class="bmch">'+r.ch.map(k=>'<span>'+esc(AN[k])+' <b>'+S.v[k]+' → '+r.v[k]+'</b></span>').join("")+'</div>'+
+     '<h4>No longer valid after this</h4>'+(r.toLost.length?'<p class="dn">Takeovers: '+esc(r.toLost.map(t=>t.n).join(", "))+'</p>':'<p class="ok">Takeovers: none lost</p>')+
+     (r.anLost.length?'<p class="dn">Animations: '+r.anLost.length+' lose eligibility'+(eqLost.length?', including ones you equipped: <b>'+esc(eqLost.map(a=>a.n).join(", "))+'</b>':'')+'.</p><details><summary>See all '+r.anLost.length+'</summary><p class="bman">'+esc(r.anLost.slice(0,200).map(a=>a.n+" ("+AGROUPS[a.g][1]+")").join(", "))+'</p></details>':'<p class="ok">Animations: none lost</p>')+
+     '<div class="btns"><button type="button" class="btn pri" data-bmgo="1">Apply</button><button type="button" class="btn" data-bmx="1">Cancel</button></div>'
+   :'<p>Every rating is already at the lowest value for the badge tiers it gives you.</p><div class="btns"><button type="button" class="btn" data-bmx="1">Close</button></div>')+'</div>';b.hidden=false}
+if(document.addEventListener){document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-bmopen],[data-bmx],[data-bmgo],#bmbox");if(!t)return;if(t.id==="bmbox"){if(e.target===t)t.hidden=true;return}e.stopPropagation();const b=document.getElementById("bmbox");
+  if(t.dataset.bmopen!=null)bmConfirm();else if(t.dataset.bmx)b.hidden=true;else if(t.dataset.bmgo&&window.__BMP){const r=window.__BMP;const before=Object.assign({},S.v);S.v=Object.assign({},r.v);invalidate();afterChange();try{histRecord()}catch(err){}b.hidden=true;
+    setTimeout(()=>flashRows(K.filter(k=>S.v[k]!==before[k]).map(k=>[k,S.v[k]-before[k]])),60);toast("Set to badge minimums. "+r.freed.toFixed(2)+" OVR freed to spend.")}},true);
+  document.addEventListener("keydown",e=>{const b=document.getElementById("bmbox");if(e.key==="Escape"&&b&&!b.hidden)b.hidden=true})}
+function bmBtn(){document.querySelectorAll(".atools").forEach(a=>{if(a.querySelector("[data-bmopen]"))return;const hk=a.querySelector("[data-hkopen]");const html='<button type="button" class="btn" data-bmopen="1">Set to Badge Minimums</button>';if(hk)hk.insertAdjacentHTML("afterend",html);else a.insertAdjacentHTML("beforeend",html)})}
+{const _ua3=updAttrs;updAttrs=function(){const r=_ua3.apply(this,arguments);try{bmBtn()}catch(e){}return r}}
+setTimeout(()=>{try{bmBtn()}catch(e){}},250);
+
+/* Shades: one button clears all picks; targets never above 99 */
+{const _rsb10=renderShadesBuilder;renderShadesBuilder=function(){const r=_rsb10.apply(this,arguments);try{const v=document.getElementById("view-shades");if(!v||!SHB.sel.length||v.querySelector("[data-shclearall]"))return r;
+  const tr=v.querySelector(".shtray");if(tr)tr.insertAdjacentHTML("beforebegin",'<div class="btns shclr"><button type="button" class="btn sm" data-shclearall="1">Reset players</button></div>')}catch(e){}return r}}
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-shclearall]");if(!t)return;e.stopPropagation();SHB.sel=[];SHB.wt=null;SHB.wtKey="";SHB.wtNames=[];SHB.likes={};SHB.q="";renderShadesBuilder();toast("Players cleared")},true);
+{const _sbs=shBuildSpec;shBuildSpec=function(){const sp=_sbs.apply(this,arguments);if(sp&&sp.sigs)sp.sigs.forEach(s=>{for(const k in s)s[k]=Math.min(99,s[k])});return sp}}
+/* Smart fill and other automatic fills never raise a locked rating either */
+{const _sp4=spreadSmart;spreadSmart=function(){const before=Object.assign({},S.v);const r=_sp4.apply(this,arguments);try{let ch=false;K.forEach(k=>{if(isLocked(k)&&S.v[k]!==before[k]){S.v[k]=before[k];ch=true}});if(ch){const br=linkBroken();if(br.length)toast("Locked ratings held. Some linked ratings may need a fix, see the banner.");if(ovrOf(S.v,S.h)>99+1e-9)trimUnder99()}}catch(e){}return r}}
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
@@ -4866,5 +4944,3 @@ if(!saved0)applyTemplate(TEMPLATES[0]);else fullRender();
 window.__BL={T6:{gtJointK:k=>gtJointK(k),GT:()=>GT,synSuggest:()=>synSuggest(),bestLoadout:(V,f)=>bestLoadout(V,f),vals:()=>vals(),renderSyn:()=>renderSyn(),renderGoalTokens:()=>renderGoalTokens(),zCode:()=>zCode(),decodeAny:c=>decodeAny(c)},autoPlanCB:()=>autoPlanCB(),afterChange:()=>afterChange(),PL:{runQuiz,renderQuiz,renderGoalBadges,renderGoalAnims,runGoalSearch,PL_LAST:()=>PL_LAST,solve,minVec,fillA,badgeGoal,animGoal,toGoal,bestPerHeight,styleImp,ovrA,plBodies,quizGoals,quizImp,QZ,GB,GA,gbGoals,gaGoals,summarizeV,linkA},badgeSlots,S:()=>S,setS:x=>{S=x;invalidate()},caps,ovrOf,ovrRaw,cbIncs,tokenBudget,BADGES,badgeTier,vals,ANIMS,animOk,applyTemplate,TEMPLATES,suggestions,invalidate};
 })();
 </script>
-
-</html>
