@@ -1606,6 +1606,28 @@ html,body{overflow-x:clip}
 }
 .cbt-n{white-space:nowrap;font-size:13px}.cbt-n b{margin-left:6px}
 
+/* round 32 */
+.lnkw{display:none!important}
+@keyframes flup{0%,100%{background:transparent}50%{background:color-mix(in srgb,#22c55e 38%,transparent)}}
+@keyframes fldn{0%,100%{background:transparent}50%{background:color-mix(in srgb,#ef4444 38%,transparent)}}
+.arow.flup,.crow.flup{animation:flup .6s ease-in-out 3}.arow.fldn,.crow.fldn{animation:fldn .6s ease-in-out 3}
+.arow.flup .aval input,.crow.flup .cvin{color:#16a34a}.arow.fldn .aval input,.crow.fldn .cvin{color:#dc2626}
+#hkbox{position:fixed;inset:0;z-index:118;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px}
+#hkbox .hkc{background:var(--surface);color:var(--ink);border-radius:10px;width:min(880px,100%);max-height:90vh;overflow:auto;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.hk header{display:flex;justify-content:space-between;align-items:center}.hk header b{font-size:22px}
+.hk .bxclose{display:inline-block!important;font-size:24px;background:none;border:0;color:var(--ink);cursor:pointer;padding:4px 10px}
+.hkrow{margin:12px 0}.hkrow>.label{display:block;margin-bottom:6px;font-weight:800}
+.hkrow .seg{display:flex;flex-wrap:wrap;gap:4px}
+.hkchips{display:flex;flex-wrap:wrap;gap:6px}.hkchips .chip{font-size:12.5px;min-height:34px}.hkchips .chip i{font-style:normal;background:var(--accent);color:#fff;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;margin-right:5px}
+.hktg{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:8px}.hktg label{font-size:13px;display:flex;align-items:center;gap:6px}.hktg input{width:62px;font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.hkres{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}.hkres h3{margin:0 0 6px}
+.hksum{font-size:14px;line-height:1.6}.hkt{width:100%;border-collapse:collapse;font-size:13.5px;margin:8px 0}.hkt th,.hkt td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}.hkt th{font-size:12px;color:var(--muted)}
+.hkt .up{color:var(--good,#16a34a)}.hkt .dn{color:var(--bad,#c0392b)}.hkw,.hkd{font-style:normal;font-size:10.5px;font-weight:800;text-transform:uppercase;padding:1px 5px;border-radius:4px;background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)}.hkd{background:color-mix(in srgb,#888 18%,transparent);color:var(--muted)}
+.hknote{font-size:13px;margin:4px 0}.hknote.up{color:var(--good,#16a34a)}.hknote.dn{color:var(--bad,#c0392b)}
+.hkbtn{border-color:var(--accent)!important}
+.hkmsel{display:inline-flex;gap:6px;align-items:center;font-size:13px;margin:6px 10px 0 0}.hkmsel select{font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
+.hkmodes{display:flex;flex-direction:column;gap:6px;margin-top:8px}.hkmode{display:flex;gap:10px;align-items:center;justify-content:space-between;border:1px dashed var(--accent);border-radius:8px;padding:8px 10px;font-size:13.5px}
+
 </style>
 
 
@@ -4568,6 +4590,86 @@ function cbTableHTML(){const used=cbUsed(),left=Math.max(0,cbHave()-used);const 
 {const _rcb2=renderCB;renderCB=function(){const r=_rcb2.apply(this,arguments);try{const v=document.getElementById("view-cb");if(!v)return r;const by=[...v.querySelectorAll("h2.sec")].find(x=>/By attribute/.test(x.textContent));
   if(by){let n=by.nextElementSibling;while(n&&n.classList.contains("cbrow")){const x=n.nextElementSibling;n.remove();n=x}by.remove()}
   const anchor=v.querySelector(".cbhead");if(anchor&&!v.querySelector(".cbt"))anchor.insertAdjacentHTML("afterend",cbTableHTML())}catch(e){}return r}}
+/* ---------------- ROUND 32: linked flashes, game-mode dumps, cap breaker hacks ---------------- */
+/* no red text: linked ratings flash instead (green up, red down, 3 times) */
+paintLinkHints=function(){document.querySelectorAll(".lnkw").forEach(x=>x.remove())};
+function flashRows(diff){diff.forEach(([k,d])=>{const els=[...document.querySelectorAll('.arow[data-k="'+k+'"]')].concat([...document.querySelectorAll('#cmpv [data-ck="'+k+'"]')].map(i=>i.closest(".crow")).filter(Boolean));
+  els.forEach(el=>{el.classList.remove("flup","fldn");void el.offsetWidth;el.classList.add(d>0?"flup":"fldn");setTimeout(()=>el.classList.remove("flup","fldn"),1900)})})}
+{const _sa=setAttr;setAttr=function(k){const before=Object.assign({},S.v);const r=_sa.apply(this,arguments);try{const diff=K.filter(x=>x!==k&&S.v[x]!==before[x]).map(x=>[x,S.v[x]-before[x]]);if(diff.length)setTimeout(()=>flashRows(diff),40)}catch(e){}return r}}
+
+/* game modes: which ratings barely matter */
+const HK_MODES=[["one","1v1",["ft","oreb"]],["two","2v2",["ft"]],["three","3v3",["ft"]],["five","5v5 (Rec, Pro-Am)",[]],["mix","A mix",[]]];
+const HK={want:[],tgt:{},mode:"five",dump:null,res:null,keep:true};
+try{const o=JSON.parse(localStorage.getItem("bl27-hk")||"null");if(o){HK.want=(o.want||[]).filter(k=>K.includes(k));HK.tgt=o.tgt||{};HK.mode=o.mode||"five";HK.dump=Array.isArray(o.dump)?o.dump.filter(k=>K.includes(k)):null}}catch(e){}
+function hkSave(){try{localStorage.setItem("bl27-hk",JSON.stringify({want:HK.want,tgt:HK.tgt,mode:HK.mode,dump:HK.dump}))}catch(e){}}
+function hkDump(){return HK.dump||((HK_MODES.find(m=>m[0]===HK.mode)||HK_MODES[3])[2]).slice()}
+
+/* pure cap breaker math for any set of base ratings (same rule as cbIncs) */
+function hkGains(v,arch,k,base,n){const i=IDX[k],c=Math.min(99,cap(k)),w=DATA.w[S.h][arch],wm=Math.max(...w),f=wm?(wm-w[i])/wm:0;let cur=base;
+  for(let a=0;a<n;a++){if(cur>=c)break;const worth=15-Math.floor(14*(cur-25)/74);let g=Math.max(1,rhe(f*worth));g=Math.min(g,c-cur);cur+=g}return cur}
+function hkMinBase(v,arch,k,n,R){const c=cap(k);R=Math.min(R,c);if(hkGains(v,arch,k,25,n)>=R)return 25;let lo=25,hi=R;while(hi-lo>1){const m=(lo+hi)>>1;if(hkGains(v,arch,k,m,n)>=R)hi=m;else lo=m}return hi}
+function hkLowest(k){const save=S.v;let v=Object.assign({},S.v),g=0;while(g++<80){S.v=v;const t=tryStep(k,-1);if(!t||t[k]>=v[k])break;v=t}S.v=save;return v[k]}
+/* the planner */
+function hkPlan(){const save=S.v,saveCb=S.cb;try{
+  const N=cbHave(),dump=hkDump(),want=HK.want;const effNow={};K.forEach(k=>effNow[k]=eff(k));
+  const lowest={};dump.forEach(k=>{if(!want.includes(k)){S.v=save;lowest[k]=hkLowest(k)}});S.v=save;
+  const R={};K.forEach(k=>{R[k]=want.includes(k)?Math.max(effNow[k],Math.min(cap(k),+(HK.tgt[k]||cap(k)))):effNow[k]});
+  /* the cheapest set of build ratings that still plays at every target, for a given cap breaker split */
+  function build(c){let B={};K.forEach(k=>B[k]=lowest[k]!=null?lowest[k]:R[k]);
+    for(let it=0;it<3;it++){const arch=winArch(B,S.h);K.forEach(k=>{if(lowest[k]!=null)return;B[k]=c[k]?hkMinBase(B,arch,k,c[k],R[k]):R[k]});S.v=B;K.forEach(k=>{if(B[k]>save[k])linkFix(B,k,1)})}
+    S.v=save;return{B,o:ovrOf(B,S.h)}}
+  /* 1. give each cap breaker to the rating where it saves the most overall */
+  const c={};let cur=build(c),used=0;
+  while(used<N){let best=null;for(const k of K){if(lowest[k]!=null||(c[k]||0)>=5)continue;const t=Object.assign({},c);t[k]=(t[k]||0)+1;const r=build(t);const gain=cur.o-r.o;if(gain>1e-6&&(!best||gain>best.gain))best={k,gain,r,t}}
+    if(!best)break;Object.assign(c,best.t);cur=best.r;used++}
+  /* 2. if it doesn't fit under 99, ease off the wants you ranked last */
+  let g=0;while(cur.o>99+1e-9&&g++<600){const k=[...want].reverse().find(x=>R[x]>effNow[x]);if(!k)break;R[k]--;cur=build(c)}
+  const v=cur.B;const effOf=(vv,k)=>hkGains(vv,winArch(vv,S.h),k,vv[k],c[k]||0);const effNew={};K.forEach(k=>effNew[k]=effOf(v,k));
+  const ia=x=>K.map(k=>x[k]);
+  return{v,cb:c,used,ok:cur.o<=99+1e-9,effNow,effNew,dump,want,R,tok0:tokA(ia(save),S.h),tok1:tokA(ia(v),S.h),ovr:cur.o}}finally{S.v=save;S.cb=saveCb;cbCache={}}}
+function hkBadgeDiff(r){const save=S.v,saveCb=S.cb;try{const V0=vals();S.v=r.v;S.cb=r.cb;cbCache={};const V1=vals();const up=[],dn=[];BADGES.forEach(b=>{const a=Math.max(0,badgeTier(b,V0)),c=Math.max(0,badgeTier(b,V1));if(c>a)up.push(TIERS[c]+" "+b.n);else if(c<a)dn.push(b.n+" ("+TIERS[a]+(c?" to "+TIERS[c]:" lost")+")")});return{up,dn}}finally{S.v=save;S.cb=saveCb;cbCache={}}}
+/* panel */
+function hkHTML(){const dump=hkDump(),r=HK.res;let h='<div class="hk"><header><b>Cap breaker hacks</b><button type="button" class="bxclose" data-hkx="1" aria-label="Close">×</button></header>'+
+  '<p class="note">Build a rating lower and let cap breakers carry it back up, then spend what you saved. Low-weight ratings for your build type get the biggest breakers.</p>'+
+  '<div class="hkrow"><span class="label">1. I mostly play</span><div class="seg">'+HK_MODES.map(m=>'<button type="button" data-hkmode="'+m[0]+'" aria-pressed="'+(HK.mode===m[0])+'">'+m[1]+'</button>').join("")+'</div></div>'+
+  '<div class="hkrow"><span class="label">2. Want most (tap in order)</span><div class="hkchips">'+ATTRS.map(a=>{const i=HK.want.indexOf(a.k);return'<button type="button" class="chip" data-hkwant="'+a.k+'" aria-pressed="'+(i>=0)+'">'+(i>=0?'<i>'+(i+1)+'</i>':'')+esc(a.n)+'</button>'}).join("")+'</div>'+
+  (HK.want.length?'<div class="hktg">'+HK.want.map(k=>'<label>'+esc(AN[k])+' target <input type="number" min="25" max="'+cap(k)+'" value="'+(HK.tgt[k]||cap(k))+'" data-hktgt="'+k+'"> <small>cap '+cap(k)+'</small></label>').join("")+'</div>':'')+'</div>'+
+  '<div class="hkrow"><span class="label">3. Don\'t need (go as low as allowed)</span><div class="hkchips">'+ATTRS.map(a=>'<button type="button" class="chip" data-hkdump="'+a.k+'" aria-pressed="'+dump.includes(a.k)+'">'+esc(a.n)+'</button>').join("")+'</div>'+(HK.mode==="one"||HK.mode==="two"||HK.mode==="three"?'<small class="note">No free throws in '+(HK_MODES.find(m=>m[0]===HK.mode)[1])+', so Free Throw starts selected.</small>':'')+'</div>'+
+  '<div class="hkrow"><span class="label">4. Cap breakers</span>'+cbHaveBox("cbhave3")+'</div>'+
+  '<div class="btns"><button type="button" class="btn pri" data-hkgo="1"'+(HK.want.length?'':' disabled')+'>Find the best plan</button>'+(HK.want.length?'':'<span class="note">Pick at least one rating you want most.</span>')+'</div>';
+  if(r){const bd=hkBadgeDiff(r),rows=K.filter(k=>r.v[k]!==S.v[k]||(r.cb[k]||0)!==(S.cb[k]||0)||r.effNew[k]!==r.effNow[k]);
+    const tk=GROUPS.map(g=>g[0]),t0=tk.reduce((s,g)=>s+r.tok0[g],0),t1=tk.reduce((s,g)=>s+r.tok1[g],0);
+    h+='<div class="hkres"><h3>The plan</h3><p class="hksum">'+r.want.map(k=>'<b>'+esc(AN[k])+' '+r.effNow[k]+' → '+r.effNew[k]+'</b>').join(" · ")+'<br>Uses '+r.used+' of '+cbHave()+' cap breakers. Build overall '+r.ovr.toFixed(2)+(r.ovr<98.95?' ('+(99-r.ovr).toFixed(2)+' left to spend anywhere)':'')+'.'+(r.want.some(k=>r.effNew[k]<(+(HK.tgt[k]||cap(k))))?' Lower-ranked wants were eased off to fit under 99.':'')+'</p>'+
+     '<table class="hkt"><thead><tr><th>Rating</th><th>Build at</th><th>Breakers</th><th>Plays at</th></tr></thead><tbody>'+rows.map(k=>{const d=r.effNew[k]-r.effNow[k];return'<tr><td>'+esc(AN[k])+(r.want.includes(k)?' <i class="hkw">want</i>':r.dump.includes(k)?' <i class="hkd">don\'t need</i>':'')+'</td><td>'+S.v[k]+' → <b>'+r.v[k]+'</b></td><td>'+(r.cb[k]?'+'+r.cb[k]:'')+'</td><td>'+r.effNow[k]+' → <b class="'+(d>0?"up":d<0?"dn":"")+'">'+r.effNew[k]+'</b></td></tr>'}).join("")+'</tbody></table>'+
+     '<p class="hknote">Badge tokens '+t0+' → <b>'+t1+'</b> (tokens and slots come from what you build at, before breakers).'+(t1<t0?' Check the Badges tab after applying.':'')+'</p>'+
+     (bd.up.length?'<p class="hknote up">Badge tiers gained: '+esc(bd.up.slice(0,8).join(", "))+(bd.up.length>8?" and "+(bd.up.length-8)+" more":"")+'</p>':'')+(bd.dn.length?'<p class="hknote dn">Badge tiers lost: '+esc(bd.dn.slice(0,8).join(", "))+(bd.dn.length>8?" and "+(bd.dn.length-8)+" more":"")+'</p>':'')+
+     '<div class="btns"><button type="button" class="btn pri" data-hkapply="1">Apply this plan</button><span class="note">Undo puts everything back.</span></div></div>'}
+  return h+'</div>'}
+function hkOpen(){let b=document.getElementById("hkbox");if(!b){b=document.createElement("div");b.id="hkbox";b.setAttribute("role","dialog");b.setAttribute("aria-modal","true");b.setAttribute("aria-label","Cap breaker hacks");document.body.appendChild(b)}b.innerHTML='<div class="hkc">'+hkHTML()+'</div>';b.hidden=false}
+function hkRender(){const b=document.getElementById("hkbox");if(b&&!b.hidden){const st=b.querySelector(".hkc").scrollTop;b.querySelector(".hkc").innerHTML=hkHTML();b.querySelector(".hkc").scrollTop=st}}
+if(document.addEventListener){
+  document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-hkopen],[data-hkx],[data-hkmode],[data-hkwant],[data-hkdump],[data-hkgo],[data-hkapply],#hkbox");if(!t)return;
+    if(t.id==="hkbox"){if(e.target===t)t.hidden=true;return}e.stopPropagation();const d=t.dataset;
+    if(d.hkopen!=null){HK.res=null;hkOpen();return}if(d.hkx){document.getElementById("hkbox").hidden=true;return}
+    if(d.hkmode){HK.mode=d.hkmode;HK.dump=null;HK.res=null}
+    else if(d.hkwant){const i=HK.want.indexOf(d.hkwant);if(i>=0)HK.want.splice(i,1);else HK.want.push(d.hkwant);HK.res=null}
+    else if(d.hkdump){const L=hkDump(),i=L.indexOf(d.hkdump);if(i>=0)L.splice(i,1);else L.push(d.hkdump);HK.dump=L;HK.res=null}
+    else if(d.hkgo){const t0=performance.now();HK.res=hkPlan();if(!HK.res.ok)toast("Couldn't keep that under 99. Lower a target.");}
+    else if(d.hkapply&&HK.res){S.v=Object.assign({},HK.res.v);S.cb=Object.assign({},HK.res.cb);cbCache={};invalidate();afterChange();try{histRecord()}catch(err){}document.getElementById("hkbox").hidden=true;toast("Plan applied. Undo puts it back.");HK.res=null;return}
+    hkSave();hkRender()},true);
+  document.addEventListener("change",e=>{const t=e.target;if(!t)return;if(t.dataset&&t.dataset.hktgt){const k=t.dataset.hktgt;HK.tgt[k]=Math.max(25,Math.min(cap(k),parseInt(t.value,10)||cap(k)));HK.res=null;hkSave();hkRender()}else if(t.id==="cbhave3"){setTimeout(()=>{HK.res=null;hkRender()},30)}});
+  document.addEventListener("keydown",e=>{const b=document.getElementById("hkbox");if(e.key==="Escape"&&b&&!b.hidden)b.hidden=true})}
+/* the button sits with the other build tools */
+function hkBtn(){document.querySelectorAll(".atools").forEach(a=>{if(a.querySelector("[data-hkopen]"))return;const imp=[...a.querySelectorAll("button")].find(b=>/Improvements/.test(b.textContent));const html='<button type="button" class="btn hkbtn" data-hkopen="1">Cap breaker hacks</button>';if(imp)imp.insertAdjacentHTML("afterend",html);else a.insertAdjacentHTML("beforeend",html)})}
+{const _ua2=updAttrs;updAttrs=function(){const r=_ua2.apply(this,arguments);try{hkBtn()}catch(e){}return r}}
+setTimeout(()=>{try{hkBtn()}catch(e){}},200);
+/* Smart suggestions: ratings that do nothing in your main mode */
+{const _op=optPanel;optPanel=function(){let h=_op.apply(this,arguments);if(!h)return h;try{const dump=hkDump().filter(k=>!HK.want.includes(k));const cards=dump.map(k=>{const lo=hkLowest(k);if(S.v[k]<=lo)return"";const t=Object.assign({},S.v);t[k]=lo;const saved=ovrOf(S.v,S.h)-ovrOf(t,S.h);if(saved<.01)return"";
+    return'<div class="hkmode"><span><b>'+esc(AN[k])+'</b> barely matters in '+esc((HK_MODES.find(m=>m[0]===HK.mode)||[0,"this mode"])[1])+'. Build it at '+lo+' instead of '+S.v[k]+' to free <b>'+saved.toFixed(2)+' OVR</b>.</span><button type="button" class="btn sm" data-hklow="'+k+'" data-lo="'+lo+'">Lower it</button></div>'}).join("");
+  const sel='<label class="hkmsel">Main mode <select data-hkmsel="1">'+HK_MODES.map(m=>'<option value="'+m[0]+'"'+(HK.mode===m[0]?" selected":"")+'>'+m[1]+'</option>').join("")+'</select></label><button type="button" class="btn sm hkbtn" data-hkopen="1">Cap breaker hacks</button>';
+  h=h.replace('</p></div>','</p>'+sel+(cards?'<div class="hkmodes">'+cards+'</div>':'')+'</div>')}catch(e){}return h}}
+if(document.addEventListener){document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-hklow]");if(!t)return;e.stopPropagation();const k=t.dataset.hklow,lo=+t.dataset.lo;S.v[k]=lo;invalidate();afterChange();try{histRecord()}catch(err){}toast(AN[k]+" lowered to "+lo+". Spend the overall with Smart fill or Cap breaker hacks.")},true);
+  document.addEventListener("change",e=>{const t=e.target;if(t&&t.dataset&&t.dataset.hkmsel){HK.mode=t.value;HK.dump=null;hkSave();OPT.stale=true;renderView()}})}
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
