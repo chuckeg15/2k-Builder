@@ -1650,6 +1650,29 @@ html,body{overflow-x:clip}
 .arow.nomore,#cmpv .crow.nomore{opacity:.42;transition:opacity .2s}
 .arow.nomore:hover,#cmpv .crow.nomore:hover,.arow.nomore:focus-within,#cmpv .crow.nomore:focus-within{opacity:.8}
 
+.hkbtn{border-color:var(--line)!important}
+.atools [data-undo]{display:none!important}
+.shcount{margin:0 0 6px;font-size:13px;color:var(--muted)}
+.chip.shtaken{opacity:.38;text-decoration:line-through;cursor:not-allowed}
+/* full badge names under each badge */
+.bxgrid .bxslots{row-gap:36px;column-gap:16px;padding-bottom:24px}
+.bxgrid .shield .sl{white-space:normal;overflow:visible;text-overflow:clip;left:-7px;right:-7px;bottom:auto;top:100%;margin-top:3px;font-size:9.5px;line-height:1.15}
+/* fusion: electric yellow, slow pulse. reaction: white and blue lightning */
+@keyframes fzpulse{0%,100%{filter:drop-shadow(0 0 2px #ffe600) drop-shadow(0 0 4px rgba(255,230,0,.5))}50%{filter:drop-shadow(0 0 6px #fff35c) drop-shadow(0 0 14px rgba(255,230,0,.9))}}
+@keyframes rxbolt{0%,62%,70%,100%{filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px #3aa0ff)}64%,68%{filter:drop-shadow(0 0 4px #fff) drop-shadow(0 0 12px #7cc4ff) drop-shadow(0 0 18px #1e6bff)}66%{filter:drop-shadow(0 0 1px #fff)}}
+.shield.rf .shd path,.shield.rfuse .shd path,.shield.fz .shd path{stroke:#ffe600!important;stroke-width:3!important;stroke-dasharray:none!important}
+.shield.rf .shd,.shield.rfuse .shd,.shield.fz .shd{animation:fzpulse 2.6s ease-in-out infinite}
+.shield.rr .shd path,.shield.rreaction .shd path{stroke:#fff!important;stroke-width:2.6!important;stroke-dasharray:7 2 3 2!important}
+.shield.rr .shd,.shield.rreaction .shd{animation:rxbolt 2.2s linear infinite}
+@media (prefers-reduced-motion:reduce){.shield .shd{animation:none!important}}
+.bxgrid .shield[data-bxsel]{cursor:pointer}
+.bxgrid .shield[data-bxsel]:hover .shd path{opacity:.75}
+.bxa{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:6px;font-size:12.5px;color:color-mix(in srgb,var(--mast-ink) 80%,transparent)}
+.bxa span{display:inline-flex;align-items:center;gap:6px}
+.bxab{width:24px;height:24px;border-radius:6px;border:1px solid color-mix(in srgb,var(--gc) 70%,transparent);background:transparent;color:inherit;font-weight:800;line-height:1;cursor:pointer}
+.bxab:disabled{opacity:.3;cursor:default}
+.bxleft{flex-basis:100%;font-size:12px;color:var(--muted)}
+
 </style>
 
 
@@ -4853,6 +4876,57 @@ function paintNoMore(){const done=isComplete(S.v);const can={};K.forEach(k=>{can
 {const _lb=loadBlueprint;loadBlueprint=function(){const r=_lb.apply(this,arguments);try{let g=0,br;while((br=linkBroken()).length&&g++<40)br.forEach(([s0,t,n])=>{if(S.v[t]<n)S.v[t]=n});if(ovrOf(S.v,S.h)>99+1e-9)trimUnder99();{const c=caps();let mv=true,q=0;while(mv&&q++<300&&!isComplete(S.v)){mv=false;for(const x of K){const t=Object.assign({},S.v);t[x]++;if(t[x]>c[x])continue;linkFix(t,x,1);if(ovrOf(t,S.h)<=99+1e-9){S.v=t;mv=true;if(isComplete(S.v))break}}}}invalidate();afterChange()}catch(e){}return r}}
 /* Preferences: Start over really starts over */
 if(document.addEventListener)document.addEventListener("click",e=>{if(e.target&&e.target.id==="qrestart2")Object.assign(QZ,{step:0,pos:"any",size:"any",roles:[],cats:{SHT:1,FIN:1,PLY:1,DEF:1,REB:1,PHY:1},dunk:"none",handle:"none",shot:"none",badges:{},tos:{},useAnims:false})},true);
+/* ---------------- ROUND 36 ---------------- */
+/* Shades: each skill belongs to one player, 6 picks in total, and they lead the build */
+const SH_MAXLIKE=6;
+function shLikeOwner(k,except){const L=SHB.likes||{};return SHB.sel.find(n=>n!==except&&(L[n]||[]).includes(k))}
+function shLikeTotal(){const L=SHB.likes||{};return SHB.sel.reduce((s,n)=>s+(L[n]||[]).length,0)}
+function shLikeClean(){SHB.likes=SHB.likes||{};const L=SHB.likes,taken=new Set(),per=SHB.sel.length?Math.max(1,Math.floor(SH_MAXLIKE/SHB.sel.length)):3;let total=0;
+  if(SHB.sel.some(n=>!L[n]))SHB.sel.forEach(n=>{if(L[n]&&L[n].length>per)L[n]=L[n].slice(0,per)});
+  SHB.sel.forEach(n=>{if(!L[n]){L[n]=[];for(const k of shTop5(n)){if(L[n].length>=per)break;if(!taken.has(k))L[n].push(k)}}
+    L[n]=L[n].filter(k=>{if(taken.has(k)||total>=SH_MAXLIKE)return false;taken.add(k);total++;return true})})}
+{const _mix3=shMixHTML;shMixHTML=function(){if(SHB.sel.length)shLikeClean();let h=_mix3.apply(this,arguments);if(!SHB.sel.length)return h;
+  h=h.replace(/<button type="button" class="chip" data-shlike="([^"|]*)\|([a-z]+)" aria-pressed="false">/g,(m,nm,k)=>{const o=shLikeOwner(k,nm.replace(/&#39;/g,"'").replace(/&amp;/g,"&"));
+    return o?'<button type="button" class="chip shtaken" data-shlike="'+nm+'|'+k+'" aria-pressed="false" aria-disabled="true" title="Already picked for '+esc(o)+'">':m});
+  const n=shLikeTotal();return h.replace('<div class="shmrow">','<p class="shcount"><b>'+n+' of '+SH_MAXLIKE+'</b> picks. These are the build\'s top priority, landed first.</p><div class="shmrow">')}}
+if(window.addEventListener)window.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-shlike]");if(!t)return;const [nm,k]=t.dataset.shlike.split("|");const L=(SHB.likes||{})[nm]||[];if(L.includes(k))return;
+  const o=shLikeOwner(k,nm);if(o){e.stopPropagation();e.preventDefault();toast(AN[k]+" is already picked for "+o);return}
+  if(shLikeTotal()>=SH_MAXLIKE){e.stopPropagation();e.preventDefault();toast("Up to "+SH_MAXLIKE+" picks in total. Tap one to remove it first.")}},true);
+/* picks lead: each one is raised before anything else, in pick order */
+{const _st=shTargets;shTargets=function(sp){const T=_st.apply(this,arguments),L=SHB.likes||{};const liked=[];SHB.sel.forEach(n=>(L[n]||[]).forEach(k=>liked.push(k)));
+  return T.sort((a,b)=>{const ia=liked.indexOf(a.k),ib=liked.indexOf(b.k);if(ia>=0&&ib>=0)return ia-ib;if(ia>=0)return-1;if(ib>=0)return 1;return b.p-a.p})}}
+
+/* the ratings table never disappears when suggestions open or close */
+{const _ua10=updAttrs;let inCmp=false;updAttrs=function(){const r=_ua10.apply(this,arguments);if(!inCmp&&ui.tab==="attrs"&&ui.compact&&!document.getElementById("cmpv")){inCmp=true;try{renderCompact();paintNoMore()}catch(e){}inCmp=false}return r}}
+
+/* Cap breaker hacks: Skip lets the app pick what to raise */
+function hkAutoWant(){const dump=hkDump();return K.filter(k=>!dump.includes(k)&&!isLocked(k)).sort((a,b)=>eff(b)-eff(a)).slice(0,3)}
+{const _hh2=hkHTML;hkHTML=function(){return _hh2.apply(this,arguments).replace('<button type="button" class="btn pri" data-hkgo="1"','<button type="button" class="btn" data-hkskip="1">Skip, pick for me</button><button type="button" class="btn pri" data-hkgo="1"')}}
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-hkskip]");if(!t)return;e.stopPropagation();HK.want=hkAutoWant();HK.want.forEach(k=>{if(!HK.tgt[k])HK.tgt[k]=cap(k)});HK.done={};HK.res=hkPlan();try{hkSave()}catch(err){}hkRender();
+  toast("Picked your top ratings: "+HK.want.map(k=>AN[k]).join(", "));setTimeout(()=>{const x=document.querySelector("#hkbox .hkres");if(x)x.scrollIntoView({behavior:"smooth",block:"start"})},60)},true);
+
+/* tap an equipped badge to take it off */
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest(".bxgrid .shield[data-bxsel]");if(!t)return;e.stopPropagation();const id=t.dataset.bxsel,b=BID15[id];if(!b||!S.eq[id])return;
+  delete S.eq[id];try{const st=synState();st.s.forEach(x=>{if(x.f===id)x.f="";if(x.r===id)x.r=""})}catch(err){}save();try{histRecord()}catch(err){}renderSide();renderTabs();renderView();toast(b.n+" removed")},true);
+
+/* bonus slots and tokens go where you put them */
+const _bsRaw=bonusSlots,_btRaw=bonusTok;
+function bxA(){S.bxA=S.bxA&&S.bxA.s?S.bxA:{s:{},t:{}};const A=S.bxA,trim=(o,max)=>{let sum=0;GROUPS.forEach(g=>{const v=Math.max(0,o[g[0]]|0);const u=Math.min(v,max-sum);if(u>0)o[g[0]]=u;else delete o[g[0]];sum+=Math.max(0,u)})};trim(A.s,_bsRaw());trim(A.t,_btRaw());return A}
+const bxSum=o=>GROUPS.reduce((s,g)=>s+(o[g[0]]|0),0);
+bonusSlots=function(){return Math.max(0,_bsRaw()-bxSum(bxA().s))};
+bonusTok=function(){return Math.max(0,_btRaw()-bxSum(bxA().t))};
+let BX_NOTOK=false;{const _tb=tokenBudget;tokenBudget=function(){const o=_tb.apply(this,arguments);if(BX_NOTOK)return o;const A=bxA();GROUPS.forEach(g=>o[g[0]]=(o[g[0]]||0)+(A.t[g[0]]|0));return o}}
+{const _sbc2=slotsByCat;slotsByCat=function(){BX_NOTOK=true;let o;try{o=_sbc2.apply(this,arguments)}finally{BX_NOTOK=false}const A=bxA();GROUPS.forEach(g=>o[g[0]]=(o[g[0]]||0)+(A.s[g[0]]|0));return o}}
+function bxAllocUI(){if(_bsRaw()+_btRaw()<=0)return;const A=bxA(),fs=bonusSlots(),ft=bonusTok();
+  document.querySelectorAll(".bxgrid .bxcat").forEach(sec=>{const h=sec.querySelector(".bxh");if(!h)return;const k=h.dataset.bxcat;if(!k||sec.querySelector(".bxa"))return;const s=A.s[k]|0,t=A.t[k]|0;
+    const btn=(kind,d,lab,on)=>'<button type="button" class="bxab" data-bxa="'+kind+'|'+k+'|'+d+'"'+(on?'':' disabled')+' aria-label="'+lab+'">'+(d>0?"+":"−")+'</button>';
+    sec.querySelector(".bxsub").insertAdjacentHTML("afterend",'<div class="bxa">'+(_bsRaw()?'<span>'+btn("s",-1,"Remove a bonus slot",s>0)+'<b>'+s+'</b> bonus slot'+(s===1?"":"s")+btn("s",1,"Add a bonus slot",fs>0)+'</span>':'')+(_btRaw()?'<span>'+btn("t",-1,"Remove a bonus token",t>0)+'<b>'+t+'</b> bonus token'+(t===1?"":"s")+btn("t",1,"Add a bonus token",ft>0)+'</span>':'')+'</div>')});
+  const top=document.querySelector(".bxbonus");if(top&&!top.querySelector(".bxleft"))top.insertAdjacentHTML("beforeend",'<span class="bxleft">'+(fs||ft?'Left to place: '+fs+' slot'+(fs===1?"":"s")+', '+ft+' token'+(ft===1?"":"s")+'. Use + on a category.':'All bonus slots and tokens placed.')+'</span>')}
+{const _rl=renderLoadout;renderLoadout=function(){const r=_rl.apply(this,arguments);try{bxAllocUI()}catch(e){}return r}}
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-bxa]");if(!t)return;e.stopPropagation();const [kind,k,d]=t.dataset.bxa.split("|"),A=bxA(),o=A[kind];
+  if(+d>0){if((kind==="s"?bonusSlots():bonusTok())<=0)return;o[k]=(o[k]|0)+1}else{if(!(o[k]>0))return;o[k]--;if(!o[k])delete o[k];budgetGuard(null)}
+  save();renderSide();renderTabs();renderView()},true);
+if(document.addEventListener)document.addEventListener("click",e=>{if(e.target&&e.target.id==="resetBtn"){const keep=S.bxA;setTimeout(()=>{if(keep&&!S.bxA){S.bxA=keep;save()}},0)}},true);
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
