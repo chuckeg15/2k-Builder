@@ -1536,6 +1536,76 @@ html,body{overflow-x:clip}
 .shri em{grid-column:1/-1;font-style:normal;font-size:11.5px;color:var(--bad,#c0392b)}.shri.ok em{color:var(--good,#1f8a4c)}
 .shhit{display:block;font-style:normal;font-size:12.5px;font-weight:700;margin-top:4px}
 
+/* round 31: game-style jump shot creator */
+#view-jumpshot{--js-bg:#1a1f27;--js-row:#262c36;--js-ink:#eef1f5;--js-mut:#9aa3b2;--js-hi:#3ee6d6;--js-gold:#f0a91a}
+.jsg{display:grid;grid-template-columns:150px minmax(0,1fr) minmax(240px,300px);gap:10px;background:var(--js-bg);color:var(--js-ink);padding:10px;border-radius:6px;align-items:start}
+@media (max-width:1100px){.jsg{grid-template-columns:130px minmax(0,1fr)}.jsattr{grid-column:1/-1}}
+@media (max-width:640px){.jsg{grid-template-columns:1fr}.jstiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}}
+.jstiles{display:flex;flex-direction:column;gap:8px}
+.jstile{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--js-row);color:var(--js-ink);border:2px solid #39414e;border-radius:3px;padding:0 0 8px;cursor:pointer;font:inherit;text-align:center;overflow:hidden;min-height:44px}
+.jstile .jth{display:block;width:100%;background:#2c4a8c;color:#fff;font-size:11px;font-weight:800;padding:4px 2px}
+.jstile .jtn{font-size:11px;font-weight:700;padding:0 4px;line-height:1.25;word-break:break-word}
+.jstile.on{border-color:var(--js-hi);background:#f4f6f8;color:#111}.jstile.on .jth{background:#fff;color:#111}
+@media (max-width:640px){.jstile .jti{display:none}.jstile .jth{font-size:10px}}
+.jsmain{background:#212732;border-radius:3px;padding:12px 14px;min-height:340px}
+.jsmain h3{margin:0 0 10px;font-size:20px;font-weight:900;color:#fff}
+.jsbox{margin:0 0 14px}.jslab{display:inline-block;border:1px solid #6b7586;padding:3px 8px;font-size:12px;font-weight:800;text-transform:uppercase;margin-bottom:10px}
+.jscue{position:relative;height:56px;margin:0 14px}.jscue::before{content:"";position:absolute;left:0;right:0;top:36px;height:8px;background:#3a414d}
+.jscue>i{position:absolute;left:0;top:36px;height:8px;background:#7be38f}
+.jscue button{position:absolute;top:0;transform:translateX(-50%);background:none;border:0;color:var(--js-ink);font:inherit;font-weight:800;font-size:13px;cursor:pointer;height:56px;padding:0 4px;display:flex;flex-direction:column;align-items:center}
+.jscue button::after{content:"";position:absolute;top:30px;width:2px;height:20px;background:#cfd6df}
+.jscue button span{white-space:nowrap}.jscue button.on span{color:var(--js-hi)}
+.jsspd{display:grid;grid-template-columns:repeat(5,1fr);gap:3px}.jsspd button{height:12px;border:0;background:#3a414d;cursor:pointer;padding:0}.jsspd button.fill{background:#7be38f}
+.jsspd button:focus-visible{outline:2px solid var(--js-hi)}
+.jsspl{display:flex;justify-content:space-between;font-size:11.5px;color:var(--js-mut);margin-top:4px}.jsspl b{color:#fff}
+.jsmain input[type=range]{width:100%;accent-color:#7be38f;min-height:28px}
+.jsdia{display:grid;grid-template-columns:1fr 120px 1fr;align-items:center;gap:8px;margin-top:6px}
+.jsdp b{display:block;font-size:34px;font-weight:900;color:#ffe14d;line-height:1}.jsdp span{display:inline-block;margin-top:4px;border:1px solid #6b7586;padding:2px 6px;font-size:12px;font-weight:800;text-transform:uppercase}.jsdp.r{text-align:right}
+.jsdsvg{width:120px;height:120px;color:#cfd6df}
+#jsq2{width:100%;margin-bottom:8px;height:40px}
+.jslist{display:flex;flex-direction:column;gap:4px;max-height:420px;overflow:auto}
+.jsopt2{display:flex;flex-direction:column;align-items:flex-start;text-align:left;background:var(--js-row);color:var(--js-ink);border:2px solid transparent;border-radius:3px;padding:7px 10px;cursor:pointer;font:inherit}
+.jsopt2 b{font-size:13.5px;text-transform:uppercase}.jsopt2 span{font-size:11.5px;color:var(--js-mut)}.jsopt2.on,.jsopt2:hover{border-color:var(--js-hi)}.jsopt2.lock{opacity:.55;cursor:not-allowed}
+.jsattr{background:#0f2a35;border-radius:3px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.jsah b{font-size:22px;font-weight:900;line-height:1;text-transform:uppercase;color:#fff;letter-spacing:.02em}
+.jsagrid{display:flex;flex-direction:column;gap:6px}.jsab{display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:center}.jsab>span{font-size:12.5px;font-weight:700}
+.jsab .jsbar{grid-column:1;height:9px;background:#21414d;border-radius:2px;overflow:hidden}.jsab .jsbar i{display:block;height:100%;background:linear-gradient(90deg,#1fb7a6,#3ee6d6)}.jsab>b{grid-row:1/3;grid-column:2;font-size:18px;font-weight:900;min-width:28px;text-align:right}
+.jsreq{margin:4px 0 0;font-size:12.5px;line-height:1.5}.jsreq .ok{color:#6ee7a8}.jsreq .bad{color:#ff8a7a}
+.jsmeas{margin:0;font-size:12px;color:#c8d3dc;line-height:1.45}.jsattr .btn{background:transparent;color:#fff;border-color:#5b6b78}
+.jsml{margin-top:12px;border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--surface)}.jsml h3{margin:0 0 6px;font-size:15px}
+.jsmr{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}.jsmr:first-of-type{border-top:0}
+.jsmr>div{display:flex;flex-direction:column;gap:1px;min-width:0}.jsmr span{font-size:12.5px;color:var(--muted)}.jsmr .jsg4{color:var(--ink);font-weight:600}.jsmr small{font-size:11.5px;color:var(--muted)}.jsmr.off b{opacity:.6}
+/* +N more popup */
+.bxmore{cursor:pointer}#bxpop{position:absolute;z-index:130;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:8px 10px;display:flex;flex-direction:column;gap:4px;max-width:280px}
+#bxpop b{font-size:12px;text-transform:uppercase;color:var(--muted)}#bxpop span{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600}
+/* linked rating hint */
+.lnkw{display:block;font-size:11.5px;font-weight:700;color:var(--bad,#c0392b);line-height:1.3}
+#cmpv .cn .lnkw{font-size:10.5px}
+.cupto{font-size:11px;color:var(--muted);margin-left:6px;white-space:nowrap;align-self:center}
+.cpips{display:flex;align-items:center;flex-wrap:wrap}
+.lookinfo{margin:2px 0 2px;font-size:14px}
+/* cap breaker table */
+.cbt{margin:12px 0 16px;background:#16224a;color:#fff;border-radius:6px;padding:12px}
+.cbt-h{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;margin-bottom:10px}.cbt-h b{font-size:18px}.cbt-h b i{font-style:normal;color:#ffd84d}.cbt-h span{font-size:12px;color:#b9c3e6}
+.cbt-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}@media (max-width:900px){.cbt-cols{grid-template-columns:1fr}}
+.cbt-hd{display:grid;grid-template-columns:minmax(0,1fr) auto 44px 54px;gap:6px;font-size:11px;color:#b9c3e6;font-weight:700;padding:0 2px 4px}
+.cbt-r{display:grid;grid-template-columns:minmax(0,1fr) auto 44px 54px;gap:6px;align-items:center;margin-bottom:5px}
+.cbt-n{display:flex;justify-content:space-between;align-items:center;background:#2446c9;border-left:5px solid var(--gc);padding:5px 8px;font-weight:800;font-size:13.5px;transform:skewX(-8deg)}.cbt-n b{background:#5a6b9a;padding:1px 6px;font-size:14px}
+.cbt-s{display:flex;gap:3px}.cbt-x{width:36px;height:30px;display:inline-flex;align-items:center;justify-content:center;background:#3c4c86;color:#fff;border:1px solid var(--gc);font:inherit;font-weight:800;font-size:12.5px;transform:skewX(-8deg);cursor:pointer;padding:0}
+.cbt-x.on{background:var(--gc);color:#0b1118}.cbt-x:disabled{opacity:.45;cursor:not-allowed}.cbt-x.lk{background:#2a3358;border-color:#4b5785;font-size:12px;cursor:default}
+.cbt-new{height:30px;display:flex;align-items:center;justify-content:center;background:#0b1118;border:1px solid var(--gc);font-weight:900;transform:skewX(-8deg)}
+.cbt-m{font-style:normal;font-size:11px;color:#7be38f;font-weight:800}
+@media (max-width:640px){.cbt-x{width:30px}.cbt-r,.cbt-hd{grid-template-columns:minmax(0,1fr) auto 36px 40px}}
+@media (max-width:640px){
+ .jsg{grid-template-columns:minmax(0,1fr);padding:8px}
+ .jstiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+ .jstile .jti{display:none}.jstile .jtn{font-size:11px}
+ .jsmain{min-height:0;padding:10px}.jsmain h3{font-size:17px}
+ .jscue{margin:0 26px}.jscue button{font-size:11.5px}
+ .jsdia{grid-template-columns:1fr 90px 1fr}.jsdsvg{width:90px;height:90px}.jsdp b{font-size:26px}
+}
+.cbt-n{white-space:nowrap;font-size:13px}.cbt-n b{margin-left:6px}
+
 </style>
 
 
@@ -2841,7 +2911,7 @@ function renderCompact(){const view=$("#view-attrs");if(!view||!view.querySelect
   el.innerHTML='<div class="cmpgrid">'+GROUPS.map(g=>{const as=ATTRS.filter(a=>a.g===g[0]);
     return'<section class="cgrp" style="--gc:var(--c-'+g[0]+')"><h3>'+g[1]+'<small>avg '+Math.round(as.reduce((t,a)=>t+eff(a.k),0)/as.length)+'</small></h3>'+as.map(a=>{const k=a.k,v=S.v[k],e=eff(k),c=cap(k),n=S.cb[k]||0,inc=cbIncs(k),nx=nextTick(k),left=cbHave()-cbUsed();
       const pips=inc.map((d,i)=>{const dead=d.g===0,used=i<n;return'<button type="button" class="pip'+(used?" on":"")+(dead?" dead":"")+'" data-cbset="'+k+'" data-n="'+(i+1)+'"'+(dead||(!used&&left<=0&&i>=n)?" disabled":"")+' title="Cap breaker '+(i+1)+(dead?": at cap":": +"+d.g)+'">'+(dead?"":"+"+d.g)+'</button>'}).join("");
-      return'<div class="crow" style="--p:'+((e-25)/74*100).toFixed(1)+'%;--b:'+((v-25)/74*100).toFixed(1)+'%"><span class="cn" data-tip="a|'+k+'">'+SHORT[k]+'</span><span class="cval"><button type="button" class="cst" data-cstep="'+k+'" data-d="-1" aria-label="Lower '+a.n+'">−</button><input class="cvin" inputmode="numeric" type="number" data-ck="'+k+'" value="'+v+'" aria-label="'+a.n+'"><button type="button" class="cst" data-cstep="'+k+'" data-d="1" aria-label="Raise '+a.n+'">+</button></span><span class="ce">'+(e>v?"→"+e:"")+'</span><span class="ccap">/'+c+'</span><span class="cpips">'+pips+'</span><span class="cnext" title="'+(nx?esc(nx.lab)+" at "+nx.v:"")+'">'+(nx?esc(nx.lab)+' <b>'+nx.v+'</b>':(e>=c?"At cap":""))+'</span></div>'}).join("")+'</section>'}).join("")+'</div>'}
+      return'<div class="crow" style="--p:'+((e-25)/74*100).toFixed(1)+'%;--b:'+((v-25)/74*100).toFixed(1)+'%"><span class="cn" data-tip="a|'+k+'">'+SHORT[k]+'</span><span class="cval"><button type="button" class="cst" data-cstep="'+k+'" data-d="-1" aria-label="Lower '+a.n+'">−</button><input class="cvin" inputmode="numeric" type="number" data-ck="'+k+'" value="'+v+'" aria-label="'+a.n+'"><button type="button" class="cst" data-cstep="'+k+'" data-d="1" aria-label="Raise '+a.n+'">+</button></span><span class="ce">'+(e>v?"→"+e:"")+'</span><span class="ccap">/'+c+'</span><span class="cpips">'+pips+'<span class="cupto">up to '+Math.min(99,S.v[k]+inc.reduce((s,d)=>s+d.g,0))+'</span></span><span class="cnext" title="'+(nx?esc(nx.lab)+" at "+nx.v:"")+'">'+(nx?esc(nx.lab)+' <b>'+nx.v+'</b>':(e>=c?"At cap":""))+'</span></div>'}).join("")+'</section>'}).join("")+'</div>'}
 document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-cstep]");if(!t)return;const k=t.dataset.cstep;setAttr(k,S.v[k]+(+t.dataset.d))});
 document.addEventListener("change",e=>{const t=e.target;if(t.dataset&&t.dataset.ck){const n=parseInt(t.value,10);if(!isNaN(n))setAttr(t.dataset.ck,n);else t.value=S.v[t.dataset.ck]}
   else if(t.id==="cmpTog"){ui.compact=t.checked;try{localStorage.setItem("bl27-compact",ui.compact?"1":"0")}catch(e){}renderCompact()}});
@@ -4394,6 +4464,110 @@ if(document.addEventListener){document.addEventListener("click",e=>{const t=e.ta
 {const _rsb9=renderShadesBuilder;renderShadesBuilder=function(){const r=_rsb9.apply(this,arguments);try{const v=document.getElementById("view-shades"),bb=v&&v.querySelector(".shprev>div>b");if(bb&&SHB.sel.length){const sp=shBuildSpec(),T=shTargets(sp),best=shBestBody(sp,T);
   if(best){bb.textContent=best.pos+" · "+ft(best.b.h)+" · "+best.b.w+" lbs · "+ft(best.b.ws)+" WS";v.querySelectorAll(".shprev .shstr").forEach(x=>{if(/lets a/.test(x.textContent))x.remove()});
     const n=T.filter(x=>best.f.v[IDX[x.k]]>=x.t).length;const sm=v.querySelector(".shprev small");if(sm&&!v.querySelector(".shhit"))sm.insertAdjacentHTML("afterend",'<em class="shhit">'+n+' of '+T.length+' picks reach their target on this body.</em>')}}}catch(e){}return r}}
+/* ---------------- ROUND 31: game-style Jump Shot Creator, linked hints, CB table, body info ---------------- */
+/* measured jumpers from 2kjumpers.com real_windows.json (Aug to Sep 2026): base|r1|r2|blend r1 %|speed|cue|release height|release speed|def immunity|release window|req|min ht|max ht (under)|lo ms|hi ms|shots|date */
+const JS_MEAS=`Quentin Grimes|Oscar Robertson|Sam Hauser|44|Very Quick|Push|A|A|A|D-|80||6'10|505|555|185|2026-08-26
+Ray Allen|Oscar Robertson|Beluba|42|Very Quick|Push|A-|A+|A|B+|92|6'5|6'10|555|605|175|2026-08-27
+Trey Burke|Beluba|TJ McConnell|50|Very Quick|Push|A|A+|A|B-|89||6'5|540|585|160|2026-08-27
+Cameron Thomas|Beluba|Collin Sexton|70|Very Quick|Push|B+|A|A|D+|83||6'5|535|580|160|2026-08-28
+PJ Tucker|LaMarcus Aldridge|Beluba|60|Very Quick|Push|B-|A+|A-|B-|87|6'10||535|590|190|2026-08-28
+Michael Porter Jr.|Beluba|LaMarcus Aldridge|50|Very Quick|Push|A-|A|A|B+|88|6'10||575|630|180|2026-08-30
+Matt Ryan|Luka Doncic|Kessler Edwards|30|Very Quick|Push|A-|A|B+|D+|80|6'5|6'10|575|620|150|2026-08-30
+Quentin Grimes|Kyle Korver|Beluba|87|Very Quick|Push|B-|A+|A+|D-|80|6'5|6'10|570|615|150|2026-08-30
+Stephen Curry|Stephen Curry|Derek Fisher|46|Very Quick|Push|C|A+|A+|A|93||6'5|555|615|195|2026-08-31
+Dwight Powell|Kelsey Plum|Larry Bird|29|Very Quick||B+|C+|A+|D-|78|6'10||570|615|150|2026-09-01
+PJ Washington|Kelsey Plum|Charles Bassey|58|Very Quick||C|A+|B|D+|78|6'5||555|610|180|2026-09-01
+Jonathan Isaac|Beluba|Charles Bassey|86|Very Quick||C+|B|A|F|68|6'10||630|670|145|2026-09-02
+Carmelo Anthony|Kon Knueppel|Beluba|60|Very Quick||B+|A+|A|B|89|6'5|6'10|550|610|205|2026-09-02
+Dāvis Bertāns|Beluba|LaMarcus Aldridge|100|Very Quick||B|A-|A+|B-|88|6'10||590|650|205|2026-09-03
+Allen Iverson|Stephen Curry|John Wall|71|Very Quick||A|A+|A+|B-|90||6'5|555|600|160|2026-09-03
+Jump Shot WNBA 7|Kelsey Plum|Dwight Howard|2|Very Quick||D|A+|F|B-|67|6'10||505|560|205|2026-09-03
+Scottie Barnes|Kyle Korver|Charles Bassey|62|Very Quick|Push|C-|C+|B-|A-|80|6'5|6'10|660|710|185|2026-09-07
+Kyshawn George|Kyle Korver|Charles Bassey|64|Very Quick|Push|D-|B|B|A-|80|6'5|6'10|625|675|184|2026-09-07
+Cooper Flagg|LaMarcus Aldridge|LaMarcus Aldridge|50|Very Quick|Push|B|A-|B+|B-|84|6'10||595|645|169|2026-09-07
+Pascal Siakam|Kyle Korver|Charles Bassey|52|Very Quick|Push|C-|A-|C+|B|80|6'5|6'10|595|630|144|2026-09-07
+Cooper Flagg|Kyle Korver|Charles Bassey|41|Very Quick|Push|B-|A|C|B-|80|6'5|6'10|570|625|184|2026-09-07
+Charles Bassey|Dwight Howard|Kelsey Plum|43|Very Quick|Set Point|D|B+|C-|D-|67|6'10||620|645|119|2026-09-08
+Kyrie Irving|Beluba|Stephen Curry|35|Very Quick|Set Point|B|A+|A+|B+|93||6'5|505|560|150|2026-09-09
+Devin Booker|A.J. Green|Beluba|85|Very Quick|Set Point|A|A+|A-|B|89||6'10|505|560|165|2026-09-09
+Stephen Curry|Oscar Robertson|Oscar Robertson|50|Very Quick|Set Point|B-|A+|B+|A+|93||6'5|505|565|138|2026-09-09
+Vladimir Radmanovic|Beluba|Charles Bassey|27|Very Quick|Set Point|C|A|C-|B+|80|6'5||505|565|260|2026-09-11`.split("\n").map(l=>{const p=l.split("|");const inch=s=>{const m=String(s).match(/(\d+)'(\d+)/);return m?+m[1]*12+ +m[2]:null};
+  return{b:p[0],r1:p[1],r2:p[2],bl:+p[3],sp:p[4],cue:p[5]||"",g:{rh:p[6],rs:p[7],di:p[8],rw:p[9]},req:+p[10],hmin:inch(p[11]),hmax:inch(p[12]),lo:+p[13],hi:+p[14],n:+p[15],date:p[16]}});
+const JS_CUES=["Jump","Set Point","Push","Release"];
+const GRADE_PCT={"A+":100,"A":93,"A-":87,"B+":80,"B":73,"B-":67,"C+":60,"C":53,"C-":47,"D+":40,"D":33,"D-":27,"F":15};
+function jsKey(n){return bmNorm(String(n||"").replace(/^Steph /,"Stephen "))}
+function jsMeasFit(m){return(m.hmin==null||S.h>=m.hmin)&&(m.hmax==null||S.h<m.hmax)}
+function jsMatch(j){if(!j||!j.b)return null;return JS_MEAS.find(m=>jsKey(m.b)===jsKey(j.b)&&((jsKey(m.r1)===jsKey(j.r1)&&jsKey(m.r2)===jsKey(j.r2)&&Math.abs(m.bl-j.bl)<=6)||(jsKey(m.r1)===jsKey(j.r2)&&jsKey(m.r2)===jsKey(j.r1)&&Math.abs((100-m.bl)-j.bl)<=6))&&(m.sp===j.sp))||null}
+function jsClosest(j){const V=vals(),have=Math.max(V.three,V.mid);const sc=m=>(jsKey(m.b)===jsKey(j.b)?3:0)+([m.r1,m.r2].some(r=>jsKey(r)===jsKey(j.r1))?1:0)+([m.r1,m.r2].some(r=>jsKey(r)===jsKey(j.r2))?1:0);
+  return JS_MEAS.filter(m=>jsMeasFit(m)&&have>=m.req).sort((a,b)=>sc(b)-sc(a)||(GRADE_PCT[b.g.rw]-GRADE_PCT[a.g.rw]))[0]||null}
+function jsHtTxt(m){return m.hmin&&m.hmax?ft(m.hmin)+" to under "+ft(m.hmax):m.hmin?"At least "+ft(m.hmin):m.hmax?"Under "+ft(m.hmax):"Any height"}
+renderJS=function(){const v=document.getElementById("view-jumpshot");if(!v)return;const j=jsState(),V=vals(),F=jsFinished(V),M=jsMatch(j);if(!JSUI.tile)JSUI.tile=j.b?"blend":"b";
+  if(!JS_CUES.includes(j.cue))j.cue="Push";
+  const tile=(key,top,name)=>'<button type="button" class="jstile'+(JSUI.tile===key?" on":"")+'" data-jstile="'+key+'"><span class="jth">'+top+'</span><span class="jti">'+jsIcon(key)+'</span><span class="jtn">'+esc(name)+'</span></button>';
+  let h='<div class="jsg"><nav class="jstiles" aria-label="Jump shot parts">'+tile("b","Lower / Base",j.b||"Pick a base")+tile("r1","Upper Release 1",j.r1||"None")+tile("r2","Upper Release 2",j.r2||"None")+
+    tile("blend","Blending &amp; Release Speed","Release Speed: "+j.sp+(j.r1&&j.r2?" · Blending: "+j.bl+"% / "+(100-j.bl)+"%":""))+'</nav><section class="jsmain">';
+  if(JSUI.tile==="blend"){const ci=JS_CUES.indexOf(j.cue),si=JS_SPEEDS.indexOf(j.sp);
+    h+='<h3>Blending &amp; Release Speed</h3><div class="jsbox"><span class="jslab">Visual Cue</span><div class="jscue">'+JS_CUES.map((c,i)=>'<button type="button" data-jscue="'+c+'" class="'+(i<=ci?"fill":"")+(i===ci?" on":"")+'" style="left:'+(i/3*100)+'%"><span>'+c+'</span></button>').join("")+'<i style="width:'+(ci/3*100)+'%"></i></div></div>'+
+      '<div class="jsbox"><span class="jslab">Release Speed</span><div class="jsspd">'+JS_SPEEDS.map((s,i)=>'<button type="button" data-jssp="'+s+'" class="'+(i<=si?"fill":"")+(i===si?" on":"")+'" title="'+s+'"></button>').join("")+'</div><div class="jsspl"><span>Very Slow</span><b>'+esc(j.sp)+'</b><span>Very Quick</span></div><small class="jsnote">'+esc(JS_SPEED_NOTE[j.sp]||"")+'</small></div>'+
+      '<div class="jsbox"><span class="jslab">Animation Blending</span>'+(j.r1&&j.r2?'<input type="range" min="0" max="100" step="1" value="'+j.bl+'" data-jsbl="1" aria-label="Blend between the two releases"><div class="jsdia"><div class="jsdp"><b class="jsp1">'+j.bl+'%</b><span>'+esc(j.r1)+'</span></div>'+jsDiamond(100-j.bl)+'<div class="jsdp r"><b class="jsp2">'+(100-j.bl)+'%</b><span>'+esc(j.r2)+'</span></div></div>':'<p class="note">Pick two upper releases to blend them.</p>')+'</div>';
+  }else{const key=JSUI.tile,isBase=key==="b",q=maNorm(JSUI.q),cur=j[key];
+    if(key==="r2"&&!j.r1)h+='<h3>Upper Release 2</h3><p class="note">Pick Upper Release 1 first.</p>';
+    else{const items=(isBase?jsBases().map(x=>({n:x.a.n,a:x.a})):jsRelList()).filter(x=>!q||maNorm(x.n).includes(q));const ok=items.filter(x=>jsNeed(x.a,V).ok),no=items.filter(x=>!jsNeed(x.a,V).ok);
+      const row=(x,lk)=>{const n=jsNeed(x.a,V);return'<button type="button" class="jsopt2'+(cur===x.n?" on":"")+(lk?" lock":"")+'" data-jsset2="'+esc(x.n)+'"'+(lk?" disabled":"")+'><b>'+esc(x.n)+'</b><span>'+esc(n.txt)+(lk?' · '+(!n.sz?"wrong height":"need +"+(n.need-n.have)):'')+'</span></button>'};
+      h+='<h3>'+(isBase?"Lower / Base":key==="r1"?"Upper Release 1":"Upper Release 2")+'</h3><input class="search" id="jsq2" placeholder="Search players" value="'+esc(JSUI.q)+'"><div class="jslist">'+(isBase?'':'<button type="button" class="jsopt2'+(cur?"":" on")+'" data-jsset2=""><b>None</b><span>No release</span></button>')+ok.slice(0,300).map(x=>row(x,false)).join("")+
+        (no.length?'<div class="maloc"><button type="button" class="lnk" data-jsall="1">'+(JSUI.all?"Hide":"Show")+' '+no.length+' locked</button></div>'+(JSUI.all?no.slice(0,300).map(x=>row(x,true)).join(""):""):"")+'</div>'}}
+  h+='</section><aside class="jsattr"><div class="jsah"><b>Shot<br>Attributes</b></div>';
+  const G=M?M.g:null,bar=(lab,g)=>'<div class="jsab"><span>'+lab+'</span><div class="jsbar"><i style="width:'+(g?GRADE_PCT[g]||0:0)+'%"></i></div><b>'+(g||"?")+'</b></div>';
+  h+='<div class="jsagrid">'+bar("Release Height",G&&G.rh)+bar("Defensive Immunity",G&&G.di)+bar("Release Speed",G&&G.rs)+bar("Release Window",G&&G.rw)+'</div>';
+  const need=M?M.req:F.need,htTxt=M?jsHtTxt(M):(!F.sz?"Doesn't fit your height":"Fits your height");
+  h+='<p class="jsreq">'+esc(htTxt)+' ('+ft(S.h)+')<br>'+(need?need+' Mid-Range (<b class="'+(V.mid>=need?"ok":"bad")+'">'+V.mid+'</b>) -or- '+need+' 3PT Shot (<b class="'+(V.three>=need?"ok":"bad")+'">'+V.three+'</b>)':'No rating needed')+'</p>';
+  if(M)h+='<p class="jsmeas">Green window <b>'+M.lo+' to '+M.hi+' ms</b>. Measured by 2K Jumpers on '+M.n+' shots ('+M.date+').</p>';
+  else if(j.b){const c=jsClosest(j);h+='<p class="jsmeas">This exact jumper hasn\'t been measured, so its grades come from the game.'+(c?' Closest measured one you can use: <b>'+esc(c.b)+'</b> ('+esc(c.r1)+' / '+esc(c.r2)+').':'')+'</p>'+(c?'<div class="btns"><button type="button" class="btn sm" data-jsmeas="'+JS_MEAS.indexOf(c)+'">Use it</button></div>':'')}
+  h+='</aside></div>';
+  /* measured jumpers you can use */
+  const have=Math.max(V.three,V.mid),list=JS_MEAS.map((m,i)=>({m,i})).filter(x=>jsMeasFit(x.m)).sort((a,b)=>(have>=b.m.req)-(have>=a.m.req)||GRADE_PCT[b.m.g.rw]-GRADE_PCT[a.m.g.rw]);
+  h+='<section class="jsml"><h3>Measured jumpers for your height</h3>'+(list.length?list.map(({m,i})=>{const ok=have>=m.req;return'<div class="jsmr'+(ok?"":" off")+'"><div><b>'+esc(m.b)+'</b><span>'+esc(m.r1)+' '+m.bl+'% / '+esc(m.r2)+' '+(100-m.bl)+'% · '+esc(m.sp)+(m.cue?' · '+esc(m.cue):'')+'</span><span class="jsg4">Height '+m.g.rh+' · Speed '+m.g.rs+' · Immunity '+m.g.di+' · Window '+m.g.rw+' · '+m.lo+' to '+m.hi+' ms</span><small>Needs '+m.req+' Mid or 3PT'+(ok?'':' (you have '+have+')')+'</small></div><button type="button" class="btn'+(ok?" pri":"")+'" data-jsmeas="'+i+'">Use</button></div>'}).join(""):'<p class="note">No measured jumpers for this height yet.</p>')+
+    '<p class="note">Grades and green windows: <a class="tlink" href="https://2kjumpers.com/jumpshots" target="_blank" rel="noopener">2K Jumpers</a>, measured on Superstar, open corner 3s.</p></section>';
+  v.innerHTML=h};
+function jsIcon(k){const p={b:'<path d="M8 20l2-6 3 2 3-7"/><circle cx="16" cy="5" r="2"/>',r1:'<path d="M12 21v-7l-3-4 3-3 3 3-3 4"/><circle cx="12" cy="4" r="2"/>',r2:'<path d="M12 21v-7l-3-4 3-3 3 3-3 4"/><circle cx="12" cy="4" r="2"/>',blend:'<circle cx="8" cy="9" r="3"/><circle cx="16" cy="15" r="3"/><path d="M10 11l4 2"/>'}[k];
+  return'<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>'}
+function jsDiamond(pct){const y=100-pct;return'<svg class="jsdsvg" viewBox="0 0 120 120" aria-hidden="true"><defs><clipPath id="jsdc"><polygon points="60,6 114,60 60,114 6,60"/></clipPath></defs><polygon points="60,6 114,60 60,114 6,60" fill="none" stroke="currentColor" stroke-opacity=".35"/><polygon points="60,24 96,60 60,96 24,60" fill="none" stroke="currentColor" stroke-opacity=".25"/><rect x="0" y="'+(6+108*y/100)+'" width="120" height="120" fill="#f0a91a" clip-path="url(#jsdc)"/></svg>'}
+if(document.addEventListener){document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-jstile],[data-jsset2],[data-jsmeas]");if(!t)return;e.stopPropagation();const d=t.dataset,j=jsState();
+  if(d.jstile){JSUI.tile=d.jstile;JSUI.q="";JSUI.all=false}
+  else if(d.jsset2!=null){const k=JSUI.tile;j[k]=d.jsset2;if(k==="r1"&&!j.r1)j.r2="";jsSyncAnims();JSUI.tile=k==="b"?"r1":k==="r1"?(j.r1?"r2":"blend"):"blend";JSUI.q="";save();try{histRecord()}catch(err){}}
+  else if(d.jsmeas!=null){const m=JS_MEAS[+d.jsmeas];const nm=x=>x?((jsFind(x)||{n:x}).n):"";Object.assign(j,{b:nm(m.b),r1:nm(m.r1),r2:nm(m.r2),bl:m.bl,sp:m.sp,cue:m.cue||"Push"});jsSyncAnims();JSUI.tile="blend";save();try{histRecord()}catch(err){}toast("Jumper set: "+m.b);window.scrollTo({top:0,behavior:"smooth"})}
+  renderJS()},true);
+  document.addEventListener("input",e=>{const t=e.target;if(!t)return;if(t.id==="jsq2"){JSUI.q=t.value;const p=t.selectionStart;renderJS();const q=document.getElementById("jsq2");if(q){q.focus();try{q.setSelectionRange(p,p)}catch(err){}}}
+    else if(t.dataset&&t.dataset.jsbl){const a=document.querySelector(".jsp1"),b=document.querySelector(".jsp2"),j=jsState();if(a)a.textContent=j.bl+"%";if(b)b.textContent=(100-j.bl)+"%";const s=document.querySelector(".jsdsvg rect");if(s)s.setAttribute("y",6+108*j.bl/100)}})}
+
+/* "+6 more" badge chips open a list on hover or tap */
+if(document.addEventListener){document.addEventListener("mouseover",e=>{const t=e.target.closest&&e.target.closest(".bxmore");if(t)bxMorePop(t)});
+  document.addEventListener("focusin",e=>{const t=e.target.closest&&e.target.closest(".bxmore");if(t)bxMorePop(t)});
+  document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest(".bxmore");if(t){e.stopPropagation();bxMorePop(t,true)}else{const p=document.getElementById("bxpop");if(p&&!(e.target.closest&&e.target.closest("#bxpop")))p.remove()}},true);
+  document.addEventListener("mouseout",e=>{const t=e.target.closest&&e.target.closest(".bxmore");if(t&&!(e.relatedTarget&&e.relatedTarget.closest&&e.relatedTarget.closest("#bxpop,.bxmore"))){const p=document.getElementById("bxpop");if(p&&!p.dataset.pin)p.remove()}})}
+function bxMorePop(t,pin){let p=document.getElementById("bxpop");if(p&&p.dataset.for===t.title&&!pin)return;if(p)p.remove();const names=(t.getAttribute("title")||t.dataset.more||"").split(", ").filter(Boolean);if(!names.length)return;if(!t.dataset.more){t.dataset.more=t.title;t.removeAttribute("title")}
+  p=document.createElement("div");p.id="bxpop";p.dataset.for=t.dataset.more;if(pin)p.dataset.pin="1";p.setAttribute("role","tooltip");p.innerHTML='<b>'+names.length+' more</b>'+names.map(n=>{const b=BADGES.find(x=>x.n===n);return'<span>'+(b?badgeIcon(b.c,Math.max(1,badgeTier(b,vals())),18):'')+esc(n)+'</span>'}).join("");
+  document.body.appendChild(p);const r=t.getBoundingClientRect();p.style.left=Math.max(8,Math.min(innerWidth-p.offsetWidth-8,r.left))+"px";p.style.top=(r.bottom+6+window.scrollY)+"px"}
+
+/* linked ratings: say in red when the next point also moves another rating */
+function linkHint(k){try{const v=Object.assign({},S.v);if(v[k]>=cap(k))return"";v[k]++;linkFix(v,k,1);const ch=K.filter(x=>x!==k&&v[x]!==S.v[x]);if(!ch.length)return"";return"+1 also raises "+ch.map(x=>AN[x]+" to "+v[x]).join(", ")}catch(e){return""}}
+function paintLinkHints(){document.querySelectorAll(".arow[data-k]").forEach(r=>{const k=r.dataset.k,an=r.querySelector(".aname");if(!an)return;let s=an.querySelector(".lnkw");const t=linkHint(k);if(!t){if(s)s.remove();return}if(!s){s=document.createElement("span");s.className="lnkw";an.appendChild(s)}s.textContent=t});
+  document.querySelectorAll("#cmpv .crow").forEach(r=>{const i=r.querySelector("[data-ck]");if(!i)return;const k=i.dataset.ck,cn=r.querySelector(".cn");if(!cn)return;let s=r.querySelector(".lnkw");const t=linkHint(k);if(!t){if(s)s.remove();return}if(!s){s=document.createElement("span");s.className="lnkw";cn.appendChild(s)}s.textContent=t})}
+{const _ua=updAttrs;updAttrs=function(){const r=_ua.apply(this,arguments);try{paintLinkHints()}catch(e){}return r}}
+{const _rc2=renderCompact;renderCompact=function(){const r=_rc2.apply(this,arguments);try{paintLinkHints()}catch(e){}return r}}
+
+/* body types: information only */
+{const _rm3=renderMeas;renderMeas=function(){_rm3.apply(this,arguments);const r=document.querySelector("#meas .lookrow");if(!r)return;const i=lookIdx(S.pos,S.h,S.w,S.v.strength),opts=[i-1,i,i+1].filter(x=>x>=0&&x<LOOKS.length).map(x=>LOOKS[x]);
+  r.innerHTML='<span class="label">Body types</span><p class="lookinfo">Likely options at this weight: <b>'+opts.join(", ")+'</b></p><small class="note">Estimated from weight and Strength. 2K sets the exact list in game.</small>'}}
+
+/* Cap breakers tab: the in-game table */
+function cbTableHTML(){const used=cbUsed(),left=Math.max(0,cbHave()-used);const half=[ATTRS.slice(0,11),ATTRS.slice(11)];
+  const row=a=>{const k=a.k,n=S.cb[k]||0,inc=cbIncs(k),e=eff(k),maxed=inc.slice(n).every(d=>d.g===0);
+    return'<div class="cbt-r" style="--gc:var(--c-'+a.g+')"><span class="cbt-n">'+esc(a.n)+'<b>'+S.v[k]+'</b></span><span class="cbt-s">'+inc.map((d,i)=>d.g===0?'<span class="cbt-x lk" title="Can\'t apply: at this rating\'s max potential">🔒</span>':'<button type="button" class="cbt-x'+(i<n?" on":"")+'" data-cbset="'+k+'" data-n="'+(i+1)+'"'+(i>=n&&(i-n)+1>left?" disabled":"")+' title="Cap breaker '+(i+1)+': +'+d.g+'">+'+d.g+'</button>').join("")+'</span><span class="cbt-new">'+(n?e:"")+'</span>'+(maxed?'<em class="cbt-m">Maxed</em>':'<em></em>')+'</div>'};
+  return'<div class="cbt"><div class="cbt-h"><b>Cap Breakers Remaining: <i>'+left+'</i></b><span>Tap a slot to apply breakers up to it. Tap an applied slot to remove from there.</span></div><div class="cbt-cols">'+half.map(col=>'<div class="cbt-c"><div class="cbt-hd"><span>Original</span><span></span><span>New Cap</span></div>'+col.map(row).join("")+'</div>').join("")+'</div><p class="note">🔒 A cap breaker can\'t be applied there because the rating is at its max possible potential.</p></div>'}
+{const _rcb2=renderCB;renderCB=function(){const r=_rcb2.apply(this,arguments);try{const v=document.getElementById("view-cb");if(!v)return r;const by=[...v.querySelectorAll("h2.sec")].find(x=>/By attribute/.test(x.textContent));
+  if(by){let n=by.nextElementSibling;while(n&&n.classList.contains("cbrow")){const x=n.nextElementSibling;n.remove();n=x}by.remove()}
+  const anchor=v.querySelector(".cbhead");if(anchor&&!v.querySelector(".cbt"))anchor.insertAdjacentHTML("afterend",cbTableHTML())}catch(e){}return r}}
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
