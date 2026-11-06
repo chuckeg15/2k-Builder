@@ -1506,6 +1506,24 @@ html,body{overflow-x:clip}
 .magap{display:block;font-style:normal;font-size:11.5px;color:var(--bad,#c0392b);font-weight:600}
 #cardBtn{margin-left:6px}
 .shmixh .lnk{min-height:36px;padding:6px 8px!important}
+/* jump shot creator */
+.jsgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:900px){.jsgrid{grid-template-columns:1fr}}
+.jscol{--ma-bg:#1c2027;--ma-row:#2a2f38;--ma-ink:#f2f4f7;--ma-mut:#9aa3b2;--ma-hi:#3ee6d6;gap:8px}
+.jsrow{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;background:var(--ma-row);color:var(--ma-ink);border:2px solid transparent;border-radius:3px;padding:8px 12px;cursor:pointer;font:inherit;min-height:52px}
+.jsrow small,.jsbl small,.jsopt small{font-size:11px;color:var(--ma-mut);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.jsrow b{font-size:15px;font-weight:800;text-transform:uppercase}.jsrow:hover,.jsrow:focus-visible{border-color:var(--ma-hi);outline:none}
+.jsrow span{font-size:12px;font-weight:600}.jsrow .ok{color:#6ee7a8}.jsrow .bad{color:#ff8a7a}.jsrow .unk{color:#f5c26b}
+.jsblend,.jsopt{background:var(--ma-row);border-radius:3px;padding:8px 12px;color:var(--ma-ink)}
+.jsblend.off{opacity:.6}.jsbl{display:flex;justify-content:space-between;align-items:baseline}.jsbl b{font-size:15px}
+.jsblend input[type=range]{width:100%;accent-color:var(--ma-hi);min-height:30px}.jsbls{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ma-mut)}
+.jsopt .seg{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}.jsopt .seg button{flex:1 1 auto;background:#353b46;color:var(--ma-ink);border:1px solid transparent;border-radius:3px;padding:6px 8px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;min-height:36px}
+.jsopt .seg button[aria-pressed="true"]{background:var(--ma-hi);color:#0b1118}.jsnote{display:block;font-size:11.5px;color:var(--ma-mut);margin-top:4px}
+.jscol .btns .btn{background:transparent;color:var(--ma-ink);border-color:#4a5160}
+.jsside{display:flex;flex-direction:column;gap:12px}.jssum,.jsrecs{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--surface)}
+.jssum h3,.jsrecs h3{margin:0 0 6px;font-size:15px}.jsline{margin:0 0 6px;font-size:14px}.jssum .ok{color:var(--good,#1f8a4c);font-weight:700;margin:0}.jssum .bad{color:var(--bad,#c0392b);font-weight:700;margin:0}
+.jsrec{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}.jsrec:first-of-type{border-top:0}
+.jsrec>div{display:flex;flex-direction:column;gap:1px;min-width:0}.jsrec span{font-size:12.5px;color:var(--muted)}.jsrec small{font-size:11.5px;color:var(--muted)}.jsrec.off b{opacity:.6}
 
 </style>
 
@@ -4248,6 +4266,78 @@ if(document.addEventListener)document.addEventListener("click",async e=>{const t
   try{const code=typeof zCode==="function"?await zCode():encode();await navigator.share({title:S.name,text:"My 2K27 build: "+S.name,url:buildLink(code)})}catch(err){}},true);
 /* share image from the main build panel */
 {const _rs5=renderSide;renderSide=function(){const r=_rs5.apply(this,arguments);try{const a=document.getElementById("shBtn");if(a&&!document.getElementById("cardBtn"))a.insertAdjacentHTML("afterend",'<button type="button" class="svb2" id="cardBtn" data-card="1">Share image</button>')}catch(e){}return r}}
+/* ---------------- ROUND 29: Jump Shot Creator ---------------- */
+const JS_G=AGROUPS.findIndex(g=>g[1]==="Jump Shot");
+function jsFind(n){if(!n)return null;return bmFind(JS_G,n)||bmFind(JS_G,String(n).replace(/^Steph /,"Stephen "))||bmFind(JS_G,"Jump Shot "+n)||null}
+const JS_SPEEDS=["Very Slow","Slow","Normal","Quick","Very Quick"];
+const JS_SPEED_NOTE={"Very Slow":"A little more green window","Slow":"A little more green window","Normal":"Standard window","Quick":"About 5% smaller green window","Very Quick":"About 10% smaller green window"};
+/* releases: every base name, plus release names used in tested recipes (Beluba and friends) */
+const JS_EXTRA=[...new Set(BM_JUMP.flatMap(r=>[r[4],r[5]]).filter(Boolean))].filter(n=>!jsFind(n));
+function jsBases(){return ANIMS.map((a,i)=>({a,i})).filter(x=>x.a.g===JS_G)}
+function jsRelList(){return jsBases().map(x=>({n:x.a.n,a:x.a,i:x.i})).concat(JS_EXTRA.map(n=>({n,a:null,i:null}))).sort((p,q)=>p.n.localeCompare(q.n))}
+function jsState(){S.js=S.js||{};const j=S.js;if(j.bl==null)j.bl=50;if(!j.sp)j.sp="Normal";if(!j.cue)j.cue="Push";return j}
+function jsAnimByName(n){return jsFind(n)}
+/* requirement text and status for a base or release */
+function jsNeed(a,V){if(!a)return{ok:true,txt:"No published requirement",unk:true};const sz=sizeOk(a.sz,S.h),need=a.reqs.reduce((m,r)=>Math.max(m,r[1]),0),have=Math.max(V.three,V.mid);
+  return{ok:sz&&have>=need,sz,need,have,txt:(need?"3PT or Mid "+need:"No rating needed")+(a.sz!=="A"?" · "+SZTXT[a.sz]:"")}}
+function jsFinished(V){const j=jsState(),parts=[["Base",jsAnimByName(j.b)],["Release 1",j.r1?jsAnimByName(j.r1):undefined],["Release 2",j.r2?jsAnimByName(j.r2):undefined]].filter(p=>p[1]!==undefined);
+  let need=0,sz=true,unk=false;parts.forEach(([l,a])=>{if(!a){unk=true;return}const n=jsNeed(a,V);need=Math.max(need,n.need||0);if(!n.sz)sz=false});return{need,sz,unk,have:Math.max(V.three,V.mid)}}
+const JSUI={pick:null,q:"",all:false};
+function renderJS(){const v=document.getElementById("view-jumpshot");if(!v)return;const j=jsState(),V=vals(),F=jsFinished(V),sz=sizeOf(S.h);
+  const slot=(key,label,val,sub)=>{const a=key==="b"?jsAnimByName(val):val?jsAnimByName(val):null,n=val?jsNeed(a,V):null;
+    return'<button type="button" class="jsrow'+(val&&n&&!n.ok?" lock":"")+'" data-jspick="'+key+'"><small>'+label+'</small><b>'+(val?esc(val):sub)+'</b>'+(val&&n?'<span class="'+(n.ok?"ok":n.unk?"unk":"bad")+'">'+(n.ok?"Unlocked":n.unk?"Requirement not published":!n.sz?"Wrong height for this build":"Needs "+n.need+" (you have "+n.have+")")+'</span>':"")+'</button>'};
+  const blendOn=!!(j.r1&&j.r2);
+  let h='<div class="jsgrid"><section class="macol jscol"><header><b>Jump Shot Creator</b><span>Base, releases, blend and speed</span></header>'+
+    slot("b","Base",j.b,"Pick a base")+slot("r1","Release 1",j.r1,"None")+(j.r1?slot("r2","Release 2",j.r2,"None"):'')+
+    '<div class="jsblend'+(blendOn?"":" off")+'"><div class="jsbl"><small>Blend</small><b>'+(blendOn?j.bl+'% / '+(100-j.bl)+'%':'Needs two releases')+'</b></div>'+(blendOn?'<input type="range" min="0" max="100" step="1" value="'+j.bl+'" data-jsbl="1" aria-label="Blend between Release 1 and Release 2"><div class="jsbls"><span>'+esc(j.r1)+'</span><span>'+esc(j.r2)+'</span></div>':'')+'</div>'+
+    '<div class="jsopt"><small>Release speed</small><div class="seg">'+JS_SPEEDS.map(s=>'<button type="button" data-jssp="'+s+'" aria-pressed="'+(j.sp===s)+'">'+s+'</button>').join("")+(JS_SPEEDS.includes(j.sp)?'':'<button type="button" aria-pressed="true">'+esc(j.sp)+'</button>')+'</div><span class="jsnote">'+esc(JS_SPEED_NOTE[j.sp]||"Setting from the guide")+'</span></div>'+
+    '<div class="jsopt"><small>Visual cue</small><div class="seg">'+["Push","Release"].map(s=>'<button type="button" data-jscue="'+s+'" aria-pressed="'+(j.cue===s)+'">'+s+'</button>').join("")+'</div></div>'+
+    '<div class="btns"><button type="button" class="btn" data-jsclear="1">Clear jumper</button></div></section>';
+  h+='<section class="jsside"><div class="jssum"><h3>Your jumper</h3>'+(j.b?'<p class="jsline"><b>'+esc(j.b)+'</b>'+(j.r1?' · '+esc(j.r1)+(j.r2?' / '+esc(j.r2)+' ('+j.bl+'/'+(100-j.bl)+')':''):'')+' · '+esc(j.sp)+' · '+esc(j.cue)+'</p>'+
+     '<p class="'+(!F.sz?"bad":F.have>=F.need?"ok":"bad")+'">'+(!F.sz?"One of these doesn't fit your height.":F.have>=F.need?"Unlocked: needs 3PT or Mid "+F.need+", you have "+F.have+".":"Locked: needs 3PT or Mid "+F.need+", you have "+F.have+" (+"+(F.need-F.have)+").")+'</p>'+(F.unk?'<p class="note">A release with no published requirement is shown as open. Check it in game.</p>':''):'<p class="note">Pick a base to start, or use a tested jumper below.</p>')+'</div>';
+  const recs=BM_JUMP.filter(r=>r[0]===sz);
+  h+='<div class="jsrecs"><h3>Tested jumpers for '+({S:"6'4\" and under",W:"6'5\" to 6'9\"",B:"6'10\" and up"}[sz])+'</h3>'+recs.map((r,i)=>{const ok=Math.max(V.three,V.mid)>=r[1];
+    return'<div class="jsrec'+(ok?"":" off")+'"><div><b>'+esc(r[3])+'</b><span>'+(r[4]?esc(r[4])+(r[5]?' / '+esc(r[5]):''):'No releases')+(r[6]?' · '+esc(r[6]):'')+' · '+esc(r[7])+'</span><small>3PT '+r[1]+(r[2]<99?' to '+r[2]:'+')+(ok?'':' · you have '+V.three)+'</small></div><button type="button" class="btn'+(ok?" pri":"")+'" data-jsrec="'+BM_JUMP.indexOf(r)+'">Use</button></div>'}).join("")+
+    '<p class="note">From community testing (U7BUY guide, Nov 2026). Release requirements aren\'t published by 2K, so releases use the same rating as that player\'s base, which is the usual community rule.</p></div></section></div>';
+  if(JSUI.pick)h+=jsPicker(V);
+  v.innerHTML=h}
+function jsPicker(V){const key=JSUI.pick,q=maNorm(JSUI.q),cur=jsState()[key];const isBase=key==="b";
+  const items=(isBase?jsBases().map(x=>({n:x.a.n,a:x.a})):jsRelList()).filter(x=>!q||maNorm(x.n).includes(q));
+  const ok=items.filter(x=>jsNeed(x.a,V).ok),no=items.filter(x=>!jsNeed(x.a,V).ok);
+  const row=(x,lk)=>{const n=jsNeed(x.a,V);return'<button type="button" class="mapk'+(cur===x.n?" on":"")+(lk?" lock":"")+'" data-jsset="'+esc(x.n)+'"'+(lk?" disabled":"")+'><b>'+esc(x.n)+'</b><span>'+esc(n.txt)+'</span>'+(lk?'<em class="magap">'+(!n.sz?"Wrong height for this build":"Need +"+(n.need-n.have))+'</em>':'')+'</button>'};
+  return'<div id="mapick" class="jspk" role="dialog" aria-modal="true" aria-label="Pick '+(isBase?"base":"release")+'"><div class="mapc"><header><b>'+(isBase?"Base":key==="r1"?"Release 1":"Release 2")+'</b><button type="button" class="bxclose" data-jsx="1" aria-label="Close">×</button></header><input class="search" id="jsq" placeholder="Search players" value="'+esc(JSUI.q)+'"><div class="mapl">'+
+   (isBase?'':'<button type="button" class="mapk'+(cur?"":" on")+'" data-jsset=""><b>None</b><span>No release</span></button>')+ok.slice(0,300).map(x=>row(x,false)).join("")+
+   (no.length?'<div class="maloc"><button type="button" class="lnk" data-jsall="1">'+(JSUI.all?"Hide":"Show")+' '+no.length+' locked</button></div>'+(JSUI.all?no.slice(0,300).map(x=>row(x,true)).join(""):""):"")+'</div></div></div>'}
+function jsSyncAnims(){const j=jsState(),a=jsAnimByName(j.b);S.myan=S.myan||{};if(a)S.myan[JS_G]=ANIMS.indexOf(a);else delete S.myan[JS_G]}
+/* tab wiring */
+SECTIONS.find(s=>s.id==="moves").tabs.splice(1,0,["jumpshot","Jump Shot Creator"]);ALLTABS.push("jumpshot");
+{const a=document.getElementById("view-anims");if(a&&a.insertAdjacentHTML)a.insertAdjacentHTML("beforebegin",'<div class="view" id="view-jumpshot" role="tabpanel" hidden></div>')}
+{const _rv1=renderView0;renderView0=function(){if(ui.tab==="jumpshot"){renderJS();return}return _rv1.apply(this,arguments)}}
+if(document.addEventListener){
+  document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-jspick],[data-jsset],[data-jsx],[data-jsall],[data-jssp],[data-jscue],[data-jsclear],[data-jsrec],#mapick.jspk");if(!t)return;
+    if(t.id==="mapick"){if(e.target===t){JSUI.pick=null;renderJS()}return}e.stopPropagation();const d=t.dataset,j=jsState();
+    if(d.jspick){JSUI.pick=d.jspick;JSUI.q="";JSUI.all=false;renderJS();setTimeout(()=>{const q=document.getElementById("jsq");if(q&&matchMedia("(pointer:fine)").matches)q.focus()},30);return}
+    if(d.jsset!=null){const k=JSUI.pick;j[k]=d.jsset||"";if(k==="r1"&&!j.r1)j.r2="";JSUI.pick=null;jsSyncAnims()}
+    else if(d.jsx){JSUI.pick=null}else if(d.jsall){JSUI.all=!JSUI.all}
+    else if(d.jssp){j.sp=d.jssp}else if(d.jscue){j.cue=d.jscue}
+    else if(d.jsclear){S.js={};jsSyncAnims()}
+    else if(d.jsrec!=null){const r=BM_JUMP[+d.jsrec];const bl=r[6]?parseInt(r[6],10):50;const nm=x=>x?((jsFind(x)||{n:x}).n):"";Object.assign(j,{b:nm(r[3]),r1:nm(r[4]),r2:nm(r[5]),bl:isNaN(bl)?50:bl,sp:r[7]||"Normal"});jsSyncAnims();toast("Jumper set: "+r[3])}
+    save();try{histRecord()}catch(err){}renderJS()},true);
+  document.addEventListener("input",e=>{const t=e.target;if(!t)return;if(t.id==="jsq"){JSUI.q=t.value;const p=t.selectionStart;renderJS();const q=document.getElementById("jsq");if(q){q.focus();try{q.setSelectionRange(p,p)}catch(err){}}}
+    else if(t.dataset&&t.dataset.jsbl){const j=jsState();j.bl=+t.value;const b=document.querySelector(".jsbl b");if(b)b.textContent=j.bl+"% / "+(100-j.bl)+"%"}});
+  document.addEventListener("change",e=>{const t=e.target;if(t&&t.dataset&&t.dataset.jsbl){save();try{histRecord()}catch(err){}renderJS();const r=document.querySelector("[data-jsbl]");if(r)r.focus()}});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&JSUI.pick){JSUI.pick=null;renderJS()}})}
+/* picking a jump shot on My Animations sets the base here too */
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-maset]");if(!t||MA.g!==JS_G)return;setTimeout(()=>{const i=S.myan&&S.myan[JS_G];const j=jsState();j.b=i!=null&&ANIMS[i]?ANIMS[i].n:"";save()},20)},true);
+/* links, codes and undo carry the jumper */
+{const _enc2=encode;encode=function(){const s=_enc2.apply(this,arguments);try{if(!S.js||!S.js.b)return s;const o=JSON.parse(decodeURIComponent(escape(atob(s.replace(/^BL27\./,"")))));o.js=S.js;return"BL27."+btoa(unescape(encodeURIComponent(JSON.stringify(o))))}catch(e){return s}}}
+{const _dec2=decode;decode=function(code){const b=_dec2.apply(this,arguments);try{const o=JSON.parse(decodeURIComponent(escape(atob(String(code).trim().replace(/^BL27\./,"")))));if(o.js&&typeof o.js==="object"){const j=o.js,str=x=>typeof x==="string"?x.slice(0,60):"";
+  b.js={b:str(j.b),r1:str(j.r1),r2:str(j.r2),bl:Math.max(0,Math.min(100,+j.bl||50)),sp:str(j.sp)||"Normal",cue:j.cue==="Release"?"Release":"Push"}}}catch(e){}return b}}
+{const _san2=sanitizeState;sanitizeState=function(x){const js=x&&x.js;const r=_san2.apply(this,arguments);if(js&&typeof js==="object"&&!r.js)r.js=js;return r}}
+/* the share image names the jumper */
+{const _dc=drawCard;drawCard=function(fmt){const d=_dc.apply(this,arguments);try{const j=S.js;if(j&&j.b){const c=d.c,top=fmt==="story"?300:90,cy=top+40+120,x=330;c.save();
+  c.fillStyle="rgba(255,255,255,.55)";c.font="800 20px Archivo, Arial, sans-serif";c.fillText("JUMPER",x,cy+108);const lw=c.measureText("JUMPER  ").width;
+  c.fillStyle="#fff";c.font="700 22px Archivo, Arial, sans-serif";let t=j.b+(j.r1?" · "+j.r1+(j.r2?" / "+j.r2:""):"");while(c.measureText(t).width>d.W-x-lw-60&&t.length>4)t=t.slice(0,-2);c.fillText(t,x+lw,cy+108);c.restore()}}catch(e){}return d}}
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
