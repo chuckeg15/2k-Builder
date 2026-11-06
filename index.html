@@ -1645,6 +1645,11 @@ html,body{overflow-x:clip}
 #bmbox h4{margin:12px 0 4px}#bmbox .dn{color:var(--bad,#c0392b)}#bmbox .ok{color:var(--good,#16a34a)}.bman{font-size:12px;color:var(--muted)}
 .shclr{margin:0 0 6px}
 
+#bxpop.bxpop2{display:flex;flex-direction:column;gap:4px}#bxpop.bxpop2 .bx{margin:0}
+#hkbox[hidden],#bmbox[hidden],#shres[hidden]{display:none!important}
+.arow.nomore,#cmpv .crow.nomore{opacity:.42;transition:opacity .2s}
+.arow.nomore:hover,#cmpv .crow.nomore:hover,.arow.nomore:focus-within,#cmpv .crow.nomore:focus-within{opacity:.8}
+
 </style>
 
 
@@ -2275,7 +2280,7 @@ let PL_BODIES=null;
 function plBodies(){if(PL_BODIES)return PL_BODIES;const map=new Map();
   for(const pos of POS){const B=DATA.bodies[pos];for(const hs in B.rows){const r=B.rows[hs],h=+hs,str=DATA.capt[pos][hs],nws=r[1][1]-r[1][0]+1;
     for(let w=r[0][0];w<=r[0][1];w++)for(let ws=r[1][0];ws<=r[1][1];ws++){const key=h*100000+w*100+ws;let o=map.get(key);
-      if(!o){const p=((w-r[0][0])*nws+(ws-r[1][0]))*21,c=new Array(21);for(let i=0;i<21;i++)c[i]=str.charCodeAt(p+i)-23;o={h,w,ws,pos:[],caps:c};map.set(key,o)}
+      if(!o){const p=((w-r[0][0])*nws+(ws-r[1][0]))*21,c=new Array(21);for(let i=0;i<21;i++)c[i]=str.charCodeAt(p+i)-23;o={h,w,ws,pos:[],caps:c};map.set(key,o)}else{const p=((w-r[0][0])*nws+(ws-r[1][0]))*21;for(let i=0;i<21;i++)o.caps[i]=Math.min(o.caps[i],str.charCodeAt(p+i)-23)}
       o.pos.push(pos)}}}
   return PL_BODIES=[...map.values()]}
 function ovrA(v,h){const W=DATA.w[h],L=DATA.lerp[h];let best=-1e9;
@@ -2944,7 +2949,7 @@ const SHORT={close:"Close Shot",layup:"Layup",ddunk:"Driving Dunk",sdunk:"Standi
 try{ui.compact=localStorage.getItem("bl27-compact")==="1"}catch(e){}
 function nextTick(k){const e=eff(k),c=cap(k);return TICKS[k].filter(t=>t.v>e&&t.v<=c&&(!t.b||S.h>=t.b.h[0]&&S.h<=t.b.h[1])).sort((x,y)=>x.v-y.v)[0]}
 function renderCompact(){const view=$("#view-attrs");if(!view||!view.querySelector||!view.classList||!view.classList.toggle||!document.createElement)return;let el=$("#cmpv");
-  if(!el){const at=view.querySelector(".atools");if(!at)return;el=document.createElement("div");el.id="cmpv";at.after(el)}
+  if(!el){const at=view.querySelector(".atools");if(!at)return;el=document.createElement("div");el.id="cmpv";at.after(el)}{const ob=view.querySelector("#optbox");if(ob&&(ob.compareDocumentPosition(el)&2))ob.after(el)}
   view.classList.toggle("cmpmode",!!ui.compact);const tg=$("#cmpTog");if(tg)tg.checked=!!ui.compact;
   if(!ui.compact){el.innerHTML="";return}
   el.innerHTML='<div class="cmpgrid">'+GROUPS.map(g=>{const as=ATTRS.filter(a=>a.g===g[0]);
@@ -3619,8 +3624,8 @@ if(window.MutationObserver&&document.getElementById){const va=document.getElemen
 {const _ac3=afterChange;afterChange=function(){const r=_ac3.apply(this,arguments);try{if(IMPV.open&&!document.getElementById("impvbox"))impvRender()}catch(e){}return r}}
 {const _rs2=renderSide;renderSide=function(){const r=_rs2.apply(this,arguments);try{const a=document.getElementById("arch");if(a&&!document.getElementById("shBtn")){a.insertAdjacentHTML("afterend",'<button type="button" class="shbtn" id="shBtn" data-shopen="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.8-3.2 3-5 5.5-5s4.7 1.8 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.3c2.3.2 4 1.8 4.6 4.7"/></svg>Shades of NBA players</button>')}}catch(e){}return r}}
 /* ---------------- ROUND 19: review fixes ---------------- */
-/* Physicals take at most 2 cap breakers (only the 2 Build Specialization breakers can go there) */
-const PHY_CB_MAX=2;
+/* no group limit: Build Specialization breakers are extra breakers on top of the rest */
+const PHY_CB_MAX=99;
 function phyCB(cb){return ATTRS.filter(a=>a.g==="PHY").reduce((s,a)=>s+((cb||S.cb)[a.k]||0),0)}
 function phyTrim(){let g=0;while(phyCB()>PHY_CB_MAX&&g++<30){const a=ATTRS.filter(x=>x.g==="PHY"&&S.cb[x.k]).sort((x,y)=>S.cb[y.k]-S.cb[x.k])[0];if(!a)break;if(S.cb[a.k]>1)S.cb[a.k]--;else delete S.cb[a.k]}}
 if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-cbset]");if(!t)return;const k=t.dataset.cbset,n=+t.dataset.n,cur=S.cb[k]||0;
@@ -3707,7 +3712,7 @@ function renderShadesBuilder(){const v=document.getElementById("view-shades");if
   const sp=SHB.sel.length?shBuildSpec():null;
   if(sp)h+='<div class="shprev"><div><b>'+sp.pos+' · '+ft(sp.h)+' · '+sp.w+' lbs · '+ft(sp.ws)+' WS</b><small>Blended from '+sp.B.map(b=>esc(b[0])).join(", ")+'</small></div><button class="btn pri" type="button" data-shmake="1">Create this build</button></div>';
   h+='<div class="svtools"><input class="svin" type="search" id="shQ" placeholder="Search players" value="'+esc(SHB.q)+'" aria-label="Search players"><div class="seg">'+["ALL"].concat(POS).map(p=>'<button type="button" data-shpos="'+p+'" aria-pressed="'+(SHB.pos===p)+'">'+(p==="ALL"?"All":p)+'</button>').join("")+'</div></div>';
-  const list=names.filter(n=>(!q||n.toLowerCase().includes(q))&&(SHB.pos==="ALL"||SHP[n].some(x=>x.pos===SHB.pos))).sort((a,b)=>(!!shWhyNot(a)&&!SHB.sel.includes(a))-(!!shWhyNot(b)&&!SHB.sel.includes(b)));
+  const list=names.filter(n=>(!q||maNorm(n).includes(maNorm(q)))&&(SHB.pos==="ALL"||SHP[n].some(x=>x.pos===SHB.pos))).sort((a,b)=>(!!shWhyNot(a)&&!SHB.sel.includes(a))-(!!shWhyNot(b)&&!SHB.sel.includes(b)));
   h+='<div class="shpl">'+list.map(n=>{const on=SHB.sel.includes(n),why=on?"":shWhyNot(n),full=!on&&SHB.sel.length>=3;
     return'<button type="button" class="shpick'+(on?" on":"")+'" data-shpick="'+esc(n)+'" aria-pressed="'+on+'"'+(why||full?' disabled title="'+esc(why||"You already picked 3")+'"':'')+'><b>'+esc(n)+'</b><small>'+SHP[n].map(x=>x.pos+" "+ft(x.h)).join(" · ")+'</small>'+(why?'<em>'+esc(why)+'</em>':'')+'</button>'}).join("")+'</div>';
   v.innerHTML=h}
@@ -4634,17 +4639,18 @@ function hkPlan(){const save=S.v,saveCb=S.cb;try{
   /* the cheapest set of build ratings that still plays at every target, for a given cap breaker split */
   function build(c){let B={};K.forEach(k=>B[k]=lowest[k]!=null?lowest[k]:R[k]);
     for(let it=0;it<3;it++){const arch=winArch(B,S.h);K.forEach(k=>{if(lowest[k]!=null)return;B[k]=c[k]?hkMinBase(B,arch,k,c[k],R[k]):R[k]});S.v=B;K.forEach(k=>{if(B[k]>save[k])linkFix(B,k,1)})}
+    {let g=0,br;while(typeof linkBroken==="function"&&(br=linkBroken(B)).length&&g++<40)br.forEach(([s0,t,n])=>{if(B[t]<n)B[t]=n})}
     S.v=save;return{B,o:ovrOf(B,S.h)}}
   /* 1. give each cap breaker to the rating where it saves the most overall */
   const c={};let cur=build(c),used=0;
-  while(used<N){let best=null;for(const k of K){if(lowest[k]!=null||(c[k]||0)>=5)continue;const t=Object.assign({},c);t[k]=(t[k]||0)+1;const r=build(t);const gain=cur.o-r.o;if(gain>1e-6&&(!best||gain>best.gain))best={k,gain,r,t}}
+  while(used<N){let best=null;for(const k of K){if(lowest[k]!=null||(c[k]||0)>=5)continue;if(ATTRS[IDX[k]].g==="PHY"&&K.reduce((z,x)=>z+(ATTRS[IDX[x]].g==="PHY"?(c[x]||0):0),0)>=PHY_CB_MAX)continue;const t=Object.assign({},c);t[k]=(t[k]||0)+1;const r=build(t);const gain=cur.o-r.o;if(gain>1e-6&&(!best||gain>best.gain))best={k,gain,r,t}}
     if(!best)break;Object.assign(c,best.t);cur=best.r;used++}
   /* 2. if it doesn't fit under 99, ease off the wants you ranked last */
   let g=0;while(cur.o>99+1e-9&&g++<600){const k=[...want].reverse().find(x=>R[x]>effNow[x]);if(!k)break;R[k]--;cur=build(c)}
   const v=cur.B;const effOf=(vv,k)=>hkGains(vv,winArch(vv,S.h),k,vv[k],c[k]||0);const effNew={};K.forEach(k=>effNew[k]=effOf(v,k));
   const ia=x=>K.map(k=>x[k]);
   return{v,cb:c,used,ok:cur.o<=99+1e-9,effNow,effNew,dump,want,R,tok0:tokA(ia(save),S.h),tok1:tokA(ia(v),S.h),ovr:cur.o}}finally{S.v=save;S.cb=saveCb;cbCache={}}}
-function hkSide(r,k){const t=Object.assign({},S.v);t[k]=r.v[k];if(r.v[k]>S.v[k])linkFix(t,k,1);const list=K.filter(x=>x!==k&&t[x]!==S.v[x]).map(x=>[x,S.v[x],t[x]]);return{t,list,ovr:ovrOf(t,S.h)-ovrOf(S.v,S.h)}}
+function hkSide(r,k){const t=Object.assign({},S.v);t[k]=r.v[k];if(r.v[k]>S.v[k])linkFix(t,k,1);else if(r.v[k]<S.v[k])linkFix(t,k,-1);const list=K.filter(x=>x!==k&&t[x]!==S.v[x]).map(x=>[x,S.v[x],t[x]]);return{t,list,ovr:ovrOf(t,S.h)-ovrOf(S.v,S.h)}}
 function hkBadgeDiff(r){const save=S.v,saveCb=S.cb;try{const V0=vals();S.v=r.v;S.cb=r.cb;cbCache={};const V1=vals();const up=[],dn=[];BADGES.forEach(b=>{const a=Math.max(0,badgeTier(b,V0)),c=Math.max(0,badgeTier(b,V1));if(c>a)up.push(TIERS[c]+" "+b.n);else if(c<a)dn.push(b.n+" ("+TIERS[a]+(c?" to "+TIERS[c]:" lost")+")")});return{up,dn}}finally{S.v=save;S.cb=saveCb;cbCache={}}}
 /* panel */
 function hkHTML(){const dump=hkDump(),r=HK.res;let h='<div class="hk"><header><b>Cap breaker hacks</b><button type="button" class="bxclose" data-hkx="1" aria-label="Close">×</button></header>'+
@@ -4657,7 +4663,7 @@ function hkHTML(){const dump=hkDump(),r=HK.res;let h='<div class="hk"><header><b
   '<div class="btns"><button type="button" class="btn pri" data-hkgo="1"'+(HK.want.length?'':' disabled')+'>Find the best plan</button>'+(HK.want.length?'':'<span class="note">Pick at least one rating you want most.</span>')+'</div>';
   if(r){const bd=hkBadgeDiff(r),rows=K.filter(k=>r.v[k]!==S.v[k]||(r.cb[k]||0)!==(S.cb[k]||0)||r.effNew[k]!==r.effNow[k]);const ownOf=k=>r.want.includes(k)||r.dump.includes(k)||(r.cb[k]||0)>0;rows.sort((x,y)=>(ownOf(y)-ownOf(x))||(ownOf(x)?hkSide(r,x).ovr-hkSide(r,y).ovr:0));
     const tk=GROUPS.map(g=>g[0]),t0=tk.reduce((s,g)=>s+r.tok0[g],0),t1=tk.reduce((s,g)=>s+r.tok1[g],0);
-    h+='<div class="hkres"><h3>The plan</h3><p class="hksum">'+r.want.map(k=>'<b>'+esc(AN[k])+' '+r.effNow[k]+' → '+r.effNew[k]+'</b>').join(" · ")+'<br>Uses '+r.used+' of '+cbHave()+' cap breakers. Build overall '+r.ovr.toFixed(2)+(r.ovr<98.95?' ('+(99-r.ovr).toFixed(2)+' left to spend anywhere)':'')+'.'+(r.want.some(k=>r.effNew[k]<(+(HK.tgt[k]||cap(k))))?' Lower-ranked wants were eased off to fit under 99.':'')+'</p>'+
+    h+='<div class="hkres"><h3>The plan</h3><p class="hksum">'+r.want.map(k=>r.effNew[k]===r.effNow[k]?'<b>'+esc(AN[k])+' stays '+r.effNow[k]+'</b> <small>('+(r.effNow[k]>=Math.min(cap(k),+(HK.tgt[k]||cap(k)))?'target '+Math.min(cap(k),+(HK.tgt[k]||cap(k)))+' already met':'no room to raise it under 99')+')</small>':'<b>'+esc(AN[k])+' '+r.effNow[k]+' → '+r.effNew[k]+'</b>').join(" · ")+'<br>Uses '+r.used+' of '+cbHave()+' cap breakers. Build overall '+r.ovr.toFixed(2)+(r.ovr<98.95?' ('+(99-r.ovr).toFixed(2)+' left to spend anywhere)':'')+'.'+(r.want.some(k=>r.effNew[k]<(+(HK.tgt[k]||cap(k))))?' Lower-ranked wants were eased off to fit under 99.':'')+'</p>'+
      '<table class="hkt"><thead><tr><th>Rating</th><th>Build at</th><th>Breakers</th><th>Plays at</th><th>Also changes</th><th></th></tr></thead><tbody>'+rows.map(k=>{const d=r.effNew[k]-r.effNow[k],fx=hkSide(r,k),own=r.want.includes(k)||r.dump.includes(k)||(r.cb[k]||0)>0,done=HK.done&&HK.done[k];
        return'<tr class="'+(done?"done":"")+'"><td>'+esc(AN[k])+(r.want.includes(k)?' <i class="hkw">want</i>':r.dump.includes(k)?' <i class="hkd">don\'t need</i>':own?'':' <i class="hkd">linked</i>')+'</td><td>'+(done?done.from:S.v[k])+' → <b>'+r.v[k]+'</b></td><td>'+(r.cb[k]?'+'+r.cb[k]:'')+'</td><td>'+r.effNow[k]+' → <b class="'+(d>0?"up":d<0?"dn":"")+'">'+r.effNew[k]+'</b></td><td class="hkfx">'+(own&&!done?(fx.list.length?fx.list.map(x=>'<span class="'+(x[2]>x[1]?"up":"dn")+'">'+esc(AN[x[0]])+' '+x[1]+' → '+x[2]+'</span>').join(""):'<span class="nil">Nothing else</span>')+'<small>'+(fx.ovr>0?'costs '+fx.ovr.toFixed(2):'frees '+(-fx.ovr).toFixed(2))+' OVR</small>':own?'':'<small>Moves with the rating above it</small>')+'</td><td>'+(own?(done?'<span class="hkok">Applied</span>':'<button type="button" class="btn sm" data-hkone="'+k+'">Apply</button>'):'')+'</td></tr>'}).join('')+'</tbody></table>'+
      '<p class="hknote">Badge tokens '+t0+' → <b>'+t1+'</b> (tokens and slots come from what you build at, before breakers).'+(t1<t0?' Check the Badges tab after applying.':'')+'</p>'+
@@ -4798,6 +4804,55 @@ if(document.addEventListener)document.addEventListener("click",e=>{const t=e.tar
 {const _sbs=shBuildSpec;shBuildSpec=function(){const sp=_sbs.apply(this,arguments);if(sp&&sp.sigs)sp.sigs.forEach(s=>{for(const k in s)s[k]=Math.min(99,s[k])});return sp}}
 /* Smart fill and other automatic fills never raise a locked rating either */
 {const _sp4=spreadSmart;spreadSmart=function(){const before=Object.assign({},S.v);const r=_sp4.apply(this,arguments);try{let ch=false;K.forEach(k=>{if(isLocked(k)&&S.v[k]!==before[k]){S.v[k]=before[k];ch=true}});if(ch){const br=linkBroken();if(br.length)toast("Locked ratings held. Some linked ratings may need a fix, see the banner.");if(ovrOf(S.v,S.h)>99+1e-9)trimUnder99()}}catch(e){}return r}}
+/* ---------------- ROUND 35: audit fixes ---------------- */
+/* 6'10" and taller: the game's slot allocator gets no token input (measured: 588 of 588 splits) */
+{const _sbc=slotsByCat;slotsByCat=function(){if(S.h<82)return _sbc.apply(this,arguments);const VB=vals("base"),cnt=GROUPS.map(g=>BADGES.filter(b=>b.c===g[0]&&badgeTier(b,VB)>0).length);
+  const sl=badgeSlots(GROUPS.map(()=>0),cnt);const o={};GROUPS.forEach((g,i)=>o[g[0]]=sl[i]);return o}}
+/* never leave equipped badges over the token or slot budget */
+function eqCosts(){const X=bxState(),m={};X&&GROUPS.forEach(g=>X.cnt[g[0]].forEach(({b,t})=>m[b.id]=X.FZ[b.id]?0:bcost(b,t)));return m}
+function budgetGuard(before){try{if(!tokKnown())return;let X=bxState();if(X.tLeft>=0&&X.sLeft>=0)return;const now=eqCosts(),V=vals();
+  const cand=BADGES.filter(b=>S.eq[b.id]>0).sort((a,b)=>((now[b.id]||0)-((before&&before[b.id])||0))-((now[a.id]||0)-((before&&before[a.id])||0)));const msg=[];let g=0;
+  for(const b of cand){if(g++>60)break;const t0=Math.min(S.eq[b.id],Math.max(0,badgeTier(b,V)));let t=t0;
+    while(t>0&&(X.tLeft<0||X.sLeft<0)){t--;if(t)S.eq[b.id]=t;else delete S.eq[b.id];X=bxState()}
+    if(t!==t0)msg.push(b.n+(t?" to "+TIERS[t]:" unequipped"));if(X.tLeft>=0&&X.sLeft>=0)break;if(before&&(now[b.id]||0)<=((before[b.id])||0))continue}
+  if(msg.length){save();setTimeout(()=>toast("Over your badge tokens, so "+msg.join(", ")),90)}}catch(e){}}
+if(window.addEventListener){const sel="[data-bxsynset],[data-bxsyn],[data-bxapply],[data-bxsug],[data-eq],[data-aeqrole],select,.bxpick,.bxrow,.bxsyn,.syn,#view-syn,#view-badges";
+  const pre=e=>{try{if(!(e.target.closest&&e.target.closest(sel)))return;const X=bxState();if(X.tLeft<0||X.sLeft<0)return;const snap=eqCosts();
+    setTimeout(()=>{const Y=bxState();if(Y.tLeft<0||Y.sLeft<0){budgetGuard(snap);try{renderSide();renderTabs();renderView()}catch(err){}}},0)}catch(err){}};
+  window.addEventListener("click",pre,true);window.addEventListener("change",pre,true)}
+/* Set to Badge Minimums keeps your equipped badges affordable and says how many tokens you give up */
+bmPlan=function(){const save=S.v;try{const t0=bmTiers(),X0=bxState(),tb0=tokenBudget();let v=Object.assign({},S.v),moved=true,g=0;
+  while(moved&&g++<40){moved=false;for(const k of K){if(isLocked(k))continue;let gg=0;while(gg++<80){if(v[k]<=25)break;S.v=v;cbCache={};const t=tryStep(k,-1);if(!t||t[k]>=v[k])break;if(K.some(x=>isLocked(x)&&t[x]!==save[x]))break;
+      S.v=t;cbCache={};const ti=bmTiers();if(BADGES.some(b=>ti[b.id]<t0[b.id]))break;const X=bxState();if(X.tLeft<Math.min(0,X0.tLeft)||X.sLeft<Math.min(0,X0.sLeft))break;v=t;moved=true}}}
+  S.v=save;cbCache={};const ch=K.filter(k=>v[k]!==save[k]);
+  const Vb=vals();S.v=v;cbCache={};const Va=vals(),tb1=tokenBudget();S.v=save;cbCache={};
+  const anLost=ANIMS.filter(a=>animOk(a,Vb)&&!animOk(a,Va)),toLost=TAKEOVERS.filter(t=>t.reqs.length&&reqMet(t.reqs,t.op,Vb)&&!reqMet(t.reqs,t.op,Va));
+  const tokLost=GROUPS.map(g=>({n:g[1],d:(tb0[g[0]]||0)-(tb1[g[0]]||0)})).filter(x=>x.d>0);
+  return{v,ch,freed:ovrOf(save,S.h)-ovrOf(v,S.h),anLost,toLost,tokLost}}finally{S.v=save;cbCache={}}};
+{const _bmc=bmConfirm;bmConfirm=function(){const r=_bmc.apply(this,arguments);try{const P=window.__BMP,b=document.getElementById("bmbox"),h=b&&b.querySelector("h4");
+  if(P&&h&&P.ch.length)h.insertAdjacentHTML("afterend",P.tokLost.length?'<p class="dn">Badge tokens: '+esc(P.tokLost.map(x=>x.n+" -"+x.d).join(", "))+'. Your equipped badges still fit.</p>':'<p class="ok">Badge tokens: none lost</p>')}catch(e){}return r}}
+/* "+N more" shows each badge's real tier change */
+bChips=function(list,mode,max){max=max||4;if(!list.length)return'';const more=list.length-max;
+  return'<div class="bxs">'+list.slice(0,max).map(x=>bChip(x,mode)).join("")+(more>0?'<span class="bxmore" data-mx="'+esc(mode||"")+'~'+list.slice(max).map(x=>x.b.id+':'+x.t0+':'+x.t1).join(",")+'" title="'+esc(list.slice(max).map(x=>x.b.n).join(", "))+'">+'+more+' more</span>':'')+'</div>'};
+{const _bmp=bxMorePop;bxMorePop=function(t,pin){if(!t.dataset.mx)return _bmp.apply(this,arguments);let p=document.getElementById("bxpop");if(p&&p.dataset.for===t.dataset.mx&&!pin)return;if(p)p.remove();if(t.title){t.dataset.more=t.title;t.removeAttribute("title")}
+  const [mode,raw]=t.dataset.mx.split("~"),L=(raw||"").split(",").map(s=>{const a=s.split(":");return{b:BID15[a[0]],t0:+a[1],t1:+a[2]}}).filter(x=>x.b);if(!L.length)return;
+  p=document.createElement("div");p.id="bxpop";p.className="bxpop2";p.dataset.for=t.dataset.mx;if(pin)p.dataset.pin="1";p.setAttribute("role","tooltip");p.innerHTML='<b>'+L.length+' more</b>'+L.map(x=>bChip(x,mode)).join("");
+  document.body.appendChild(p);const r=t.getBoundingClientRect();p.style.left=Math.max(8,Math.min(innerWidth-p.offsetWidth-8,r.left))+"px";p.style.top=(r.bottom+6+window.scrollY)+"px"}}
+/* the game engine works in 32-bit floats: a real 99 build can come out at 99.000005 here, so snap that noise to the whole number */
+{const _ov=ovrOf;ovrOf=function(v,h){const x=_ov(v,h),r=Math.round(x);return Math.abs(x-r)<2e-5?r:x}}
+{const _oa=ovrA;ovrA=function(v,h){const x=_oa(v,h),r=Math.round(x);return Math.abs(x-r)<2e-5?r:x}}
+/* trimming under 99 never leaves a linked pair out of range */
+{const _tu=trimUnder99;trimUnder99=function(){let g=0;do{_tu.apply(this,arguments);let br,q=0;while((br=linkBroken()).length&&q++<40)br.forEach(([s0,t,n])=>{if(S.v[t]<n&&!isLocked(t))S.v[t]=n});invalidate()}while(ovrOf(S.v,S.h)>99+1e-9&&g++<6)}}
+/* while the build isn't finished, gray out ratings that can't take another point */
+function paintNoMore(){const done=isComplete(S.v);const can={};K.forEach(k=>{can[k]=done||!!tryStep(k,1)});
+  document.querySelectorAll("#view-attrs .arow[data-k]").forEach(r=>r.classList.toggle("nomore",!can[r.dataset.k]));
+  document.querySelectorAll("#cmpv .crow").forEach(r=>{const i=r.querySelector("[data-ck]");if(i)r.classList.toggle("nomore",!can[i.dataset.ck])})}
+{const _ua9=updAttrs;updAttrs=function(){const r=_ua9.apply(this,arguments);try{paintNoMore()}catch(e){}return r}}
+{const _rv9=renderView;renderView=function(){const r=_rv9.apply(this,arguments);try{paintNoMore()}catch(e){}return r}}
+/* 2K blueprints load with every link in range */
+{const _lb=loadBlueprint;loadBlueprint=function(){const r=_lb.apply(this,arguments);try{let g=0,br;while((br=linkBroken()).length&&g++<40)br.forEach(([s0,t,n])=>{if(S.v[t]<n)S.v[t]=n});if(ovrOf(S.v,S.h)>99+1e-9)trimUnder99();{const c=caps();let mv=true,q=0;while(mv&&q++<300&&!isComplete(S.v)){mv=false;for(const x of K){const t=Object.assign({},S.v);t[x]++;if(t[x]>c[x])continue;linkFix(t,x,1);if(ovrOf(t,S.h)<=99+1e-9){S.v=t;mv=true;if(isComplete(S.v))break}}}}invalidate();afterChange()}catch(e){}return r}}
+/* Preferences: Start over really starts over */
+if(document.addEventListener)document.addEventListener("click",e=>{if(e.target&&e.target.id==="qrestart2")Object.assign(QZ,{step:0,pos:"any",size:"any",roles:[],cats:{SHT:1,FIN:1,PLY:1,DEF:1,REB:1,PHY:1},dunk:"none",handle:"none",shot:"none",badges:{},tos:{},useAnims:false})},true);
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
