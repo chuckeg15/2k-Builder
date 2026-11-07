@@ -1838,6 +1838,50 @@ body.m-tools #view-attrs .atools .hkbtn{border-color:rgba(255,255,255,.22)!impor
 .osec.acc>header .ochev{border-color:var(--mink,#fff)}
 }
 
+#toast .tact{margin-left:10px;background:none;border:1px solid currentColor;color:inherit;border-radius:8px;padding:3px 10px;font-weight:800;cursor:pointer}
+.mundo{display:none}
+.bxhint{margin:8px 0 12px;padding:12px 14px;border-radius:12px;border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);background:var(--accent-soft);font-size:14px}
+.titem.unreach{opacity:.6}
+.titem.unreach .miss{color:var(--muted)}
+.tosrc{margin-top:14px}
+.shsrc.bp{color:var(--muted)!important;border-color:var(--line)!important}
+#jsq2,#view-jumpshot input[type=search],#view-jumpshot input[type=text]{color:var(--ink)!important;background:var(--surface)!important}
+html{scroll-padding:74px 0 84px}
+#lnkbox{position:fixed;inset:0;z-index:95;background:rgba(3,8,20,.55);display:grid;place-items:center;padding:16px}
+#lnkbox[hidden]{display:none}
+#lnkbox .lnc{background:var(--surface);color:var(--ink);border-radius:14px;padding:16px;width:min(480px,100%)}
+#lnkbox textarea{width:100%;font:13px/1.4 ui-monospace,monospace;border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--bg);color:var(--ink)}
+.mbody{display:none}
+@media (max-width:700px){
+.mundo{display:flex!important;gap:8px}
+.mundo .btn{flex:1}
+.mbody{display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);text-align:left;cursor:pointer}
+.mbody span{display:flex;flex-direction:column;min-width:0}
+.mbody small{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.mbody b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mbody em{font-style:normal;font-weight:800;color:var(--accent);flex:none}
+#toast{top:calc(70px + env(safe-area-inset-top))!important;bottom:auto!important}
+.mtools{padding:0!important;width:54px;height:54px;justify-content:center;border-radius:50%!important}
+.mtools span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.mtools .mi{width:24px;height:24px}
+#view-attrs{padding-bottom:90px}
+body:not([data-tab="attrs"]):not([data-tab="cb"]):not([data-tab="badges"]):not([data-tab="syn"]):not([data-tab="gtokens"]) .tokstrip{display:none!important}
+#tabs2.micons{-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}
+#view-anims table,#view-anims tbody{display:block;width:100%}
+#view-anims thead{display:none}
+#view-anims tr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 10px;padding:10px 4px;border-bottom:1px solid var(--line)}
+#view-anims td{display:block;padding:0!important;border:0!important;word-break:normal;overflow-wrap:anywhere}
+#view-anims td:nth-child(1){grid-column:1;grid-row:1}
+#view-anims td:nth-child(5){grid-column:2;grid-row:1;text-align:right}
+#view-anims td:nth-child(2){grid-column:1;grid-row:2;font-size:12.5px;color:var(--muted)}
+#view-anims td:nth-child(4){grid-column:2;grid-row:2;font-size:12.5px;color:var(--muted);text-align:right}
+#view-anims td:nth-child(3){grid-column:1/-1;grid-row:3;font-size:13px}
+}
+.frbrand{display:flex;flex-direction:column;gap:2px;margin:0 0 12px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.frbrand b{font-size:22px;font-weight:900;font-style:italic;text-transform:uppercase;letter-spacing:.02em;color:var(--accent)}
+.frbrand span{font-size:13.5px;color:var(--muted)}
+.mtbrand{font-style:normal;font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.7}
+
 </style>
 
 
@@ -2334,7 +2378,7 @@ function suggestions(){
 }
 function renderCB(){
   const raw=ovrRaw(),done=complete(raw),open=done||ui.cbPreview,used=cbUsed();
-  let h='<div class="cbhead"><div><div class="label">Cap breakers used</div><div class="cbcount">'+used+' <small>/ '+cbHave()+'</small></div>'+cbHaveBox('cbhave2')+'</div><p class="note" style="margin:0;flex:1 1 280px">Up to 28 total (about 21 so far). Up to 5 per rating, never past its cap.</p></div>';
+  let h='<div class="cbhead"><div><div class="label">Cap breakers used</div><div class="cbcount">'+used+' <small>/ '+cbHave()+'</small></div>'+cbHaveBox('cbhave2')+'</div><p class="note" style="margin:0;flex:1 1 280px">You can earn up to 28 in the game (about 21 are out so far). Up to 5 per rating, and never past its cap.</p></div>';
   h+='<p class="note">Each breaker adds less the higher the rating already is. Gains match 2K\'s builder exactly.</p>';
   if(!done)h+='<div class="lock">In 2K27 the cap breaker preview opens once the build reaches <b>99 OVR</b>. You are at '+ovrDisp(raw)+'. <label class="tog" style="margin-left:6px"><input type="checkbox" id="cbprev" '+(ui.cbPreview?"checked":"")+'> Preview anyway</label></div>';
   if(open){
@@ -3481,7 +3525,7 @@ function renderShare(){const v=document.getElementById("view-share");if(!v)retur
   '<div class="shgrid"><section class="shcard"><b>Send the link</b><div class="shlink"><input class="svin" id="shUrl" readonly value="'+APP_URL+'" aria-label="App link"></div><div class="btns">'+
   (can?'<button class="btn pri" type="button" data-shsend="1">'+svIco("share")+'Share</button>':'')+
   '<button class="btn'+(can?'':' pri')+'" type="button" data-shcopy="1">Copy link</button><button class="btn" type="button" data-shmsg="1">Copy link with message</button></div>'+
-  '<p class="note">Want to send <i>this build</i>? Tap <b>Copy build link</b> on the <a href="#" data-gotab="saved">Saved</a> tab. Your friend opens the link and the build loads.</p></section>'+
+  '<p class="note">Want to send <i>this build</i>? Copy its link and send it. Your friend opens it and the build loads.</p><p><button class="btn pri" type="button" data-blink="1">Copy build link</button></p></section>'+
   '<section class="shcard"><b>Show a QR code</b><p class="note">Hanging out? Let friends scan this with their phone camera to open the app.</p><div id="shqr" class="qrwrap shqr"><span class="spin"></span></div></section>'+
   '<section class="shcard shtips"><b>Before you send it</b><ol><li>The link is fully open. Anyone can use it, no account or sign-in needed.</li><li>On a phone, friends can tap <b>Share</b> then <b>Add to Home Screen</b> in their browser so it opens like an app.</li><li>Everything is free. Saved builds stay on their own phone or computer, and they can move them with Download backup.</li></ol></section></div>';
   shQR()}
@@ -3528,7 +3572,7 @@ function optPanel(){if(!OPT.open)return'';if(!OPT.res||OPT.stale)runOpt();const 
   let h='<div class="opt2"><div class="opth2"><div><h2 class="sec">Smart suggestions</h2><p class="note">Ways to free overall or spend it better. Badge chips show exactly what each change keeps or unlocks.</p></div><label class="tog"><input type="checkbox" id="optanims" '+(OPT.anims?"checked":"")+'> Keep every animation I have</label></div><div class="ogrid2">';
   h+=optSec("trim","Save points","Lower these and keep every badge, takeover"+(OPT.anims?" and animation":"")+".","Each rating here sits above the last thing it unlocks. The new number is exactly where the badges listed under it still hold. One point lower and they drop.",R.trims.slice(0,8),
     x=>optRow(x,chg(S.v[x.k],x.to)+'<span class="osv">+'+x.saved.toFixed(2)+' OVR to spend</span>'+(x.linked.length?'<span class="olink">also lowers '+x.linked.map(z=>AN[z]).join(", ")+'</span>':''),
-      x.held.length?'<span class="olab">Held at '+x.to+' by</span>'+bChips(x.held.map(d=>({b:d.b,t0:d.t0,t1:d.t0})),"keep",4):(x.keep.length?'<span class="olab">Keeps</span>'+bChips(x.keep,"keep",4):''),ap("trim",x.k)),
+      x.held.length?'<span class="olab">Going lower than '+x.to+' loses</span>'+bChips(x.held.map(d=>({b:d.b,t0:d.t0,t1:d.t0})),"keep",4):(x.keep.length?'<span class="olab">Keeps</span>'+bChips(x.keep,"keep",4):''),ap("trim",x.k)),
     "Nothing to trim. Every point is doing something.",R.trims.length?'<div class="ofoot"><button class="btn" type="button" data-opt="trimall">Apply all savings</button></div>':'');
   h+=optSec("swap","Let cap breakers do the work","Build lower and let cap breakers lift it back.","Savings stack on top of Save points. Attributes your build type barely weighs get the biggest cap breaker jumps, so this frees the most overall there.",left?R.swaps.slice(0,6):[],
     x=>optRow(x,chg(S.v[x.k],x.to)+'<span class="ocb">+'+x.extra+' cap breaker'+(x.extra>1?"s":"")+' → '+x.target+'+</span><span class="osv">+'+x.saved.toFixed(2)+' OVR to spend</span>',
@@ -3828,7 +3872,7 @@ if(document.addEventListener)document.addEventListener("click",async e=>{const t
   try{const c=typeof zCode==="function"?await zCode():encode();const url=buildLink(c);
     if(navigator.share&&matchMedia("(pointer:coarse)").matches){try{await navigator.share({title:S.name+" (2K27 Build Lab)",url});return}catch(err){if(err&&err.name==="AbortError")return}}
     copy(url,document.getElementById("code")||document.createElement("textarea"));toast("Build link copied. Anyone who opens it gets this build.")}catch(err){toast("Could not make a link")}},true);
-{const _rsv=renderSaved;renderSaved=function(){const r=_rsv.apply(this,arguments);try{const cc=document.getElementById("copyCode");if(cc&&!document.querySelector("[data-blink]"))cc.insertAdjacentHTML("beforebegin",'<button class="btn pri" type="button" data-blink="1">Copy build link</button>')}catch(e){}return r}}
+{const _rsv=renderSaved;renderSaved=function(){const r=_rsv.apply(this,arguments);try{const cc=document.getElementById("copyCode");if(cc&&!cc.parentNode.querySelector("[data-blink]"))cc.insertAdjacentHTML("beforebegin",'<button class="btn pri" type="button" data-blink="1">Copy build link</button>')}catch(e){}return r}}
 /* never let a bad code or saved state break the app */
 function sanitizeState(x){const f=fresh();x=Object.assign(f,x||{});if(!POS.includes(x.pos))x.pos="PG";x.h=Math.round(+x.h)||75;x.w=Math.round(+x.w)||190;x.ws=Math.round(+x.ws)||78;
   const v={},cb={};K.forEach(k=>{const r=Math.round(+((x.v||{})[k]));v[k]=r>=25&&r<=99?r:25;const n=Math.round(+((x.cb||{})[k]));if(n>=1&&n<=5)cb[k]=n});x.v=v;x.cb=cb;
@@ -4206,7 +4250,7 @@ function footNote(){const m=document.querySelector(".main");if(!m||document.getE
 const FR_KEY="bl27-firstrun";
 function firstRun(){let seen=false;try{seen=!!localStorage.getItem(FR_KEY)}catch(e){seen=true}if(seen||/#b=/.test(location.hash||""))return;
   const b=document.createElement("div");b.id="frbox";b.setAttribute("role","dialog");b.setAttribute("aria-modal","true");b.setAttribute("aria-label","How do you want to start?");
-  b.innerHTML='<div class="frc"><h2>How do you want to start?</h2><p class="note">You can switch any time from the menu.</p><div class="frg">'+
+  b.innerHTML='<div class="frc"><div class="frbrand"><b>2K27 Build Lab</b><span>Free NBA 2K27 MyPLAYER builder with the game\'s real caps, badges, cap breakers and animations.</span></div><h2>How do you want to start?</h2><p class="note">You can switch any time from the menu.</p><div class="frg">'+
     [["shades","Copy NBA players","Pick up to 3 players and get a build that plays like them."],["finder","Answer a few questions","Tell the app how you play and it suggests builds."],["attrs","Build it myself","Go straight to the 99 builder with every number."]].map(x=>'<button type="button" class="frb" data-fr="'+x[0]+'"><b>'+x[1]+'</b><small>'+x[2]+'</small></button>').join("")+
     '</div><button type="button" class="btn sm" data-fr="attrs">Skip</button></div>';document.body.appendChild(b)}
 function frGo(tab){try{localStorage.setItem(FR_KEY,"1")}catch(e){}const b=document.getElementById("frbox");if(b)b.remove();
@@ -5178,7 +5222,7 @@ if(window.addEventListener)window.addEventListener("click",e=>{const t=e.target.
 function synUnlHTML(){const st=synState(),n=st.s.filter(x=>x.on).length;
   return'<div class="synunl bxsynunl"><div class="synq"><b>How many synergy pairs have you unlocked?</b><span class="stepper"><button type="button" class="stp" data-synn="-1" aria-label="One fewer pair">−</button><b class="sn">'+n+'</b><button type="button" class="stp" data-synn="1" aria-label="One more pair">+</button></span><span class="note">of 8. Tap the ones you have:</span></div><div class="synchips">'+
    SYN_DEF.map((d,i)=>{const x=st.s[i];return'<button type="button" class="schip'+(x.on?" on":"")+(x.mag===2?" two":"")+'" data-synon="'+i+'" aria-pressed="'+x.on+'"><b>'+(i+1)+'</b><span>'+esc(d.src)+'</span><em>+'+x.mag+'</em></button>'}).join("")+'</div></div>'}
-{const _bss=bxSynStrip;bxSynStrip=function(){const h=_bss.apply(this,arguments);const i=h.indexOf('<div class="bxsyng">');return i<0?h:h.slice(0,i)+synUnlHTML()+h.slice(i)}}
+{const _bss=bxSynStrip;bxSynStrip=function(){const h=_bss.apply(this,arguments);const i=h.lastIndexOf('</div>');return i<0?h:h.slice(0,i)+synUnlHTML()+h.slice(i)}}
 /* top bar: theme button */
 {const _mt=mTop;mTop=function(){_mt.apply(this,arguments);const t=document.getElementById("mtop");if(t&&!t.querySelector("[data-act='theme']")){const p=t.querySelector('.mtb[data-mprof]');if(p)p.insertAdjacentHTML("beforebegin",'<button type="button" class="mtb" data-act="theme" aria-label="Theme and team colors"><svg class="mi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button>')}}}
 /* desktop: the OVR chip in the nav opens the player panel when it's hidden */
@@ -5272,7 +5316,7 @@ slippery_offball:'<path d="M16 6c4 6 7 9.5 7 13.5a7 7 0 0 1-14 0C9 15.5 12 12 16
 work_horse:'<path d="M9 7v9a7 7 0 0 0 14 0V7"/><path d="M6 7h6M20 7h6"/><circle cx="12" cy="17" r=".9" fill="currentColor" stroke="none"/><circle cx="20" cy="17" r=".9" fill="currentColor" stroke="none"/><circle cx="16" cy="21.5" r=".9" fill="currentColor" stroke="none"/>'};
 function bgFor(el){const h=el.closest('[data-tip^="b|"],[data-bxsel],[data-bid],[data-badge]');if(!h)return null;const d=h.dataset;
   const id=d.tip&&d.tip.startsWith("b|")?d.tip.slice(2):d.bxsel||d.bid||d.badge;return BG[id]?id:null}
-function paintBadgeGlyphs(root){(root||document).querySelectorAll("svg.bicon:not([data-g])").forEach(s=>{const id=bgFor(s);s.dataset.g=id||"-";if(!id)return;const g=s.querySelector("g[color]");if(!g)return;
+function paintBadgeGlyphs(root){if(!(root||document).querySelectorAll)return;(root||document).querySelectorAll("svg.bicon:not([data-g])").forEach(s=>{const id=bgFor(s);s.dataset.g=id||"-";if(!id)return;const g=s.querySelector("g[color]");if(!g)return;
    g.innerHTML='<g transform="translate(16 16.5) scale(.8) translate(-16 -16.5)" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+BG[id]+'</g>'})}
 if(window.MutationObserver){let tg=0;new MutationObserver(()=>{if(tg)return;tg=requestAnimationFrame(()=>{tg=0;try{paintBadgeGlyphs()}catch(e){}})}).observe(document.body,{childList:true,subtree:true})}
 setTimeout(()=>paintBadgeGlyphs(),0);
@@ -5356,7 +5400,7 @@ work_horse:`<path ${BGE} d="M9.5 28c0-4.5.6-7.6 2.4-10.4L9 16.2l1.3-3.2c1.5-4.4 
 
 
 Object.assign(BG,BG2);
-paintBadgeGlyphs=function(root){(root||document).querySelectorAll("svg.bicon:not([data-g])").forEach(s=>{const id=bgFor(s);s.dataset.g=id||"-";if(!id)return;const g=s.querySelector("g[color]");if(!g)return;
+paintBadgeGlyphs=function(root){if(!(root||document).querySelectorAll)return;(root||document).querySelectorAll("svg.bicon:not([data-g])").forEach(s=>{const id=bgFor(s);s.dataset.g=id||"-";if(!id)return;const g=s.querySelector("g[color]");if(!g)return;
   const hex=s.querySelector("path");if(hex)s.style.setProperty("--icon-tier",hex.getAttribute("fill"));
   g.innerHTML='<g transform="translate(16 16.5) scale(.78) translate(-16 -16.5)" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+BG[id]+'</g>'})};
 /* ---------------- ROUND 41: phone header and footer follow team colors ---------------- */
@@ -5365,6 +5409,98 @@ paintBadgeGlyphs=function(root){(root||document).querySelectorAll("svg.bicon:not
   const mast=t[2],ink=contrast(mast,"#ffffff")>=contrast(mast,"#000000")?"#ffffff":"#000000";
   r.setProperty("--mnav",mix(mast,"#000000",.18));r.setProperty("--mnav2",mast);r.setProperty("--mink",ink)}}
 try{applyTeam()}catch(e){}
+/* ---------------- ROUND 42: review fixes (CEO, engineer, grinder, casual) ---------------- */
+/* one name per feature, everywhere */
+SECTIONS.forEach(s=>s.tabs.forEach(t=>{if(t[0]==="info")t[1]="Guide";if(t[0]==="myanims")t[1]="My Moves";if(t[0]==="cb")t[1]="Cap Breakers"}));
+MSHORT.cb="Cap Breakers";
+/* toast with an action (Undo) */
+function toastAct(msg,label,fn){const t=$("#toast");if(!t)return;t.innerHTML=esc(msg)+' <button type="button" class="tact">'+esc(label)+'</button>';t.classList.add("show");clearTimeout(tt);
+  t.querySelector(".tact").onclick=e=>{e.stopPropagation();t.classList.remove("show");fn()};tt=setTimeout(()=>t.classList.remove("show"),5000)}
+function snapOf(){try{return JSON.stringify(S)}catch(e){return null}}
+function restoreSnap(j){if(!j)return;S=sanitizeState(JSON.parse(j));invalidate();fullRender();try{histRecord()}catch(e){}toast("Undone")}
+/* Reset to 25 keeps locked ratings and can be undone */
+if(window.addEventListener)window.addEventListener("click",e=>{if(!(e.target&&e.target.id==="resetBtn"))return;const lk=K.filter(k=>isLocked(k)).map(k=>[k,S.v[k]]),snap=snapOf();
+  setTimeout(()=>{if(lk.length){lk.forEach(([k,v])=>S.v[k]=v);invalidate();afterChange()}toastAct("Ratings reset to 25"+(lk.length?" (locked ratings kept)":""),"Undo",()=>restoreSnap(snap))},0)},true);
+/* first visit: nothing to undo yet */
+setTimeout(()=>{try{HIST.past=[];HIST.future=[];HIST.last=JSON.stringify(S);histBtns()}catch(e){}},900);
+/* Smart fill tops up what you have; the old rebuild is its own tool */
+const _spreadRebuild=spreadSmart;
+spreadSmart=function(){if(ovrOf(S.v,S.h)>=99-1e-9||isComplete(S.v)){toast("Already at 99. Smart suggestions can free points to move around.");return}
+  const old=Object.assign({},S.v),snap=snapOf();_spreadRebuild();const tgt=Object.assign({},S.v);S.v=old;invalidate();
+  let g=0,moved=true;const gap=k=>(tgt[k]-S.v[k]);
+  while(moved&&g++<600&&!isComplete(S.v)){moved=false;const order=K.filter(k=>!isLocked(k)).sort((a,b)=>gap(b)-gap(a));
+    for(const k of order){const t=tryStep(k,1);if(t&&K.every(x=>t[x]>=S.v[x]&&(!isLocked(x)||t[x]===S.v[x]))&&ovrOf(t,S.h)<=99+1e-9){S.v=t;invalidate();moved=true;break}}}
+  afterChange();setTimeout(()=>toastAct("Filled to "+ovrDisp(ovrRaw())+" without lowering anything","Undo",()=>restoreSnap(snap)),460)};
+function smartRebuild(){const snap=snapOf();_spreadRebuild();setTimeout(()=>toastAct("Rebuilt for your position","Undo",()=>restoreSnap(snap)),460)}
+/* tools drawer: undo/redo row and the rebuild tool */
+{const _rv12=renderView;renderView=function(){const r=_rv12.apply(this,arguments);try{const at=document.querySelector("#view-attrs .atools");if(at){
+  if(!at.querySelector("#rebuildBtn")){const f=at.querySelector("#fillBtn");if(f)f.insertAdjacentHTML("afterend",'<button class="btn" id="rebuildBtn" type="button" title="Start over from your body and fill the smart way for your position">Smart rebuild</button>')}
+  if(!at.querySelector(".mundo"))at.insertAdjacentHTML("afterbegin",'<div class="mundo"><button type="button" class="btn" data-mhist="-1">Undo</button><button type="button" class="btn" data-mhist="1">Redo</button></div>')}}catch(e){}return r}}
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("#rebuildBtn,[data-mhist]");if(!t)return;e.stopPropagation();if(t.id==="rebuildBtn")smartRebuild();else histGo(+t.dataset.mhist)},true);
+/* "+" at 99 says why it did nothing */
+if(window.addEventListener)window.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest('[data-step][data-d="1"]');if(!t)return;
+  const k=t.dataset.step||((t.closest(".crow")||{}).querySelector?.("[data-ck]")||{}).dataset?.ck;if(!k||!K.includes(k))return;const before=S.v[k];
+  setTimeout(()=>{if(S.v[k]===before){if(before>=cap(k))toast(AN[k]+" is at its cap ("+cap(k)+")");else if(isLocked(k))toast(AN[k]+" is locked");else toast("The build is at 99. Lower something first, or use Smart suggestions.")}},40)},true);
+/* typed numbers like 1e2 */
+if(window.addEventListener)window.addEventListener("change",e=>{const i=e.target;if(!i||!i.matches||!i.matches('input[data-k],input[data-ck],.arow input'))return;const n=Number(String(i.value).trim());if(isFinite(n)&&String(i.value).trim()!=="")i.value=String(Math.round(n))},true);
+/* accurate "Next:" hints: only unlocks this one rating can finish on its own, at this body */
+function nextUnlock(k){const V=vals(),e=V[k],c=cap(k);let best=null;
+  for(const t of TICKS[k]){if(t.v<=e||t.v>c)continue;if(best&&t.v>=best.v)continue;const V2=Object.assign({},V,{[k]:t.v});
+    if(t.b){if(!(S.h>=t.b.h[0]&&S.h<=t.b.h[1]))continue;if(badgeTier(t.b,V)>=t.t)continue;if(badgeTier(t.b,V2)<t.t)continue}
+    else{const to=TAKEOVERS.find(x=>t.lab===x.n+" takeover");if(!to||reqMet(to.reqs,to.op,V)||!reqMet(to.reqs,to.op,V2))continue}
+    best=t}return best}
+function paintHints(){K.forEach(k=>{const el=document.getElementById("hint-"+k);if(!el)return;const e=eff(k),c=cap(k),nx=nextUnlock(k);
+  el.innerHTML=nx?'Next: <b>'+esc(nx.lab)+'</b> at '+nx.v+' (+'+(nx.v-e)+')':(e>=c?"At cap":"Nothing more unlocks from this rating alone")})}
+{const _ua13=updAttrs;updAttrs=function(){const r=_ua13.apply(this,arguments);try{paintHints()}catch(e){}return r}}
+/* takeovers you can't reach on this body say so */
+{const _rto=renderTakeovers;renderTakeovers=function(){const r=_rto.apply(this,arguments);try{const v=document.getElementById("view-takeovers");const V=vals();
+  v.querySelectorAll(".titem:not(.on)").forEach(it=>{const n=it.querySelector("[data-tip^='t|']");if(!n)return;const t=TAKEOVERS.find(x=>"t|"+x.n===n.dataset.tip);if(!t||!t.reqs.length)return;
+    const bad=t.reqs.filter(q=>q[1]>cap(q[0]));const reach=t.op==="OR"?bad.length<t.reqs.length:!bad.length;if(reach)return;
+    it.classList.add("unreach");const m=it.querySelector(".miss");const txt="Not reachable on this body: "+bad.map(q=>AN[q[0]]+" caps at "+cap(q[0])+" (needs "+q[1]+")").join(", ");if(m)m.textContent=txt;
+    const st=it.querySelector(".no");if(st)st.textContent="Not on this body"});
+  if(!v.querySelector(".tosrc"))v.insertAdjacentHTML("beforeend",'<p class="note tosrc">Takeover requirements come from community testing (LockerCodes.io), not 2K\'s builder files, so treat them as close but not guaranteed.</p>')}catch(e){}return r}}
+/* badges: say what to do when nothing is equipped */
+{const _rl4=renderLoadout;renderLoadout=function(){const r=_rl4.apply(this,arguments);try{const v=document.getElementById("view-badges");const eq=Object.keys(S.eq||{}).length,V=vals(),un=BADGES.filter(b=>badgeTier(b,V)>0).length;
+  const old=v.querySelector(".bxhint");if(old)old.remove();if(!eq&&un){const g=v.querySelector(".bxmain");if(g)g.insertAdjacentHTML("beforebegin",'<div class="bxhint">You unlock <b>'+un+'</b> badges. Tap <b>Auto-equip best badges</b> to fill your slots, or tap an empty slot to pick one.</div>')}
+  if(S.h>=82&&!v.querySelector(".tokest")){const tb=v.querySelector(".bxtop");if(tb)tb.insertAdjacentHTML("afterend",'<p class="note tokest">Badge tokens at 6\'10" and taller are estimates: 2K\'s builder data stops at 6\'9".</p>')}}catch(e){}return r}}
+/* empty slot on a phone: bring the picker into view */
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest(".bxgrid .shield.empty,.bxgrid .bxh");if(!t||!MQ.matches)return;setTimeout(()=>{const p=document.querySelector(".bxpick");if(p){const y=p.getBoundingClientRect().top+scrollY-130;scrollTo({top:y,behavior:"smooth"})}},80)});
+/* phone: body row at the top of Ratings */
+{const _rv13=renderView;renderView=function(){const r=_rv13.apply(this,arguments);try{mBody()}catch(e){}return r}}
+function mBody(){const v=document.getElementById("view-attrs");if(!v||v.hidden)return;let b=v.querySelector(".mbody");if(!b){const at=v.querySelector(".atop");if(!at)return;at.insertAdjacentHTML("beforebegin",'<button type="button" class="mbody" data-mprof="1"></button>');b=v.querySelector(".mbody")}
+  b.innerHTML='<span><small>Body</small><b>'+esc(S.pos)+' · '+ft(S.h)+' · '+S.w+' lbs · '+ft(S.ws)+' wingspan</b></span><em>Change</em>'}
+{const _ua14=updAttrs;updAttrs=function(){const r=_ua14.apply(this,arguments);try{mBody()}catch(e){}return r}}
+/* tell the page which tab is open (phone styles use it) */
+{const _rt8=renderTabs;renderTabs=function(){const r=_rt8.apply(this,arguments);try{document.body.dataset.tab=ui.tab}catch(e){}return r}}
+/* drawers close when the layout switches */
+try{MQ.addEventListener("change",()=>mClose())}catch(e){}
+/* saved builds: never let two open tabs overwrite each other */
+{const _svPut=svPut,_svDel=svDel;svPut=async function(row){if(SV.mode==="local"){SV.list=svLocalRead();svSort()}return _svPut(row)};svDel=async function(id){if(SV.mode==="local"){SV.list=svLocalRead();svSort()}return _svDel(id)}}
+if(window.addEventListener)window.addEventListener("storage",e=>{if(e.key===SV_LS&&SV.mode==="local"){try{SV.list=svLocalRead();svSort();svPaint()}catch(err){}}});
+/* storage full is reported, not swallowed */
+LS.set=function(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){if(e&&/quota/i.test(e.name+e.message))setTimeout(()=>toast("Your browser storage is full. Delete a saved build to free space."),50);return false}};
+/* copy link: share sheet on phones, visible link if copying fails */
+function linkFallback(url){let b=document.getElementById("lnkbox");if(!b){b=document.createElement("div");b.id="lnkbox";b.setAttribute("role","dialog");b.setAttribute("aria-modal","true");b.setAttribute("aria-label","Build link");document.body.appendChild(b)}
+  b.innerHTML='<div class="lnc"><b>Copy this link</b><p class="note">Tap and hold the link, then Copy.</p><textarea readonly rows="4">'+esc(url)+'</textarea><div class="btns"><button type="button" class="btn pri" data-lnkx="1">Done</button></div></div>';b.hidden=false;const ta=b.querySelector("textarea");ta.focus();ta.select()}
+if(document.addEventListener)document.addEventListener("click",e=>{const x=e.target.closest&&e.target.closest("[data-lnkx],#lnkbox");if(!x)return;if(x.id==="lnkbox"&&e.target!==x)return;const b=document.getElementById("lnkbox");if(b)b.hidden=true},true);
+if(window.addEventListener)window.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-blink]");if(!t)return;let url="";try{url=APP_URL.split("#")[0]+"#b="+encodeURIComponent(encode())}catch(err){return}
+  if(location.protocol==="https:"&&location.host)url=location.origin+location.pathname+"#b="+encodeURIComponent(encode());
+  e.stopPropagation();e.preventDefault();
+  if(MQ.matches&&navigator.share){navigator.share({title:S.name||"My 2K27 build",text:"My 2K27 build: "+(S.name||""),url}).catch(()=>{});return}
+  const done=()=>toast("Build link copied");if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(url).then(done,()=>linkFallback(url));else linkFallback(url)},true);
+/* damaged links get a message */
+try{if(/^#b=/.test(location.hash)){try{decodeURIComponent(location.hash.slice(3))}catch(e){setTimeout(()=>toast("That build link is damaged. Ask your friend to copy it again."),600)}}}catch(e){}
+/* wizard and loads start at the top */
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("#view-finder [data-qnext],#view-finder [data-qback],#view-finder .qnav button,[data-bnload],[data-tplload]");if(!t)return;setTimeout(()=>{const v=document.querySelector(".view:not([hidden])");if(v){const y=v.getBoundingClientRect().top+scrollY-(MQ.matches?70:10);if(scrollY>y)scrollTo({top:y})}},60)});
+/* shades: no repeated heights */
+{const _rsb10=renderShadesBuilder;renderShadesBuilder=function(){const r=_rsb10.apply(this,arguments);try{document.querySelectorAll("#view-shades small,#view-shades .shh").forEach(s=>{const p=s.textContent.split(" · ");if(p.length>1&&new Set(p).size<p.length)s.textContent=[...new Set(p)].join(" · ")})}catch(e){}return r}}
+/* improvements and other open panels refresh after a reset */
+if(window.addEventListener)window.addEventListener("click",e=>{if(e.target&&e.target.id==="resetBtn")setTimeout(()=>{try{renderView()}catch(err){}},30)},true);
+/* phone defaults to the compact One screen view for new visitors */
+try{if(MQ.matches&&!localStorage.getItem("bl27-rview")){UIX.rv="compact";ui.compact=true}}catch(e){}
+
+/* brand on the phone top bar */
+{const _mt3=mTop;mTop=function(){_mt3.apply(this,arguments);const n=document.querySelector("#mtop .mtnm");if(n&&!n.querySelector(".mtbrand"))n.insertAdjacentHTML("afterbegin",'<i class="mtbrand">2K27 Build Lab</i>')}}
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
