@@ -1682,10 +1682,10 @@ html,body{overflow-x:clip}
 @media (max-width:440px){.bnrow .svb2{padding:6px 12px;font-size:14px}.bnrow .label{flex-basis:100%}}
 @media (max-width:360px){body{padding-left:6px!important;padding-right:6px!important;margin-left:0!important;margin-right:0!important}.panel{padding-left:10px!important;padding-right:10px!important}.cbt-c,.sslot{min-width:0!important}}
 @media (max-width:700px){.syngrid{grid-template-columns:minmax(0,1fr)!important}}
-@media (max-width:360px){.cbt-r,.cbt-hd{grid-template-columns:minmax(0,1fr) 36px 40px!important}.cbt-r>:nth-child(2),.cbt-hd>:nth-child(2){grid-column:1/-1;order:5}}
+@media (max-width:700px){.cbt-r,.cbt-hd{grid-template-columns:minmax(0,1fr) 36px 40px!important}.cbt-r>:nth-child(2),.cbt-hd>:nth-child(2){grid-column:1/-1;order:5}}
 
 
-.mtop,.mtools,.mshade,#mcat,#tabs2 .mi,#tabs2 .mlab{display:none}
+.mtop,.mtools,.mshade,.mcat,#tabs2 .mi,#tabs2 .mlab{display:none}
 @media (max-width:700px){
 :root{--mnav:#0b1530;--mnav2:#13224a;--mglow:var(--accent)}
 body{padding-top:66px!important}
@@ -1726,10 +1726,14 @@ body.m-prof .mshade,body.m-tools .mshade{display:block}
 #tabs2.micons [data-tab][aria-selected="true"]::after{content:"";position:absolute;left:8px;right:8px;bottom:0;height:4px;border-radius:2px;background:var(--mglow);box-shadow:0 0 10px var(--mglow)}
 #tabs2.micons [data-tab][aria-selected="true"] .mi{filter:drop-shadow(0 0 6px color-mix(in srgb,var(--mglow) 80%,transparent))}
 /* rating category row */
-#mcat{display:flex;position:sticky;top:60px;z-index:30;margin:0 -14px 10px;padding:6px 6px;gap:4px;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:0 6px 12px -8px rgba(0,0,0,.25)}
-#mcat button{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0 5px;border:1px solid transparent;border-radius:10px;background:none;color:var(--muted);font-size:10px;font-weight:800}
-#mcat button .mi{width:22px;height:22px;color:var(--gc)}
-#mcat button[aria-pressed="true"]{background:color-mix(in srgb,var(--gc) 14%,transparent);border-color:color-mix(in srgb,var(--gc) 55%,transparent);color:var(--ink)}
+
+.mcat{display:flex;position:sticky;top:60px;z-index:30;margin:0 -14px 10px;padding:6px 6px;gap:4px;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:0 6px 12px -8px rgba(0,0,0,.25)}
+
+.mcat button{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0 5px;border:1px solid transparent;border-radius:10px;background:none;color:var(--muted);font-size:10px;font-weight:800}
+
+.mcat button .mi{width:22px;height:22px;color:var(--gc)}
+
+.mcat button[aria-pressed="true"]{background:color-mix(in srgb,var(--gc) 14%,transparent);border-color:color-mix(in srgb,var(--gc) 55%,transparent);color:var(--ink)}
 #view-attrs[data-mcat]:not([data-mcat="all"]) .howto{display:none}
 #view-attrs[data-mcat="FIN"] section.grp:not([style*="c-FIN"]),#view-attrs[data-mcat="FIN"] #cmpv .cgrp:not([style*="c-FIN"]){display:none!important}
 #view-attrs[data-mcat="SHT"] section.grp:not([style*="c-SHT"]),#view-attrs[data-mcat="SHT"] #cmpv .cgrp:not([style*="c-SHT"]){display:none!important}
@@ -1762,6 +1766,23 @@ body.m-tools #view-attrs .atools .btn{min-height:44px;padding:10px 12px}
 }
 
 @media (max-width:380px){#tabs2.mbig [data-tab] .mlab{font-size:13px}#tabs2.mbig .ct{display:none}.mtb{width:36px;height:36px}.mtnm b{font-size:14px}}
+
+@media (max-width:700px){
+#view-cb[data-mcat="FIN"] .cbt-r:not([style*="c-FIN"]),#view-badges[data-mcat="FIN"] .bxgrid .bxcat:not([data-cat="FIN"]),#view-badges[data-mcat="FIN"] .bgrid>:not([style*="c-FIN"]){display:none!important}
+#view-cb[data-mcat="SHT"] .cbt-r:not([style*="c-SHT"]),#view-badges[data-mcat="SHT"] .bxgrid .bxcat:not([data-cat="SHT"]),#view-badges[data-mcat="SHT"] .bgrid>:not([style*="c-SHT"]){display:none!important}
+#view-cb[data-mcat="PLY"] .cbt-r:not([style*="c-PLY"]),#view-badges[data-mcat="PLY"] .bxgrid .bxcat:not([data-cat="PLY"]),#view-badges[data-mcat="PLY"] .bgrid>:not([style*="c-PLY"]){display:none!important}
+#view-cb[data-mcat="DEF"] .cbt-r:not([style*="c-DEF"]),#view-badges[data-mcat="DEF"] .bxgrid .bxcat:not([data-cat="DEF"]),#view-badges[data-mcat="DEF"] .bgrid>:not([style*="c-DEF"]){display:none!important}
+#view-cb[data-mcat="REB"] .cbt-r:not([style*="c-REB"]),#view-badges[data-mcat="REB"] .bxgrid .bxcat:not([data-cat="REB"]),#view-badges[data-mcat="REB"] .bgrid>:not([style*="c-REB"]){display:none!important}
+#view-cb[data-mcat="PHY"] .cbt-r:not([style*="c-PHY"]),#view-badges[data-mcat="PHY"] .bxgrid .bxcat:not([data-cat="PHY"]),#view-badges[data-mcat="PHY"] .bgrid>:not([style*="c-PHY"]){display:none!important}
+#view-badges .toolbar [data-bcat]{display:none!important}
+.bnrow .thmob{display:none!important}
+}
+.bxsyn .bxsynunl{margin:10px 0}
+#tovr{cursor:pointer}
+
+.bxsyn .bxsynunl{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);color:#fff;margin:10px 0}
+.bxsyn .bxsynunl .note{color:rgba(255,255,255,.7)}
+.bxsyn .bxsynunl .schip{color:#fff}
 
 </style>
 
@@ -5085,6 +5106,29 @@ if(document.addEventListener){document.addEventListener("click",e=>{const t=e.ta
   /* the profile sheet closes when you leave it for a section */
   document.addEventListener("click",e=>{if(e.target.closest&&e.target.closest("#tabs [data-sec]"))mClose()},true)}
 setTimeout(mPaint,0);
+/* ---------------- ROUND 38: category row everywhere it fits, synergy pairs on the Badges tab, theme in the top bar ---------------- */
+/* where the sticky category row goes, and what it filters */
+const MCAT_SPOTS=[
+ {view:"view-attrs",at:v=>v.querySelector(".atop"),pos:"afterend"},
+ {view:"view-cb",at:v=>v.querySelector(".cbt"),pos:"beforebegin"},
+ {view:"view-badges",at:v=>v.querySelector(".bxmain")||v.querySelector(".bgrid"),pos:"beforebegin"}];
+mCats=function(){for(const sp of MCAT_SPOTS){const v=document.getElementById(sp.view);if(!v||v.hidden)continue;let r=v.querySelector(".mcat");
+  if(!r){const at=sp.at(v);if(!at)continue;at.insertAdjacentHTML(sp.pos,'<nav class="mcat" id="'+(sp.view==="view-attrs"?"mcat":"mcat-"+sp.view)+'" aria-label="Category"></nav>');r=v.querySelector(".mcat")}
+  r.innerHTML=MCATS.map(([k,l])=>'<button type="button" data-mcat="'+k+'" aria-pressed="'+(MCAT===k)+'" style="--gc:'+(k==="all"?"var(--accent)":"var(--c-"+k+")")+'">'+mi(k)+'<span>'+l+'</span></button>').join("");v.dataset.mcat=MCAT;
+  v.querySelectorAll(".bxgrid .bxcat").forEach(s=>{const h=s.querySelector(".bxh");if(h&&h.dataset.bxcat)s.dataset.cat=h.dataset.bxcat})}};
+/* picking a category on the loadout also opens that category's badge list */
+if(window.addEventListener)window.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("#view-badges [data-mcat]");if(!t||t.dataset.mcat==="all")return;
+  if(document.querySelector("#view-badges .bxgrid")&&ui.bxcat!==t.dataset.mcat){ui.bxcat=t.dataset.mcat;ui.bxsyn=null;ui.bxsel=null;setTimeout(()=>{renderLoadout();mCats()},0)}},true);
+{const _rl3=renderLoadout;renderLoadout=function(){const r=_rl3.apply(this,arguments);try{mCats()}catch(e){}return r}}
+/* synergy pairs picked right on the Badges tab */
+function synUnlHTML(){const st=synState(),n=st.s.filter(x=>x.on).length;
+  return'<div class="synunl bxsynunl"><div class="synq"><b>How many synergy pairs have you unlocked?</b><span class="stepper"><button type="button" class="stp" data-synn="-1" aria-label="One fewer pair">−</button><b class="sn">'+n+'</b><button type="button" class="stp" data-synn="1" aria-label="One more pair">+</button></span><span class="note">of 8. Tap the ones you have:</span></div><div class="synchips">'+
+   SYN_DEF.map((d,i)=>{const x=st.s[i];return'<button type="button" class="schip'+(x.on?" on":"")+(x.mag===2?" two":"")+'" data-synon="'+i+'" aria-pressed="'+x.on+'"><b>'+(i+1)+'</b><span>'+esc(d.src)+'</span><em>+'+x.mag+'</em></button>'}).join("")+'</div></div>'}
+{const _bss=bxSynStrip;bxSynStrip=function(){const h=_bss.apply(this,arguments);const i=h.indexOf('<div class="bxsyng">');return i<0?h:h.slice(0,i)+synUnlHTML()+h.slice(i)}}
+/* top bar: theme button */
+{const _mt=mTop;mTop=function(){_mt.apply(this,arguments);const t=document.getElementById("mtop");if(t&&!t.querySelector("[data-act='theme']")){const p=t.querySelector('.mtb[data-mprof]');if(p)p.insertAdjacentHTML("beforebegin",'<button type="button" class="mtb" data-act="theme" aria-label="Theme and team colors"><svg class="mi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button>')}}}
+/* desktop: the OVR chip in the nav opens the player panel when it's hidden */
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("#tovr");if(!t)return;const b=document.getElementById("sideBtn");if(b&&b.getAttribute("aria-pressed")==="true")b.click()});
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
