@@ -1830,6 +1830,14 @@ body.m-tools #view-attrs .atools .hkbtn{border-color:rgba(255,255,255,.22)!impor
 }
 .bxgrid .shield .si svg.bicon{width:36px;height:36px}
 
+@media (max-width:700px){
+.mtop,.mtop .mtb,#tabs2.mbig [data-tab][aria-selected="true"],#tabs2.micons [data-tab][aria-selected="true"],body.m-tools #view-attrs .atools::before,.osec.acc>header,.osec.acc>header h3,.osec.acc>header .ocount{color:var(--mink,#fff)!important}
+.mtop .mtb{border-color:color-mix(in srgb,var(--mink,#fff) 22%,transparent);background:color-mix(in srgb,var(--mink,#fff) 9%,transparent)}
+#tabs2.mbig [data-tab],#tabs2.micons [data-tab]{color:color-mix(in srgb,var(--mink,#fff) 58%,transparent)}
+#tabs.primary [data-sec]:not([aria-selected="true"]){color:color-mix(in srgb,var(--mink,#fff) 70%,transparent)!important}
+.osec.acc>header .ochev{border-color:var(--mink,#fff)}
+}
+
 </style>
 
 
@@ -5351,6 +5359,12 @@ Object.assign(BG,BG2);
 paintBadgeGlyphs=function(root){(root||document).querySelectorAll("svg.bicon:not([data-g])").forEach(s=>{const id=bgFor(s);s.dataset.g=id||"-";if(!id)return;const g=s.querySelector("g[color]");if(!g)return;
   const hex=s.querySelector("path");if(hex)s.style.setProperty("--icon-tier",hex.getAttribute("fill"));
   g.innerHTML='<g transform="translate(16 16.5) scale(.78) translate(-16 -16.5)" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+BG[id]+'</g>'})};
+/* ---------------- ROUND 41: phone header and footer follow team colors ---------------- */
+{const _at2=applyTeam;applyTeam=function(){_at2.apply(this,arguments);const r=document.documentElement.style,t=TEAMS.find(x=>x[0]===TEAM);
+  if(!t){["--mnav","--mnav2","--mink"].forEach(p=>r.removeProperty(p));return}
+  const mast=t[2],ink=contrast(mast,"#ffffff")>=contrast(mast,"#000000")?"#ffffff":"#000000";
+  r.setProperty("--mnav",mix(mast,"#000000",.18));r.setProperty("--mnav2",mast);r.setProperty("--mink",ink)}}
+try{applyTeam()}catch(e){}
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
