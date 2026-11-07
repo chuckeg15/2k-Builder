@@ -1784,6 +1784,25 @@ body.m-tools #view-attrs .atools .btn{min-height:44px;padding:10px 12px}
 .bxsyn .bxsynunl .note{color:rgba(255,255,255,.7)}
 .bxsyn .bxsynunl .schip{color:#fff}
 
+.mvl{display:inline-flex;align-items:center;margin-left:8px;font-size:12.5px;font-weight:800;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.mvl.lost{border:1px solid color-mix(in srgb,var(--c-DEF) 55%,transparent);background:color-mix(in srgb,var(--c-DEF) 10%,transparent);color:var(--c-DEF);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.mvl.ok{color:var(--muted);font-weight:600}
+#mvbox{position:fixed;inset:0;z-index:90;background:rgba(3,8,20,.55);display:grid;place-items:center;padding:16px}
+#mvbox[hidden]{display:none}
+#mvbox .mvc{background:var(--surface);color:var(--ink);border-radius:16px;width:min(560px,100%);max-height:86vh;overflow:auto;padding:18px;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+#mvbox header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+#mvbox header small{display:block;color:var(--c-DEF);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px}
+#mvbox header b{font-size:20px}
+#mvbox h4{margin:14px 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.05em}
+#mvbox h4 small{color:var(--muted);font-weight:600}
+#mvbox ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+#mvbox li{display:flex;justify-content:space-between;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;font-size:13.5px}
+#mvbox li span{color:var(--muted);font-size:12px;text-align:right}
+@media (max-width:700px){
+body.m-prof aside.side{display:block!important}
+body.m-tools #view-attrs .atools .hkbtn{border-color:rgba(255,255,255,.22)!important;background:rgba(255,255,255,.06)!important;box-shadow:none!important;outline:none}
+}
+
 </style>
 
 
@@ -5095,7 +5114,7 @@ function mPaint(){try{mTop();mTabs();mCats();mToolsBtn();mShade()}catch(e){}}
 {const _rt7=renderTabs;renderTabs=function(){const r=_rt7.apply(this,arguments);mPaint();return r}}
 {const _rv10=renderView;renderView=function(){const r=_rv10.apply(this,arguments);mPaint();return r}}
 {const _ua11=updAttrs;updAttrs=function(){const r=_ua11.apply(this,arguments);try{mTop();mCats()}catch(e){}return r}}
-if(document.addEventListener){document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-mcat],[data-mprof],#mtools,#mshade,.msheetx");if(!t)return;
+if(document.addEventListener){document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("button[data-mcat],[data-mprof],#mtools,#mshade,.msheetx");if(!t)return;
     if(t.dataset.mcat){MCAT=t.dataset.mcat;try{localStorage.setItem("bl27-mcat",MCAT)}catch(err){}mCats();const v=document.getElementById("view-attrs");if(v){const y=v.getBoundingClientRect().top+scrollY-120;if(scrollY>y)scrollTo({top:y})}return}
     if(t.dataset.mprof){e.stopPropagation();document.body.classList.remove("m-tools");document.body.classList.toggle("m-prof");return}
     if(t.id==="mtools"){document.body.classList.remove("m-prof");document.body.classList.toggle("m-tools");return}
@@ -5117,7 +5136,7 @@ mCats=function(){for(const sp of MCAT_SPOTS){const v=document.getElementById(sp.
   r.innerHTML=MCATS.map(([k,l])=>'<button type="button" data-mcat="'+k+'" aria-pressed="'+(MCAT===k)+'" style="--gc:'+(k==="all"?"var(--accent)":"var(--c-"+k+")")+'">'+mi(k)+'<span>'+l+'</span></button>').join("");v.dataset.mcat=MCAT;
   v.querySelectorAll(".bxgrid .bxcat").forEach(s=>{const h=s.querySelector(".bxh");if(h&&h.dataset.bxcat)s.dataset.cat=h.dataset.bxcat})}};
 /* picking a category on the loadout also opens that category's badge list */
-if(window.addEventListener)window.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("#view-badges [data-mcat]");if(!t||t.dataset.mcat==="all")return;
+if(window.addEventListener)window.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("#view-badges button[data-mcat]");if(!t||t.dataset.mcat==="all")return;
   if(document.querySelector("#view-badges .bxgrid")&&ui.bxcat!==t.dataset.mcat){ui.bxcat=t.dataset.mcat;ui.bxsyn=null;ui.bxsel=null;setTimeout(()=>{renderLoadout();mCats()},0)}},true);
 {const _rl3=renderLoadout;renderLoadout=function(){const r=_rl3.apply(this,arguments);try{mCats()}catch(e){}return r}}
 /* synergy pairs picked right on the Badges tab */
@@ -5129,6 +5148,32 @@ function synUnlHTML(){const st=synState(),n=st.s.filter(x=>x.on).length;
 {const _mt=mTop;mTop=function(){_mt.apply(this,arguments);const t=document.getElementById("mtop");if(t&&!t.querySelector("[data-act='theme']")){const p=t.querySelector('.mtb[data-mprof]');if(p)p.insertAdjacentHTML("beforebegin",'<button type="button" class="mtb" data-act="theme" aria-label="Theme and team colors"><svg class="mi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button>')}}}
 /* desktop: the OVR chip in the nav opens the player panel when it's hidden */
 if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("#tovr");if(!t)return;const b=document.getElementById("sideBtn");if(b&&b.getAttribute("aria-pressed")==="true")b.click()});
+/* ---------------- ROUND 39: moves lost on every suggestion ---------------- */
+function mvAfter(fn){const sv=S.v,scb=S.cb;let V;try{fn();cbCache={};V=vals()}finally{S.v=sv;S.cb=scb;cbCache={}}return V}
+function mvLostFor(opt,k,lo){const R=OPT&&OPT.res;let Va=null;
+  if(opt==="trim"&&R){const x=R.trims.find(z=>z.k===k);if(x)Va=mvAfter(()=>{S.v=Object.assign({},x.v)})}
+  else if(opt==="swap"&&R){const x=R.swaps.find(z=>z.k===k);if(x)Va=mvAfter(()=>{S.v=Object.assign({},x.v);S.cb=Object.assign({},S.cb,{[k]:x.n})})}
+  else if(opt==="hklow"){Va=mvAfter(()=>{S.v=Object.assign({},S.v,{[k]:lo})})}
+  if(!Va)return null;const Vb=vals();return ANIMS.filter(a=>animOk(a,Vb)&&!animOk(a,Va))}
+const MVL={};
+function mvReq(a){return a.reqs.map(r=>AN[r[0]]+" "+r[1]).join(a.op==="OR"?" or ":" and ")}
+function paintMovesLost(){const box=document.getElementById("optbox");if(!box)return;
+  box.querySelectorAll('button[data-opt="trim"][data-k],button[data-opt="swap"][data-k],button[data-hklow]').forEach(b=>{const li=b.closest("li,.ocard,div");if(!li||li.querySelector(".mvl"))return;
+    const opt=b.dataset.hklow?"hklow":b.dataset.opt,k=b.dataset.hklow||b.dataset.k,lo=+b.dataset.lo||0;let L;try{L=mvLostFor(opt,k,lo)}catch(e){L=null}if(!L)return;
+    const key=opt+"|"+k+"|"+lo;MVL[key]=L;const at=li.querySelector(".orh")||li;
+    at.insertAdjacentHTML("beforeend",L.length?'<button type="button" class="mvl lost" data-mvl="'+key+'">Moves lost: '+L.length+'</button>':'<span class="mvl ok">No moves lost</span>')})}
+function mvPop(key){const L=MVL[key]||[];const [opt,k,lo]=key.split("|");let b=document.getElementById("mvbox");if(!b){b=document.createElement("div");b.id="mvbox";b.setAttribute("role","dialog");b.setAttribute("aria-modal","true");document.body.appendChild(b)}
+  const groups={};L.forEach(a=>{const g=(AGROUPS[a.g]||[])[1]||"Moves";(groups[g]=groups[g]||[]).push(a)});
+  b.innerHTML='<div class="mvc"><header><div><small>Moves lost</small><b>'+esc(AN[k])+(opt==="trim"||opt==="hklow"?" lowered":" built lower")+'</b></div><button type="button" class="bxclose" data-mvx="1" aria-label="Close">×</button></header>'+
+   '<p class="note">'+L.length+' move'+(L.length===1?"":"s")+' you have now would no longer be unlocked.</p><div class="mvlist">'+
+   Object.keys(groups).map(g=>'<h4>'+esc(g)+' <small>'+groups[g].length+'</small></h4><ul>'+groups[g].map(a=>'<li><b>'+esc(a.n)+'</b><span>Needs '+esc(mvReq(a))+'</span></li>').join("")+'</ul>').join("")+'</div>'+
+   '<div class="btns"><button type="button" class="btn pri" data-mvx="1">Close</button></div></div>';b.hidden=false}
+if(document.addEventListener){document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-mvl],[data-mvx],#mvbox");if(!t)return;
+    if(t.id==="mvbox"){if(e.target===t)t.hidden=true;return}e.stopPropagation();if(t.dataset.mvl)mvPop(t.dataset.mvl);else{const b=document.getElementById("mvbox");if(b)b.hidden=true}},true);
+  document.addEventListener("keydown",e=>{const b=document.getElementById("mvbox");if(e.key==="Escape"&&b&&!b.hidden)b.hidden=true})}
+{const _rv11=renderView;renderView=function(){const r=_rv11.apply(this,arguments);try{paintMovesLost()}catch(e){}return r}}
+{const _ua12=updAttrs;updAttrs=function(){const r=_ua12.apply(this,arguments);try{paintMovesLost()}catch(e){}return r}}
+if(window.MutationObserver){let tm=0;new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(()=>{try{paintMovesLost()}catch(e){}},60)}).observe(document.body,{childList:true,subtree:true})}
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
