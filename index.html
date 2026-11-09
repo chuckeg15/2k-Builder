@@ -1906,6 +1906,39 @@ body:not([data-tab="attrs"]):not([data-tab="cb"]):not([data-tab="badges"]):not([
 .cnext small{display:block;font-size:11px;font-weight:700;opacity:.95;text-align:right}
 [id^="hint-"] .nneed{font-weight:700}
 
+.pkic{display:inline-flex;vertical-align:middle;margin-right:8px}
+.pkic svg{width:26px;height:26px}
+.bxpick .bxboost .free{font-weight:800;color:var(--good,#16a34a);white-space:nowrap}
+.livebx{margin:0 0 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden}
+.livebx>header{display:flex}
+.lbxt{flex:1;display:flex;align-items:center;gap:10px;padding:12px 14px;background:none;border:0;color:var(--ink);cursor:pointer;text-align:left}
+.lbxt b{font-size:15px;text-transform:uppercase;letter-spacing:.04em}
+.lbxt span{color:var(--muted);font-size:13px;flex:1}
+.lbxt .ochev{width:9px;height:9px;border-right:2.5px solid currentColor;border-bottom:2.5px solid currentColor;transform:rotate(45deg);margin-top:-4px;transition:transform .2s}
+.lbxt[aria-expanded="true"] .ochev{transform:rotate(-135deg);margin-top:4px}
+.lbxg{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;border-top:1px solid var(--line)}
+.lbxc{padding:8px 8px 10px;border-right:1px solid var(--line);border-top:3px solid var(--gc)}
+.lbxc:last-child{border-right:0}
+.lbxc h4{margin:2px 2px 6px;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--gc)}
+.lbn{display:grid;grid-template-columns:22px minmax(0,1fr);grid-template-rows:auto auto;column-gap:6px;align-items:center;padding:3px 4px;border-radius:7px}
+.lbn svg{grid-row:1/3;width:22px;height:22px}
+.lbname{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lbn em{font-style:normal;font-size:10.5px;color:var(--muted)}
+.lbn.t0 .lbname,.lbn.na .lbname{color:var(--muted);font-weight:500}
+.lbn.na{opacity:.5}
+.lbn.t1 em{color:#b0723a}.lbn.t2 em{color:#8a94a6}.lbn.t3 em{color:#c9a227}.lbn.t4 em{color:#8b5cf6}
+@media (max-width:1100px){.lbxg{grid-template-columns:repeat(3,minmax(0,1fr))}.lbxc:nth-child(3n){border-right:0}}
+@media (max-width:700px){.lbxg{grid-template-columns:repeat(2,minmax(0,1fr))}.lbxc{border-right:1px solid var(--line)!important}.lbxc:nth-child(2n){border-right:0!important}
+#view-attrs[data-mcat]:not([data-mcat="all"]) .lbxc{display:none}
+#view-attrs[data-mcat="FIN"] .lbxc[data-cat="FIN"],#view-attrs[data-mcat="SHT"] .lbxc[data-cat="SHT"],#view-attrs[data-mcat="PLY"] .lbxc[data-cat="PLY"],#view-attrs[data-mcat="DEF"] .lbxc[data-cat="DEF"],#view-attrs[data-mcat="REB"] .lbxc[data-cat="REB"],#view-attrs[data-mcat="PHY"] .lbxc[data-cat="PHY"]{display:block;grid-column:1/-1}}
+@keyframes lbup{0%,33%,66%{background:color-mix(in srgb,#16a34a 30%,transparent)}16%,50%,100%{background:transparent}}
+@keyframes lbdn{0%,33%,66%{background:color-mix(in srgb,#ef4444 30%,transparent)}16%,50%,100%{background:transparent}}
+.lbn.flup{animation:lbup 1.6s linear}
+.lbn.fldn{animation:lbdn 1.6s linear}
+.bxpick .bxbn{display:flex;align-items:center;gap:0;text-align:left}
+@media (max-width:360px){#tabs.primary [data-sec] span{font-size:11px;letter-spacing:0}#tabs.primary [data-sec]{padding-left:2px;padding-right:2px}}
+@media (max-width:700px){#sideBtn.sidetog{display:none!important}}
+
 </style>
 
 
@@ -5543,7 +5576,7 @@ function orderTools(){const at=document.querySelector("#view-attrs .atools");if(
 {const _rv14=renderView;renderView=function(){const r=_rv14.apply(this,arguments);try{orderTools()}catch(e){}return r}}
 {const _ua15=updAttrs;updAttrs=function(){const r=_ua15.apply(this,arguments);try{orderTools()}catch(e){}return r}}
 /* the player panel toggle: top left, says what it does */
-function sideBtnFix(){const b=document.getElementById("sideBtn"),nav=document.getElementById("tabs");if(!b||!nav)return;if(nav.firstElementChild!==b)nav.insertBefore(b,nav.firstElementChild);
+function sideBtnFix(){const b=document.getElementById("sideBtn"),nav=document.getElementById("tabs");if(!b||!nav)return;const w=nav.closest(".tsw")||nav;if(b.nextElementSibling!==w)w.parentElement.insertBefore(b,w);
   const hidden=document.querySelector(".app").classList.contains("wide");const s=b.querySelector("span");if(s)s.textContent=hidden?"Show player":"Hide player";b.title=hidden?"Show the player panel (body, archetype, progress)":"Hide the player panel to give the ratings more room";b.classList.add("sidetog")}
 {const _ss=setSide;setSide=function(){const r=_ss.apply(this,arguments);try{sideBtnFix()}catch(e){}return r}}
 setTimeout(()=>{try{sideBtnFix()}catch(e){}},0);
@@ -5592,6 +5625,37 @@ function paintNext(){if(!document.querySelectorAll)return;
 paintHints=paintNext;
 {const _ua16=updAttrs;updAttrs=function(){const r=_ua16.apply(this,arguments);try{paintNext()}catch(e){}return r}}
 {const _rc4=renderCompact;renderCompact=function(){const r=_rc4.apply(this,arguments);try{paintNext()}catch(e){}return r}}
+/* ---------------- ROUND 45: emblems everywhere, synergy picker emblems and tokens saved, realistic Shades targets, live badges view ---------------- */
+/* find the badge for an icon by its id or, failing that, by the badge name printed next to it */
+const BNAME2ID={};BADGES.forEach(b=>BNAME2ID[b.n.toLowerCase()]=b.id);
+{const _bf=bgFor;bgFor=function(el){const r=_bf(el);if(r)return r;if(el.closest(".bxh,.bxname,h1,h2,h3,h4,.bxcat>header"))return null;let p=el.parentElement;for(let i=0;i<2&&p;i++,p=p.parentElement){
+  const t=p.querySelector(".sl,b,.bxbn,.lbn");const n=t&&(t.firstChild&&t.firstChild.nodeType===3?t.firstChild.nodeValue:t.textContent);const id=n&&BNAME2ID[n.trim().toLowerCase()];if(id&&BG[id])return id}return null}}
+/* synergy picker: emblem on every row, and the tokens it saves */
+function decoratePicker(){document.querySelectorAll(".bxpick .bxrow").forEach(r=>{if(r.dataset.dec)return;r.dataset.dec="1";const bt=r.querySelector("[data-bxsynset]");const id=bt&&bt.dataset.bxsynset;const b=id&&BID15[id];if(!b)return;
+    const t=Math.max(1,S.eq[id]||badgeTier(b,vals())||1);bt.insertAdjacentHTML("afterbegin",'<span class="pkic" data-badge="'+id+'">'+badgeIcon(b.c,t,26)+'</span>');
+    const f=r.querySelector(".free");if(f){const n=parseInt(f.textContent.replace(/[^0-9]/g,""),10);if(n)f.textContent="saves "+n+" token"+(n===1?"":"s")}})}
+/* Shades: a liked skill that isn't one of the player's signature ratings gets a realistic target, not 94 */
+function shEst(name,entry,k){const sig=shSig(name,entry);if(sig[k])return sig[k];
+  if(entry&&entry.i!=null){const B=BLUEPRINTS[entry.i],j=IDX[k],lo=B[8][j][0],hi=B[8][j][1]==null?99:B[8][j][1];return Math.round(Math.min(95,(lo+hi)/2))}
+  const imp=entry?tagImp(entry.pos,entry.tags):null;if(imp){const mx=Math.max(...imp)||1;return Math.round(55+35*imp[IDX[k]]/mx)}return 80}
+{const _sbs2=shBuildSpec;shBuildSpec=function(){const sp=_sbs2.apply(this,arguments);if(!sp||!sp.sigs)return sp;const mx=Math.max(...sp.W)||1;
+  SHB.sel.forEach((n,j)=>{const e=(SHP[n]||[]).find(x=>x.add)||(SHP[n]||[])[0],sig=shSig(n,e),s=sp.sigs[j]||{},d=Math.round((1-sp.W[j]/mx)*14);
+    Object.keys(s).forEach(k=>{if(sig[k]==null)s[k]=Math.max(60,Math.min(99,shEst(n,e,k)-d))})});return sp}}
+/* live badges on the Build page */
+let LBX_ON=true;try{const s=localStorage.getItem("bl27-livebx");LBX_ON=s?s!=="0":!(window.matchMedia&&matchMedia("(max-width:700px)").matches)}catch(e){}
+let LBX_PREV=null;const LBX_FL={};
+function liveBadges(){const v=document.getElementById("view-attrs");if(!v||v.hidden)return;let box=v.querySelector("#livebx");
+  if(!box){const at=v.querySelector("#cmpv")||v.querySelector(".agrid")||v.querySelector("section.grp");if(!at)return;const anchor=at.id==="cmpv"?at:(at.closest(".agrid")||at);anchor.insertAdjacentHTML("beforebegin",'<section id="livebx" class="livebx"></section>');box=v.querySelector("#livebx")}
+  const V=vals(),tiers={};BADGES.forEach(b=>tiers[b.id]=badgeTier(b,V));const un=BADGES.filter(b=>tiers[b.id]>0).length;
+  let h='<header><button type="button" class="lbxt" data-lbx="1" aria-expanded="'+LBX_ON+'"><b>Live badges</b> <span>'+un+' of '+BADGES.filter(b=>tiers[b.id]>=0).length+' unlocked at '+ft(S.h)+'</span><i class="ochev"></i></button></header>';
+  if(LBX_ON){h+='<div class="lbxg">'+GROUPS.map(g=>'<div class="lbxc" data-cat="'+g[0]+'" style="--gc:var(--c-'+g[0]+')"><h4>'+esc(g[1])+'</h4>'+BADGES.filter(b=>b.c===g[0]).sort((a,b)=>tiers[b.id]-tiers[a.id]).map(b=>{const t=tiers[b.id];
+      if(LBX_PREV&&LBX_PREV[b.id]!=null&&LBX_PREV[b.id]!==t)LBX_FL[b.id]={c:t>LBX_PREV[b.id]?" flup":" fldn",u:Date.now()+1800};const fl=LBX_FL[b.id],ch=fl&&fl.u>Date.now()?fl.c:"";
+      return'<div class="lbn t'+Math.max(0,t)+(t<0?" na":"")+ch+'" data-tip="b|'+b.id+'">'+badgeIcon(b.c,Math.max(0,t),22)+'<span class="lbname">'+esc(b.n)+'</span><em>'+(t<0?"Not at "+ft(S.h):t?TIERS[t]:"None")+'</em></div>'}).join("")+'</div>').join("")+'</div>'}
+  box.innerHTML=h;LBX_PREV=tiers}
+{const _ua17=updAttrs;updAttrs=function(){const r=_ua17.apply(this,arguments);try{liveBadges();decoratePicker()}catch(e){}return r}}
+{const _rv15=renderView;renderView=function(){const r=_rv15.apply(this,arguments);try{liveBadges();decoratePicker()}catch(e){}return r}}
+{const _rl5=renderLoadout;renderLoadout=function(){const r=_rl5.apply(this,arguments);try{decoratePicker()}catch(e){}return r}}
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-lbx]");if(!t)return;LBX_ON=!LBX_ON;try{localStorage.setItem("bl27-livebx",LBX_ON?"1":"0")}catch(err){}LBX_PREV=null;liveBadges()});
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
