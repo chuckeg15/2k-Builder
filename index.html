@@ -1950,6 +1950,24 @@ body:not([data-tab="attrs"]):not([data-tab="cb"]):not([data-tab="badges"]):not([
 .bxst{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-weight:900;font-size:16px;line-height:1;cursor:pointer}
 .bxst:hover{border-color:var(--accent)}
 
+#tt{position:absolute;z-index:200;max-width:300px;padding:9px 12px;border-radius:10px;background:var(--mnav,#0b1530);color:#fff;font-size:12.5px;font-weight:600;line-height:1.35;box-shadow:0 10px 24px rgba(0,0,0,.35),0 0 0 1px color-mix(in srgb,var(--accent) 45%,transparent);border-top:3px solid var(--accent);pointer-events:none;animation:ttin .12s ease-out}
+#tt[hidden]{display:none}
+#tt::after{content:"";position:absolute;left:calc(var(--ax,50%) - 6px);bottom:-6px;border:6px solid transparent;border-bottom:0;border-top-color:var(--mnav,#0b1530)}
+#tt.below::after{bottom:auto;top:-9px;border:6px solid transparent;border-top:0;border-bottom-color:var(--accent)}
+@keyframes ttin{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+.nojoint{opacity:.38!important;filter:grayscale(.7)}
+.pick.nojoint .nofitwhy{display:block}
+[data-gbt].nojoint{text-decoration:line-through}
+.gtc.nojoint .sq[data-v="1"]{opacity:.35}
+.qmodes{display:inline-flex;margin:0 0 14px}
+.qmodes button{padding:10px 18px;font-weight:800}
+.qmodes small{display:block;font-weight:600;font-size:11px;opacity:.75}
+.crlist{display:grid;gap:10px;margin-top:12px}
+.crrow{border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:12px 14px;background:var(--surface)}
+.crrow b{font-size:15px}
+.crrow p{margin:4px 0 6px;color:var(--muted);font-size:13.5px}
+@media (max-width:700px){#tabs.primary [data-sec="badges"] span,#tabs.primary [data-sec="moves"] span{font-size:10.5px;line-height:1.05;white-space:normal}}
+
 </style>
 
 
@@ -5674,6 +5692,102 @@ function bonusSteppers(){document.querySelectorAll("#bslots,#btoks").forEach(i=>
 {const _rv16=renderView;renderView=function(){const r=_rv16.apply(this,arguments);try{bonusSteppers()}catch(e){}return r}}
 if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-bxst]");if(!t)return;e.preventDefault();const [id,d]=t.dataset.bxst.split("|"),i=document.getElementById(id);if(!i)return;
   const mx=+i.max||99,n=Math.max(0,Math.min(mx,(parseInt(i.value,10)||0)+(+d)));if(n===(parseInt(i.value,10)||0))return;i.value=n;i.dispatchEvent(new Event("input",{bubbles:true}));i.dispatchEvent(new Event("change",{bubbles:true}))});
+/* ---------------- ROUND 47: styled tooltips, loadout names, together-or-not greying, in-depth preferences, credits ---------------- */
+/* 1. tooltips that match the app */
+(function(){if(!document.addEventListener)return;let tip=null,cur=null;
+  const show=el=>{const t=el.getAttribute("title");if(t){el.dataset.tt=t;el.removeAttribute("title");if(!el.getAttribute("aria-label")&&!el.textContent.trim())el.setAttribute("aria-label",t)}
+    const txt=el.dataset.tt;if(!txt)return;if(!tip){tip=document.createElement("div");tip.id="tt";tip.setAttribute("role","tooltip");document.body.appendChild(tip)}
+    tip.textContent=txt;tip.hidden=false;cur=el;const r=el.getBoundingClientRect(),w=tip.offsetWidth,h=tip.offsetHeight;let x=r.left+r.width/2-w/2,y=r.top-h-10,below=false;
+    if(y<70){y=r.bottom+10;below=true}x=Math.max(8,Math.min(innerWidth-w-8,x));tip.style.left=x+"px";tip.style.top=(y+scrollY)+"px";tip.classList.toggle("below",below);
+    tip.style.setProperty("--ax",(r.left+r.width/2-x)+"px")};
+  const hide=()=>{if(tip)tip.hidden=true;cur=null};
+  document.addEventListener("mouseover",e=>{const el=e.target.closest&&e.target.closest("[title],[data-tt]");if(!el||el===cur)return;if(el.closest("svg")&&!el.matches("svg"))return;show(el)},true);
+  document.addEventListener("mouseout",e=>{if(cur&&!(e.relatedTarget&&cur.contains(e.relatedTarget)))hide()},true);
+  document.addEventListener("focusin",e=>{const el=e.target.closest&&e.target.closest("[title],[data-tt]");if(el&&e.target.matches(":focus-visible"))show(el)});
+  document.addEventListener("focusout",hide);document.addEventListener("scroll",hide,true);document.addEventListener("click",hide,true)})();
+/* 2. loadout names */
+SECTIONS.forEach(s=>{if(s.id==="badges")s.n="Badge Loadout";if(s.id==="moves")s.n="Animation Loadout"});
+/* 3. can these picks live together on one 99 build? */
+function jointFits(goals,st){if(!goals.length)return true;const FB=fitBodiesFor(goals,st);if(!FB.length)return false;const byH={};FB.forEach(b=>{(byH[b.h]=byH[b.h]||[]).push(b)});
+  for(const h in byH){const bs=byH[h];const H=+h;const v=new Array(21).fill(25);
+    for(const g of goals){let best=null,bo=1e9;for(const a of g.alts){if(H<a.h[0]||H>a.h[1])continue;const t=v.slice();a.req.forEach(q=>{if(t[q[0]]<q[1])t[q[0]]=q[1]});const o=ovrA(t,H);if(o<bo){bo=o;best=t}}if(!best){bo=-1;break}for(let i=0;i<21;i++)v[i]=best[i]}
+    const idx=[];for(let i=0;i<21;i++)if(v[i]>25)idx.push(i);
+    for(const b of bs.slice(0,40)){if(v.some((x,i)=>x>b.caps[i]))continue;const t=v.slice();try{linkA(t,H,b.caps,idx)}catch(e){}if(ovrA(t,H)<=99+1e-6)return true}}
+  return false}
+const NOT_TOGETHER="Can't fit with your other picks on one 99 overall build";
+function greyRow(el,why){el.classList.add("nofit","nojoint");if(why)el.title=why;el.hidden=false}
+/* Build By Badges: every tier and takeover that can't join your picks is greyed */
+{const _rgb2=renderGoalBadges;renderGoalBadges=function(){const r=_rgb2.apply(this,arguments);try{const v=document.getElementById("view-gbadges");if(!v)return r;const st={pos:GB.pos,hmin:GB.hmin,hmax:GB.hmax};
+  const selG=id=>Object.entries(GB.sel).filter(([x])=>x!==id).map(([x,t])=>badgeGoal(BADGES.find(b=>b.id===x),t)).concat(Object.keys(GB.tos).map(nm=>toGoal(TAKEOVERS.find(t=>t.n===nm))));
+  const any=Object.keys(GB.sel).length+Object.keys(GB.tos).length;
+  v.querySelectorAll(".pick").forEach(card=>{const tb=card.querySelector("[data-gbt]");if(!tb)return;const id=tb.dataset.gbt,b=BADGES.find(x=>x.id===id);if(!b)return;
+    if(card.classList.contains("nofit")){card.hidden=false;card.classList.add("nojoint")}
+    if(!any||(Object.keys(GB.sel).length===1&&GB.sel[id]&&!Object.keys(GB.tos).length))return;const base=selG(id);let live=0;
+    card.querySelectorAll("[data-gbt]").forEach(x=>{const t=+x.dataset.v;if(!t||x.disabled){if(t&&x.disabled)x.classList.add("nojoint");return}if(GB.sel[id]===t){live++;return}
+      if(jointFits(base.concat([badgeGoal(b,t)]),st))live++;else{x.disabled=true;x.classList.add("nojoint");x.title=TIERS[t]+": "+NOT_TOGETHER}});
+    if(!live&&!GB.sel[id])greyRow(card,NOT_TOGETHER)});
+  const all=selG(null);v.querySelectorAll("[data-gbto]").forEach(c=>{const nm=c.dataset.gbto;if(c.disabled){c.hidden=false;c.classList.add("nojoint");return}if(GB.tos[nm]||!any)return;
+    if(!jointFits(all.concat([toGoal(TAKEOVERS.find(t=>t.n===nm))]),st)){c.disabled=true;greyRow(c,NOT_TOGETHER)}});
+  v.querySelectorAll(".nofitbar").forEach(x=>x.remove());const n=v.querySelectorAll(".pick.nojoint,[data-gbto].nojoint").length;
+  const pg=v.querySelector(".pgrid");if(pg&&n)pg.insertAdjacentHTML("beforebegin",'<div class="nofitbar"><span>Greyed out: '+n+' badges or takeovers that can\'t go with your picks. Hover one to see why.</span></div>')}catch(e){}return r}}
+/* Build By Moves: same idea */
+{const _rga2=renderGoalAnims;renderGoalAnims=function(){const r=_rga2.apply(this,arguments);try{const v=document.getElementById("view-ganims");if(!v)return r;const st={pos:GA.pos,hmin:GA.hmin,hmax:GA.hmax},base=gaGoals();
+  v.querySelectorAll("tr.nofit").forEach(tr=>{tr.hidden=false;tr.classList.add("nojoint")});
+  if(base.length)v.querySelectorAll("[data-gaadd]").forEach(btn=>{if(btn.disabled)return;const i=+btn.dataset.gaadd;if(GA.sel.includes(i))return;
+    if(!jointFits(base.concat([animGoal(ANIMS[i])]),st)){btn.disabled=true;btn.textContent="Won't fit";const tr=btn.closest("tr");if(tr)greyRow(tr,NOT_TOGETHER)}});
+  v.querySelectorAll(".nofitbar").forEach(x=>x.remove());const n=v.querySelectorAll("tr.nojoint").length;const tw=v.querySelector(".tablewrap");if(tw&&n)tw.insertAdjacentHTML("beforebegin",'<div class="nofitbar"><span>Greyed out: '+n+' packages that can\'t go with your picks.</span></div>')}catch(e){}return r}}
+/* Build By Tokens: + stops at the joint limit and the card greys */
+{const _rgt=renderGoalTokens;renderGoalTokens=function(){const r=_rgt.apply(this,arguments);try{GROUPS.forEach(g=>{const k=g[0],j=Math.max(0,gtJointK(k)),b=document.querySelector('[data-gtd="'+k+'"][data-v="1"]'),c=document.getElementById("gtc-"+k);
+  if(b){b.disabled=GT.tg[k]>=j;b.title=b.disabled?"Can't go higher with your other token targets":""}if(c)c.classList.toggle("nojoint",j===0||GT.tg[k]>=j)})}catch(e){}return r}}
+/* 4. Preferences: Quick (10) or In-depth (25) */
+const QDEEP=[
+ ["How do you score most?",[["Spot-up threes",{three:1.3,ft:1.1}],["Pull-ups off the dribble",{mid:1.25,three:1.15,handle:1.1}],["Attacking the rim",{layup:1.25,ddunk:1.2,speed:1.1}],["Post-ups",{post:1.3,close:1.2,strength:1.1}],["A bit of everything",{}]]],
+ ["Who do you guard?",[["Ball handlers",{pdef:1.3,steal:1.15,agility:1.1}],["Wings",{pdef:1.2,idef:1.1,block:1.05}],["Bigs in the paint",{idef:1.3,block:1.2,strength:1.15}],["I roam and help",{steal:1.2,block:1.15,speed:1.05}]]],
+ ["Rebounding job?",[["Crash the glass",{oreb:1.3,vertical:1.1}],["Box out and finish the stop",{dreb:1.3,strength:1.1}],["Leak out on the break",{speed:1.15,dreb:.85}],["Not my job",{oreb:.8,dreb:.8}]]],
+ ["Transition?",[["Run every break",{speed:1.25,swb:1.15,ddunk:1.1}],["When it's there",{}],["Half court player",{speed:.9,post:1.1,mid:1.1}]]],
+ ["Shooting range?",[["Logo range",{three:1.35}],["Three-point line",{three:1.2}],["Mid-range",{mid:1.25,three:.9}],["Paint only",{three:.7,mid:.8,close:1.2}]]],
+ ["Do free throws matter?",[["Yes, I get fouled a lot",{ft:1.3}],["A little",{}],["No (1s, 2s and 3s)",{ft:.5}]]],
+ ["Passing style?",[["Flashy playmaker",{pass:1.3,handle:1.1}],["Simple and smart",{pass:1.1}],["Rarely pass",{pass:.8}]]],
+ ["Steals or contests?",[["Gamble for steals",{steal:1.3,pdef:.95}],["Disciplined contests",{pdef:1.2,idef:1.1}],["Both",{steal:1.1,pdef:1.1}]]],
+ ["Shot blocking?",[["Protect the rim",{block:1.3,idef:1.15,vertical:1.1}],["Chase-down blocks",{block:1.15,speed:1.1,vertical:1.15}],["Not my job",{block:.8}]]],
+ ["Dribble style?",[["Lots of combos",{handle:1.3,swb:1.1}],["Straight-line drives",{swb:1.2,speed:1.1}],["Few dribbles",{handle:.85,swb:.9}]]],
+ ["How do you finish?",[["Dunk on people",{ddunk:1.3,vertical:1.15,strength:1.05}],["Layups and floaters",{layup:1.3,close:1.1}],["Both",{ddunk:1.1,layup:1.1}]]],
+ ["What athleticism matters most?",[["Speed and agility",{speed:1.2,agility:1.2}],["Vertical",{vertical:1.3}],["Strength",{strength:1.3}],["Balanced",{}]]],
+ ["Screens?",[["I set a lot of screens",{strength:1.2}],["I use screens",{handle:1.1,three:1.05,mid:1.05}],["Neither",{}]]],
+ ["Last shot of the game?",[["Iso, it's mine",{handle:1.15,mid:1.15,three:1.1}],["Catch and shoot",{three:1.2}],["I make the pass",{pass:1.2}]]],
+ ["Weakness you can live with?",[["Defense",{pdef:.8,idef:.8,steal:.85,block:.85}],["Shooting",{three:.7,mid:.8,ft:.8}],["Speed",{speed:.8,agility:.85}],["Finishing",{layup:.8,ddunk:.75,close:.85}],["None, keep it balanced",{}]]]];
+QZ.deep=!!QZ.deep;QZ.dq=QZ.dq||{};
+const QBASE=QSTEPS2.slice();
+function qzSetDeep(on){QZ.deep=on;QSTEPS2.length=0;if(on){QBASE.slice(0,9).forEach(s=>QSTEPS2.push(s));QDEEP.forEach(q=>QSTEPS2.push(q[0].replace(/\?$/,"")));QSTEPS2.push("Results")}else QBASE.forEach(s=>QSTEPS2.push(s));QZ.step=Math.min(QZ.step,QSTEPS2.length-1)}
+qzSetDeep(QZ.deep);
+{const _rq=renderQuiz;renderQuiz=function(){const r=_rq.apply(this,arguments);try{const v=document.getElementById("view-finder");if(!v)return r;
+  const s=QZ.step;if(QZ.deep&&s>=9&&s<9+QDEEP.length){const q=QDEEP[s-9],cur=QZ.dq[s-9];const body=v.querySelector(".qbody");
+    if(body)body.innerHTML='<h2 class="sec">'+esc(q[0])+'</h2><div class="qopts">'+q[1].map((o,i)=>'<button type="button" class="qopt'+(cur===i?" on":"")+'" data-qdeep="'+(s-9)+'|'+i+'"><b>'+esc(o[0])+'</b></button>').join("")+'</div>'}
+  if(s===0&&!v.querySelector(".qmodes")){const p=v.querySelector(".qprog");if(p)p.insertAdjacentHTML("beforebegin",'<div class="seg qmodes"><button type="button" data-qdepth="0" aria-pressed="'+!QZ.deep+'">Quick <small>10 questions</small></button><button type="button" data-qdepth="1" aria-pressed="'+QZ.deep+'">In-depth <small>25 questions</small></button></div>')}}catch(e){}return r}}
+{const _qi=quizImp;quizImp=function(){const imp=_qi.apply(this,arguments);if(QZ.deep)QDEEP.forEach((q,i)=>{const c=QZ.dq[i];if(c==null)return;const m=q[1][c][1];for(const k in m)if(IDX[k]!=null)imp[IDX[k]]=Math.min(2.2,imp[IDX[k]]*m[k])});return imp}}
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-qdeep],[data-qdepth],#qrestart2");if(!t)return;
+  if(t.id==="qrestart2"){QZ.dq={};return}
+  if(t.dataset.qdepth!=null){qzSetDeep(t.dataset.qdepth==="1");QZ.step=0;renderQuiz();return}
+  const [qi,oi]=t.dataset.qdeep.split("|").map(Number);QZ.dq[qi]=QZ.dq[qi]===oi?undefined:oi;renderQuiz()});
+/* 5. credits: everyone whose work this is built on */
+const CREDITS=[
+ ["Game rules data","NBA 2K27 MyPLAYER builder rules (attribute ceilings, overall pricing, badge requirements, tokens, cap breaker gains, takeover rules, animation glossary) captured from 2K's own NBA 2K HQ app. All game data belongs to 2K / Take-Two Interactive.","https://nba.2k.com/2k27/features/myplayer-builder/","2K: MyPLAYER Builder"],
+ ["2K official guides","Badge Synergy, badge tokens and builder rules as described by 2K.","https://nba.2k.com/2k27/learn-2k/badge-synergy/","2K: Badge Synergy guide"],
+ ["2K newsroom","Builder announcement: badge tokens, synergy, female MyPLAYERs.","https://newsroom.2k.com/news/nbar-2k27-myplayer-builder-introduces-female-myplayers-badge-tokens-and-the-all-new-synergy-system","2K Newsroom"],
+ ["NBA2KLab","Measured attribute caps for every legal body, badge tests and recommendations, animation requirements, best dribble moves, rebirth rewards.","https://www.nba2klab.com","nba2klab.com"],
+ ["court-lab","Attribute caps used to fill gaps in the NBA2KLab table.","",""],
+ ["LockerCodes.io","3,721 build names with example builds, and takeover requirements and progression.","https://www.lockercodes.io/nba-2k/build-names","lockercodes.io"],
+ ["2kjumpers.com","Measured jump shot release windows and grades.","https://2kjumpers.com/jumpshots","2kjumpers.com"],
+ ["Best Moves sources","Signature animation picks from NBA2KLab, How To Video Game, U7BUY, NBA2King and Timesaver.","https://howtovideogame.com","howtovideogame.com"],
+ ["Open source libraries","Tesseract.js (Apache 2.0) reads screenshots; qrcode-generator (MIT) draws share codes; both served by jsDelivr.","https://github.com/naptha/tesseract.js","tesseract.js"],
+ ["Font","Archivo by Omnibus-Type, SIL Open Font License, via Google Fonts.","https://fonts.google.com/specimen/Archivo","Google Fonts"],
+ ["Players and teams","Player names, NBA team colors and Signature Blueprint names belong to their owners and are used only to describe builds.","",""]];
+SECTIONS.find(s=>s.id==="me").tabs.push(["credits","Credits"]);ALLTABS.push("credits");MSHORT.credits="Credits";MI.credits='<path d="M12 3l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.8z"/>';
+{const a=document.getElementById("view-saved");if(a)a.insertAdjacentHTML("beforebegin",'<div class="view" id="view-credits" role="tabpanel" hidden></div>')}
+function renderCredits(){const v=document.getElementById("view-credits");if(!v)return;
+  v.innerHTML='<h2 class="sec">Credits</h2><p class="note">This app is built on other people\'s work. Thank you to everyone below. Nothing here is affiliated with or endorsed by 2K, Take-Two Interactive or the NBA.</p><div class="crlist">'+
+   CREDITS.map(c=>'<div class="crrow"><b>'+esc(c[0])+'</b><p>'+esc(c[1])+'</p>'+(c[2]?'<a class="tlink" href="'+c[2]+'" target="_blank" rel="noopener">'+esc(c[3])+'</a>':'')+'</div>').join("")+'</div>'}
+{const _rv17=renderView0;renderView0=function(){if(ui.tab==="credits"){renderCredits();return}return _rv17.apply(this,arguments)}}
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
