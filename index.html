@@ -1882,6 +1882,23 @@ body:not([data-tab="attrs"]):not([data-tab="cb"]):not([data-tab="badges"]):not([
 .frbrand span{font-size:13.5px;color:var(--muted)}
 .mtbrand{font-style:normal;font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.7}
 
+#sideBtn.sidetog{order:-1;display:inline-flex!important;align-items:center;gap:6px;font-weight:800;padding:0 14px;border-right:1px solid color-mix(in srgb,var(--mast-ink,#fff) 18%,transparent)}
+#sideBtn.sidetog span{display:inline!important;white-space:nowrap}
+#view-attrs .atools [data-impbtn]{border-color:var(--line)!important;color:inherit!important;background:var(--surface)!important}
+#mrbox{position:fixed;inset:0;z-index:92;background:rgba(3,8,20,.55);display:grid;place-items:center;padding:16px}
+#mrbox[hidden]{display:none}
+#mrbox .mrc{background:var(--surface);color:var(--ink);border-radius:16px;width:min(480px,100%);max-height:86vh;overflow:auto;padding:18px;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+#mrbox header{display:flex;justify-content:space-between;gap:10px}
+#mrbox header small{display:block;color:var(--accent);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px}
+#mrbox header b{font-size:20px}
+.mrl{list-style:none;margin:6px 0 10px;padding:0;display:grid;gap:4px}
+.mrl li{display:flex;justify-content:space-between;padding:7px 10px;border-radius:9px;border:1px solid var(--line);border-left:4px solid var(--line)}
+.mrl li.up{border-left-color:var(--good,#16a34a)}
+.mrl li.dn{border-left-color:var(--c-DEF)}
+.mrw{font-size:13.5px;margin:6px 0}
+.mrw .dn,.mrw.dn{color:var(--c-DEF)}
+.mrw .up,.mrw.up{color:var(--good,#16a34a)}
+
 </style>
 
 
@@ -5501,6 +5518,54 @@ try{if(MQ.matches&&!localStorage.getItem("bl27-rview")){UIX.rv="compact";ui.comp
 
 /* brand on the phone top bar */
 {const _mt3=mTop;mTop=function(){_mt3.apply(this,arguments);const n=document.querySelector("#mtop .mtnm");if(n&&!n.querySelector(".mtbrand"))n.insertAdjacentHTML("afterbegin",'<i class="mtbrand">2K27 Build Lab</i>')}}
+/* ---------------- ROUND 43: tool order, tool tips, panel toggle, steady +/-, Make room preview ---------------- */
+/* tools in order of how often people reach for them, every one with a plain tooltip */
+const TOOL_ORDER=[
+ ["#fillBtn","Adds points to your ratings until you hit 99. Never lowers anything."],
+ ["#impvBtn","Shows the cheapest next unlocks: badges, takeovers and moves you are closest to."],
+ ["[data-bmopen]","Drops each rating to the lowest value that keeps every badge tier you have, freeing overall to spend elsewhere. Shows what you would lose first."],
+ ["[data-hkopen]","Plans your cap breakers: build some ratings lower and let breakers lift them back, then spend the overall you saved on what you want most."],
+ ["[data-impbtn]","Read your ratings from screenshots of the in-game builder and fill them in."],
+ ["#calBtn","Type in the caps you see in game if 2K changes them in a patch."],
+ ["#rebuildBtn","Starts over from your body and refills every rating to 99 the smart way for your position. Can lower ratings you set."],
+ ["#resetBtn","Sets every rating to 25 (locked ratings stay). You can undo it."]];
+function orderTools(){const at=document.querySelector("#view-attrs .atools");if(!at||at.dataset.ord===String(at.children.length))return;
+  const list=TOOL_ORDER.map(([sel,tip])=>{const b=at.querySelector(sel);if(b&&tip)b.title=tip;return b}).filter(Boolean);
+  const anchor=at.querySelector(".mundo");let ref=anchor?anchor.nextSibling:at.firstChild;list.forEach(b=>{at.insertBefore(b,ref);ref=b.nextSibling});
+  at.querySelectorAll(".hkbtn").forEach(b=>b.classList.remove("hkbtn"));at.dataset.ord=String(at.children.length)}
+{const _rv14=renderView;renderView=function(){const r=_rv14.apply(this,arguments);try{orderTools()}catch(e){}return r}}
+{const _ua15=updAttrs;updAttrs=function(){const r=_ua15.apply(this,arguments);try{orderTools()}catch(e){}return r}}
+/* the player panel toggle: top left, says what it does */
+function sideBtnFix(){const b=document.getElementById("sideBtn"),nav=document.getElementById("tabs");if(!b||!nav)return;if(nav.firstElementChild!==b)nav.insertBefore(b,nav.firstElementChild);
+  const hidden=document.querySelector(".app").classList.contains("wide");const s=b.querySelector("span");if(s)s.textContent=hidden?"Show player":"Hide player";b.title=hidden?"Show the player panel (body, archetype, progress)":"Hide the player panel to give the ratings more room";b.classList.add("sidetog")}
+{const _ss=setSide;setSide=function(){const r=_ss.apply(this,arguments);try{sideBtnFix()}catch(e){}return r}}
+setTimeout(()=>{try{sideBtnFix()}catch(e){}},0);
+/* +/- keeps the row you tapped right where it was */
+if(window.addEventListener)window.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("#view-attrs button");if(!t)return;const row=t.closest("[data-k],.crow,.arow");if(!row)return;
+  const key=row.dataset.k||(row.querySelector("[data-ck]")||{}).dataset?.ck||(row.querySelector("[data-k]")||{}).dataset?.k;if(!key)return;const top=row.getBoundingClientRect().top;
+  const fix=()=>{const r2=document.querySelector('#cmpv .crow [data-ck="'+key+'"]')?.closest(".crow")||document.querySelector('#view-attrs .arow[data-k="'+key+'"]')||document.querySelector('#view-attrs [data-k="'+key+'"]');if(!r2)return;const d=r2.getBoundingClientRect().top-top;if(Math.abs(d)>1)scrollBy(0,d)};
+  requestAnimationFrame(fix);setTimeout(fix,60);setTimeout(fix,200)},true);
+/* Make room: preview the changes first */
+function roomPreview(k,target){const sv=S.v,lk=S.lock;let r=0,after=null;try{S.v=Object.assign({},sv);r=makeRoom(k,target);after=Object.assign({},S.v)}finally{S.v=sv;S.lock=lk;invalidate()}return r?{r,after}:null}
+function roomDialog(k,target){const P=roomPreview(k,target);if(!P){toast("Could not make room without breaking your locks");return}
+  const Vb=vals(),sv=S.v;S.v=P.after;cbCache={};const Va=vals();S.v=sv;cbCache={};
+  const up=K.filter(x=>P.after[x]>S.v[x]),dn=K.filter(x=>P.after[x]<S.v[x]);
+  const bl=BADGES.filter(b=>badgeTier(b,Va)<badgeTier(b,Vb)),bg=BADGES.filter(b=>badgeTier(b,Va)>badgeTier(b,Vb));
+  const ml=ANIMS.filter(a=>animOk(a,Vb)&&!animOk(a,Va)).length,mg=ANIMS.filter(a=>!animOk(a,Vb)&&animOk(a,Va)).length;
+  let b=document.getElementById("mrbox");if(!b){b=document.createElement("div");b.id="mrbox";b.setAttribute("role","dialog");b.setAttribute("aria-modal","true");b.setAttribute("aria-label","Make room preview");document.body.appendChild(b)}
+  const row=(x,cls)=>'<li class="'+cls+'"><span>'+esc(AN[x])+'</span><b>'+S.v[x]+' → '+P.after[x]+'</b></li>';
+  b.innerHTML='<div class="mrc"><header><div><small>Make room</small><b>'+esc(AN[k])+' to '+P.r+'</b></div><button type="button" class="bxclose" data-mrx="1" aria-label="Cancel">×</button></header>'+
+   '<p class="note">To stay at 99 overall, these ratings change:</p><ul class="mrl">'+up.map(x=>row(x,"up")).join("")+dn.map(x=>row(x,"dn")).join("")+'</ul>'+
+   (bl.length?'<p class="mrw dn">Badges lose a tier: '+esc(bl.map(z=>z.n).join(", "))+'</p>':'')+(bg.length?'<p class="mrw up">Badges gain a tier: '+esc(bg.map(z=>z.n).join(", "))+'</p>':'')+
+   '<p class="mrw">'+(ml?'<span class="dn">'+ml+' move'+(ml===1?"":"s")+' lost</span>':'No moves lost')+(mg?' · <span class="up">'+mg+' move'+(mg===1?"":"s")+' gained</span>':'')+'</p>'+
+   '<div class="btns"><button type="button" class="btn pri" data-mrgo="1">Confirm</button><button type="button" class="btn" data-mrx="1">Cancel</button></div></div>';
+  b.hidden=false;b._p={k,P};setTimeout(()=>{const c=b.querySelector("[data-mrgo]");if(c)c.focus()},30)}
+if(window.addEventListener){window.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-mkroom]");if(!t)return;e.stopPropagation();e.preventDefault();const p=document.getElementById("mkroom");if(p)p.remove();roomDialog(t.dataset.mkroom,+t.dataset.t)},true);
+  document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-mrgo],[data-mrx],#mrbox");if(!t)return;const b=document.getElementById("mrbox");if(t.id==="mrbox"){if(e.target===t)b.hidden=true;return}e.stopPropagation();
+    if(t.dataset.mrgo&&b._p){const snap=JSON.stringify(S),{k,P}=b._p,before=Object.assign({},S.v);S.v=Object.assign({},P.after);invalidate();afterChange();setTimeout(()=>{try{flashRows(K.filter(x=>S.v[x]!==before[x]).map(x=>[x,S.v[x]-before[x]]))}catch(err){}},60);
+      toastAct(AN[k]+" is now "+P.r,"Undo",()=>{S=sanitizeState(JSON.parse(snap));invalidate();fullRender();try{histRecord()}catch(err){}toast("Undone")})}
+    b.hidden=true},true);
+  document.addEventListener("keydown",e=>{const b=document.getElementById("mrbox");if(e.key==="Escape"&&b&&!b.hidden)b.hidden=true})}
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
