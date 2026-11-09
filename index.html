@@ -1899,6 +1899,13 @@ body:not([data-tab="attrs"]):not([data-tab="cb"]):not([data-tab="badges"]):not([
 .mrw .dn,.mrw.dn{color:var(--c-DEF)}
 .mrw .up,.mrw.up{color:var(--good,#16a34a)}
 
+.cnext.nok,.hint.nok,[id^="hint-"].nok{color:var(--good,#16a34a)!important}
+.cnext.nok b{color:var(--good,#16a34a)!important}
+.cnext.nno,[id^="hint-"].nno{color:var(--c-DEF)!important}
+.cnext.nno b{color:var(--c-DEF)!important}
+.cnext small{display:block;font-size:11px;font-weight:700;opacity:.95;text-align:right}
+[id^="hint-"] .nneed{font-weight:700}
+
 </style>
 
 
@@ -5566,6 +5573,25 @@ if(window.addEventListener){window.addEventListener("click",e=>{const t=e.target
       toastAct(AN[k]+" is now "+P.r,"Undo",()=>{S=sanitizeState(JSON.parse(snap));invalidate();fullRender();try{histRecord()}catch(err){}toast("Undone")})}
     b.hidden=true},true);
   document.addEventListener("keydown",e=>{const b=document.getElementById("mrbox");if(e.key==="Escape"&&b&&!b.hidden)b.hidden=true})}
+/* ---------------- ROUND 44: next badge says green (this rating finishes it) or red (and what else it needs) ---------------- */
+nextTick=function(k){const e=eff(k),c=cap(k),V=vals();return TICKS[k].filter(t=>t.v>e&&t.v<=c&&(!t.b||(S.h>=t.b.h[0]&&S.h<=t.b.h[1]&&badgeTier(t.b,V)<t.t))&&(t.b||!(()=>{const to=TAKEOVERS.find(x=>t.lab===x.n+" takeover");return to&&reqMet(to.reqs,to.op,V)})())).sort((x,y)=>x.v-y.v)[0]};
+function nextInfo(k){const nx=nextTick(k);if(!nx)return null;const V=vals(),V2=Object.assign({},V,{[k]:nx.v}),ki=IDX[k];let ok,list,isOr;
+  if(nx.b){ok=badgeTier(nx.b,V2)>=nx.t;list=nx.b.req[nx.t-1]||[];isOr=list.some(q=>q[2]==="OR")}
+  else{const to=TAKEOVERS.find(x=>nx.lab===x.n+" takeover");ok=to?reqMet(to.reqs,to.op,V2):false;list=to?to.reqs.map(r=>[IDX[r[0]],r[1]]):[];isOr=to&&to.op==="OR"}
+  const miss=ok?[]:list.filter(q=>q[0]!==ki&&V[K[q[0]]]<q[1]).map(q=>({k:K[q[0]],v:q[1],cap:cap(K[q[0]])}));
+  return{nx,ok,miss,isOr}}
+function needTxt(I){if(I.ok||!I.miss.length)return"";const p=I.miss.map(m=>AN[m.k]+" "+m.v+(m.v>m.cap?" (caps at "+m.cap+")":""));return"needs "+(I.isOr?p.join(" or "):p.join(" and "))}
+function paintNext(){if(!document.querySelectorAll)return;
+  document.querySelectorAll("#cmpv .crow").forEach(r=>{const i=r.querySelector("[data-ck]"),el=r.querySelector(".cnext");if(!i||!el)return;const k=i.dataset.ck,I=nextInfo(k);
+    if(!I){el.className="cnext";el.innerHTML=eff(k)>=cap(k)?"At cap":"";el.title="";return}const nt=needTxt(I);
+    el.className="cnext "+(I.ok?"nok":"nno");el.title=(I.ok?"Raising "+AN[k]+" to "+I.nx.v+" unlocks "+I.nx.lab:I.nx.lab+" at "+I.nx.v+", but it also "+nt);
+    el.innerHTML=esc(I.nx.lab)+' <b>'+I.nx.v+'</b>'+(nt?'<small>'+esc(nt)+'</small>':'')});
+  K.forEach(k=>{const el=document.getElementById("hint-"+k);if(!el)return;const I=nextInfo(k),e=eff(k),c=cap(k);
+    if(!I){el.className=el.className.replace(/\s?n(ok|no)/g,"");el.innerHTML=e>=c?"At cap":"No more unlocks below cap";return}const nt=needTxt(I);
+    el.classList.toggle("nok",I.ok);el.classList.toggle("nno",!I.ok);el.innerHTML='Next: <b>'+esc(I.nx.lab)+'</b> at '+I.nx.v+' (+'+(I.nx.v-e)+')'+(nt?' <span class="nneed">'+esc(nt)+'</span>':'')})}
+paintHints=paintNext;
+{const _ua16=updAttrs;updAttrs=function(){const r=_ua16.apply(this,arguments);try{paintNext()}catch(e){}return r}}
+{const _rc4=renderCompact;renderCompact=function(){const r=_rc4.apply(this,arguments);try{paintNext()}catch(e){}return r}}
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
