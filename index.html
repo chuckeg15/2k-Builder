@@ -1939,6 +1939,17 @@ body:not([data-tab="attrs"]):not([data-tab="cb"]):not([data-tab="badges"]):not([
 @media (max-width:360px){#tabs.primary [data-sec] span{font-size:11px;letter-spacing:0}#tabs.primary [data-sec]{padding-left:2px;padding-right:2px}}
 @media (max-width:700px){#sideBtn.sidetog{display:none!important}}
 
+/* badge names under shields stand out */
+.bxgrid .shield .sl{color:#fff!important;font-size:11.5px!important;font-weight:800!important;letter-spacing:.01em;text-shadow:0 1px 2px rgba(0,0,0,.6);opacity:1!important}
+.bxgrid .bxslots{row-gap:40px}
+/* synergy grid: full names */
+.bxsyn .shield .sl{width:96px!important;left:50%!important;right:auto!important;transform:translateX(-50%);white-space:normal!important;overflow:visible!important;text-overflow:clip!important;font-size:11px!important;font-weight:800!important;line-height:1.15;color:#fff!important;text-shadow:0 1px 2px rgba(0,0,0,.6);text-align:center}
+.bxsyn .bxsyng{row-gap:34px}
+/* bonus slot and token steppers */
+.bxbonus .bxn{display:inline-flex;align-items:center;gap:4px}
+.bxst{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-weight:900;font-size:16px;line-height:1;cursor:pointer}
+.bxst:hover{border-color:var(--accent)}
+
 </style>
 
 
@@ -5656,6 +5667,13 @@ function liveBadges(){const v=document.getElementById("view-attrs");if(!v||v.hid
 {const _rv15=renderView;renderView=function(){const r=_rv15.apply(this,arguments);try{liveBadges();decoratePicker()}catch(e){}return r}}
 {const _rl5=renderLoadout;renderLoadout=function(){const r=_rl5.apply(this,arguments);try{decoratePicker()}catch(e){}return r}}
 if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-lbx]");if(!t)return;LBX_ON=!LBX_ON;try{localStorage.setItem("bl27-livebx",LBX_ON?"1":"0")}catch(err){}LBX_PREV=null;liveBadges()});
+/* ---------------- ROUND 46: bonus slots and tokens get - and + ---------------- */
+function bonusSteppers(){document.querySelectorAll("#bslots,#btoks").forEach(i=>{const w=i.closest(".bxn");if(!w||w.dataset.st)return;w.dataset.st="1";
+  w.insertAdjacentHTML("afterbegin",'<button type="button" class="bxst" data-bxst="'+i.id+'|-1" aria-label="One fewer">−</button>');w.insertAdjacentHTML("beforeend",'<button type="button" class="bxst" data-bxst="'+i.id+'|1" aria-label="One more">+</button>')})}
+{const _rl6=renderLoadout;renderLoadout=function(){const r=_rl6.apply(this,arguments);try{bonusSteppers()}catch(e){}return r}}
+{const _rv16=renderView;renderView=function(){const r=_rv16.apply(this,arguments);try{bonusSteppers()}catch(e){}return r}}
+if(document.addEventListener)document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-bxst]");if(!t)return;e.preventDefault();const [id,d]=t.dataset.bxst.split("|"),i=document.getElementById(id);if(!i)return;
+  const mx=+i.max||99,n=Math.max(0,Math.min(mx,(parseInt(i.value,10)||0)+(+d)));if(n===(parseInt(i.value,10)||0))return;i.value=n;i.dispatchEvent(new Event("input",{bubbles:true}));i.dispatchEvent(new Event("change",{bubbles:true}))});
 
 /* ---------------- DESCRIPTIONS, BADGE TESTS, TOOLTIPS ---------------- */
 const TL=["None","Bronze","Silver","Gold","HoF","Legend"];
